@@ -1,0 +1,32 @@
+{
+  "name": "ambersive-formly",
+  "version": "0.0.1.0",
+  "authors": [
+    "Manuel Ihl <manuel.ihl@ambersive.com>"
+  ],
+  "description": "This module offers additonal functionallty for angular-formly.",
+  "main": "build/meta.js",
+  "keywords": [
+    "AngularJS",
+    "Angular",
+    "Metatags",
+    "OGTags",
+    "Tags",
+    "Facebook",
+    "Router-UI"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com:AMBERSIVE/AngularJS---Formly.git"
+  },
+  "ignore": [
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "angular": "*",
+    "angular-formly": "~7.3.2"
+  },
+  "license": "MIT",
+  "homepage": "http://www.ambersive.com"
+}
