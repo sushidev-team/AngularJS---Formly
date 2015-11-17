@@ -121,13 +121,16 @@
 
             FormlyUpload.broadcast = function(data){
 
-                var unique = '';
+                var unique = '',
+                    broadcastName = '';
 
                 if(Settings.unique !== undefined && Settings.unqiue !== ''){
                     unique = Settings.unique;
                 }
 
-                $rootScope.$broadcast('formlyUpload'+unique.toUpperCase(), { result: data,settings:Settings, unique:unique });
+                broadcastName = 'formlyUpload'+unique.toUpperCase();
+
+                $rootScope.$broadcast(broadcastName, { result: data.data,settings:Settings, unique:unique });
 
             };
 
