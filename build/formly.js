@@ -51,12 +51,13 @@
                 Settings = {};
 
             FormlyUpload.field = '';
+            FormlyUpload.disabled = false;
 
             FormlyUpload.init = function(settings){
 
                 Settings = settings;
 
-                var uploadButton = '<button';
+                var uploadButton = '<button class="btn btn-default" ng-disabled="FormlyUpload.disabled" ';
 
                 if(settings.multiple === true){
                     uploadButton += ' multiple ngf-select="FormlyUpload.uploadFiles($event,$files)"';
@@ -70,7 +71,9 @@
 
             };
 
-            FormlyUpload.doUpload = function(file){
+            FormlyUpload.doUpload = function(file,callback){
+
+                FormlyUpload.disabled = true;
 
                 var url = $formlyAdditionallySettings.uploadUrl,
                     data = {file: file};
@@ -92,8 +95,14 @@
                     data: data
                 }).then(function (resp) {
                     FormlyUpload.broadcast(resp);
+                    if(callback){
+                        callback(true);
+                    }
                 }, function (resp) {
                     FormlyUpload.broadcast(resp);
+                    if(callback){
+                        callback(false);
+                    }
                 }, function (evt) {
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                     $log.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
@@ -103,15 +112,26 @@
 
             FormlyUpload.uploadFile = function($event,file,callback){
                 $event.preventDefault();
-                FormlyUpload.doUpload(file);
+                FormlyUpload.doUpload(file,function(success){
+                    FormlyUpload.disabled = false;
+                });
             };
 
             FormlyUpload.uploadFiles = function($event,files){
                 $event.preventDefault();
 
+                var counter = 0;
+
                 if (files && files.length) {
                     for (var i = 0; i < files.length; i++) {
-                        FormlyUpload.doUpload(files[i]);
+                        /* jshint ignore:start */
+                        FormlyUpload.doUpload(files[i],function(success){
+                            counter++;
+                            if(counter === files.length){
+                                FormlyUpload.disabled = false;
+                            }
+                        });
+                        /* jshint ignore:end */
                     }
                 } else {
                     $log.warn('no files detected');
