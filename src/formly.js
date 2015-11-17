@@ -27,16 +27,23 @@
         function(){
 
             var uploadUrl = '',
+                previewUrl = '',
                 setUploadUrl = function(url){
                     if(url === undefined){return;}
                     uploadUrl = url;
+                },
+                setPreviewUrl = function(url){
+                    if(url === undefined){return;}
+                    previewUrl = url;
                 };
 
             return {
                 setUploadUrl:setUploadUrl,
+                setPreviewUrl:setPreviewUrl,
                 $get: function () {
                     return {
-                        uploadUrl:uploadUrl
+                        uploadUrl:uploadUrl,
+                        previewUrl:previewUrl
                     };
                 }
             };
@@ -52,12 +59,20 @@
 
             FormlyUpload.field = '';
             FormlyUpload.disabled = false;
+            FormlyUpload.preview = '';
 
-            FormlyUpload.init = function(settings){
+            FormlyUpload.init = function(settings,model,key){
 
                 Settings = settings;
 
-                var uploadButton = '<button class="btn btn-default" ng-disabled="FormlyUpload.disabled" ';
+                var uploadButton = '<button class="btn btn-default" ng-disabled="FormlyUpload.disabled" ',
+                    filePreviewUrl = '';
+
+                if(settings.preview !== undefined && settings.preview.url !== undefined){
+                    filePreviewUrl = settings.preview.url+model[key];
+                } else {
+                    filePreviewUrl = $formlyAdditionallySettings.previewUrl+model[key];
+                }
 
                 if(settings.multiple === true){
                     uploadButton += ' multiple ngf-select="FormlyUpload.uploadFiles($event,$files)"';
@@ -68,6 +83,27 @@
                 uploadButton += '>'+settings.button+'</button>';
 
                 FormlyUpload.field = uploadButton;
+
+                // File-Preview
+
+                if(model[key] !== undefined && model[key] !== ''){
+                    if(Settings.preview !== undefined && Settings.preview.type !== undefined){
+
+                        var previewUrl = '';
+
+                        switch(Settings.preview.type){
+                            case 'image':
+                                previewUrl = filePreviewUrl;
+                                FormlyUpload.preview =  '<div class="image_container"><img class="img-responsive" src="'+previewUrl+'" alt="Preview Image"></div>';
+                                break;
+                            default:
+                                FormlyUpload.preview =  '<p>'+model[key]+'</p>';
+                                break;
+                        }
+
+                    }
+                }
+
 
             };
 
