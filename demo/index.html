@@ -2,24 +2,60 @@
 <html lang="en" ng-app="app">
 <head>
     <meta charset="UTF-8">
-    <meta ngmeta></meta>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
-    <script src="../bower_components/angular-formly/dist/formly.min.js"></script>
-    <script src="../bower_components/ambersive-bower/build/helper.min.js"></script>
-    <script src="../build/meta.js"></script>
+    <title>AMBERSIVE - Formly - DEMO</title>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
+    <script src="//npmcdn.com/api-check@latest/dist/api-check.js"></script>
+    <script src="//npmcdn.com/angular-formly@latest/dist/formly.js"></script>
+    <script src="../bower_components/ng-file-upload/ng-file-upload-all.min.js"></script>
+    <script src="../bower_components/ambersive-helper/build/helper.min.js"></script>
+    <script src="../build/formly.min.js"></script>
     <script>
 
-        angular.module('app', ['ambersive.formly'])
+        angular.module('app', ['ambersive.formly','ambersive.helper'])
            .controller('DemoController',function($scope,$log,$rootScope){
+
+               var demo = this;
+               // funcation assignment
+               demo.onSubmit = onSubmit;
+
+               demo.formData = {
+                   custom: 'Hey! I am a custom value!'
+               };
+
+               demo.formFields = [
+                   {
+                       key: 'custom',
+                       type: 'upload',
+                       noFormControl: true,
+                       templateOptions: {
+                           label: 'Field 1',
+                           button:'Upload',
+                           help: 'Here you can insert addtional helping text',
+                           url:'asdf',
+                           multiple:true
+                       }
+                   }
+               ];
+
+               // function definition
+               function onSubmit() {
+                   alert(JSON.stringify(demo.model), null, 2);
+               }
+
 
         });
 
     </script>
 
 </head>
-<body ng-controller="DemoController">
+<body ng-controller="DemoController as demo">
 
     <h1>Formly Fields</h1>
+    <form ng-submit="vm.onSubmit()" novalidate>
+        <formly-form model="demo.formData" fields="demo.formFields">
+            <button type="submit" class="btn btn-primary submit-button">Submit</button>
+        </formly-form>
+    </form>
 
 </body>
 </html>

@@ -9,33 +9,134 @@
 
     'use strict';
 
-    angular.module('ambersive.formly',['ambersive.helper','formly']);
+    angular.module('ambersive.formly',['formly','ngFileUpload','ambersive.helper']);
 
     angular.module('ambersive.formly').config(['formlyConfigProvider',
         function (formlyConfigProvider) {
 
             formlyConfigProvider.setType({
                 name: 'upload',
-                templateUrl: 'src/views/formly.upload.html'
+                templateUrl: 'src/views/formly.upload.html',
+                controller:'FormlyUploadCtrl as FormlyUpload'
             });
 
         }
     ]);
 
-    angular.module('ambersive.formly').run(['$rootScope', '$state', '$stateParams', '$log',
-        function ($rootScope, $state, $stateParams,$log) {
+    angular.module('ambersive.formly').provider('$formlyAdditionallySettings',[
+        function(){
+
+            var uploadUrl = '',
+                setUploadUrl = function(url){
+                    if(url === undefined){return;}
+                    uploadUrl = url;
+                };
+
+            return {
+                setUploadUrl:setUploadUrl,
+                $get: function () {
+                    return {
+                        uploadUrl:uploadUrl
+                    };
+                }
+            };
 
         }
     ]);
 
+    angular.module('ambersive.formly').controller('FormlyUploadCtrl',['$rootScope','$scope','$log','Upload','$formlyAdditionallySettings',
+        function($rootScope,$scope,$log,Upload,$formlyAdditionallySettings){
 
+            var FormlyUpload = this,
+                Settings = {};
+
+            FormlyUpload.field = '';
+
+            FormlyUpload.init = function(settings){
+
+                Settings = settings;
+
+                var uploadButton = '<button';
+
+                if(settings.multiple === true){
+                    uploadButton += ' multiple ngf-select="FormlyUpload.uploadFiles($event,$files)"';
+                } else {
+                    uploadButton += ' ngf-select="FormlyUpload.uploadFile($event,$file)"';
+                }
+
+                uploadButton += '>'+settings.button+'</button>';
+
+                FormlyUpload.field = uploadButton;
+
+            };
+
+            FormlyUpload.doUpload = function(file){
+
+                var url = $formlyAdditionallySettings.uploadUrl;
+
+                if(Settings.url !== undefined){
+                    url = Settings.url;
+                }
+
+                Upload.upload({
+                    url: url,
+                    data: {file: file, 'username': $scope.username}
+                }).then(function (resp) {
+                    FormlyUpload.broadcast(resp);
+                }, function (resp) {
+                    FormlyUpload.broadcast(resp);
+                }, function (evt) {
+                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                    $log.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+                });
+
+            };
+
+            FormlyUpload.uploadFile = function($event,file,callback){
+                $event.preventDefault();
+                FormlyUpload.doUpload(file);
+            };
+
+            FormlyUpload.uploadFiles = function($event,files){
+                $event.preventDefault();
+
+                if (files && files.length) {
+                    for (var i = 0; i < files.length; i++) {
+                        FormlyUpload.doUpload(files[i]);
+                    }
+                } else {
+                    $log.warn('no files detected');
+                }
+
+            };
+
+            FormlyUpload.broadcast = function(data){
+
+                var unique = '';
+
+                if(Settings.unique !== undefined && Settings.unqiue !== ''){
+                    unique = Settings.unique;
+                }
+
+                $rootScope.$broadcast('formlyUpload'+unique.toUpperCase(), { result: data,settings:Settings, unique:unique });
+
+            };
+
+        }
+    ]);
+
+    angular.module('ambersive.formly').run(['$rootScope','$log',
+        function ($rootScope, $log) {
+
+        }
+    ]);
 
 })(window, document, undefined);
 angular.module('ambersive.formly').run(['$templateCache', function($templateCache) {
   'use strict';
 
   $templateCache.put('src/views/formly.upload.html',
-    "<div class=formly_upload><label class=control-label ng-if=to.label>{{to.label}}</label><div class=\"form-group filepicker\"><button class=\"btn btn-default\" ngf-select=uploadFiles($files,$invalidFiles) accept=image/* ngf-max-width=1000>Datei hochladen</button></div></div>"
+    "<div class=formly_upload ng-init=FormlyUpload.init(to)><label class=control-label ng-if=to.label>{{to.label}}</label><div compile=FormlyUpload.field></div></div>"
   );
 
 }]);
