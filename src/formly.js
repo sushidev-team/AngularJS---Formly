@@ -72,15 +72,24 @@
 
             FormlyUpload.doUpload = function(file){
 
-                var url = $formlyAdditionallySettings.uploadUrl;
+                var url = $formlyAdditionallySettings.uploadUrl,
+                    data = {file: file};
 
                 if(Settings.url !== undefined){
                     url = Settings.url;
                 }
 
+                if(Settings.uploadParams !== undefined){
+                    for(var ele in Settings.uploadParams){
+                        if(ele !== 'file'){
+                           data[ele] = Settings.uploadParams[ele];
+                       }
+                    }
+                }
+
                 Upload.upload({
                     url: url,
-                    data: {file: file, 'username': $scope.username}
+                    data: data
                 }).then(function (resp) {
                     FormlyUpload.broadcast(resp);
                 }, function (resp) {
