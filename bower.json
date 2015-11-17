@@ -1,11 +1,11 @@
 {
   "name": "ambersive-formly",
-  "version": "0.0.1.0",
+  "version": "0.0.1.1",
   "authors": [
     "Manuel Ihl <manuel.ihl@ambersive.com>"
   ],
   "description": "This module offers additonal functionallty for angular-formly.",
-  "main": "build/meta.js",
+  "main": "build/formly.js",
   "keywords": [
     "AngularJS",
     "Angular",
