@@ -68,10 +68,12 @@
                 var uploadButton = '<button class="btn btn-default" ng-disabled="FormlyUpload.disabled" ',
                     filePreviewUrl = '';
 
-                if(settings.preview !== undefined && settings.preview.url !== undefined){
-                    filePreviewUrl = settings.preview.url+model[key];
-                } else {
-                    filePreviewUrl = $formlyAdditionallySettings.previewUrl+model[key];
+                if(model[key] !== 0 && model[key] !== '') {
+                    if (settings.preview !== undefined && settings.preview.url !== undefined) {
+                        filePreviewUrl = settings.preview.url + model[key];
+                    } else {
+                        filePreviewUrl = $formlyAdditionallySettings.previewUrl + model[key];
+                    }
                 }
 
                 if(settings.multiple === true){
@@ -94,7 +96,9 @@
                         switch(Settings.preview.type){
                             case 'image':
                                 previewUrl = filePreviewUrl;
-                                FormlyUpload.preview =  '<div class="image_container"><img class="img-responsive" src="'+previewUrl+'" alt="Preview Image"></div>';
+                                if(filePreviewUrl !== '') {
+                                    FormlyUpload.preview = '<div class="image_container"><img class="img-responsive" src="' + previewUrl + '" alt="Preview Image"></div>';
+                                }
                                 break;
                             default:
                                 FormlyUpload.preview =  '<p>'+model[key]+'</p>';
