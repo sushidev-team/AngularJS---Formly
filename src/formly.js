@@ -56,8 +56,8 @@
 
         }
     ]);
-    angular.module('ambersive.formly').controller('FormlyWysiwygCtrl',['$rootScope','$scope','$log','$formlyAdditionallySettings','ngWigToolbar',
-        function($rootScope,$scope,$log,$formlyAdditionallySettings,ngWigToolbar){
+    angular.module('ambersive.formly').controller('FormlyWysiwygCtrl',['$rootScope','$scope','$log','$formlyAdditionallySettings',
+        function($rootScope,$scope,$log,$formlyAdditionallySettings){
 
             var FormlyWysiwyg  = this,
                 Settings = {};
