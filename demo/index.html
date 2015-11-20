@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>AMBERSIVE - Formly - DEMO</title>
+    <link href="../bower_components/ngWig/dist/css/ng-wig.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
     <script src="//npmcdn.com/api-check@latest/dist/api-check.js"></script>
     <script src="//npmcdn.com/angular-formly@latest/dist/formly.js"></script>
     <script src="../bower_components/ng-file-upload/ng-file-upload-all.min.js"></script>
     <script src="../bower_components/ambersive-helper/build/helper.min.js"></script>
+    <script src="../bower_components/ngWig/dist/ng-wig.min.js"></script>
     <script src="../build/formly.min.js"></script>
     <script>
 
-        angular.module('app', ['ambersive.formly','ambersive.helper'])
+        angular.module('app', ['ambersive.formly','ambersive.helper','ngWig'])
            .controller('DemoController',function($scope,$log,$rootScope){
 
                var demo = this;
@@ -24,6 +26,15 @@
                };
 
                demo.formFields = [
+                   {
+                       key: 'customText',
+                       type: 'wysiwyg',
+                       noFormControl: true,
+                       templateOptions: {
+                           label: 'Textarea',
+                           help: 'Here you can insert addtional helping text',
+                       }
+                   },
                    {
                        key: 'custom',
                        type: 'upload',

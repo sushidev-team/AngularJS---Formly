@@ -20,6 +20,12 @@
                 controller:'FormlyUploadCtrl as FormlyUpload'
             });
 
+            formlyConfigProvider.setType({
+                name: 'wysiwyg',
+                templateUrl: 'src/views/formly.wysiwyg.html',
+                controller:'FormlyWysiwygCtrl as FormlyWysiwyg'
+            });
+
         }
     ]);
 
@@ -46,6 +52,18 @@
                         previewUrl:previewUrl
                     };
                 }
+            };
+
+        }
+    ]);
+    angular.module('ambersive.formly').controller('FormlyWysiwygCtrl',['$rootScope','$scope','$log','$formlyAdditionallySettings','ngWigToolbar',
+        function($rootScope,$scope,$log,$formlyAdditionallySettings,ngWigToolbar){
+
+            var FormlyWysiwyg  = this,
+                Settings = {};
+
+            FormlyWysiwyg.init = function(settings,model,key){
+
             };
 
         }

@@ -1,6 +1,6 @@
 {
   "name": "ambersive-formly",
-  "version": "0.0.1.7",
+  "version": "0.0.1.8",
   "authors": [
     "Manuel Ihl <manuel.ihl@ambersive.com>"
   ],
@@ -24,7 +24,8 @@
     "angular": "*",
     "angular-formly": "~7.3.2",
     "ng-file-upload": "~9.0.13",
-    "ambersive-helper": "*"
+    "ambersive-helper": "*",
+    "ngWig": "ng-wig#~2.2.1"
   },
   "license": "MIT",
   "homepage": "http://www.ambersive.com"
