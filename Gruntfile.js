@@ -5,6 +5,26 @@ module.exports = function(grunt) {
     };
 
     grunt.initConfig({
+        less: {
+            skin:{
+                options: {
+                    cleancss: true,
+                    strictImports: true,
+                    compress: true
+                },
+                src: ["src/less/tinymce/bootstrap/skin.dev.less"],
+                dest : 'build/skins/bootstrap/skin.min.css'
+            },
+            content: {
+                options: {
+                    cleancss: true,
+                    strictImports: true,
+                    compress: true
+                },
+                src: ["src/less/tinymce/bootstrap/Content.less"],
+                dest : 'build/skins/bootstrap/content.min.css'
+            }
+        },
         jshint: {
             files: ['Gruntfile.js', 'src/*.js'],
             options: {
@@ -58,7 +78,7 @@ module.exports = function(grunt) {
             }
         },
         watch: {
-            files: ['src/*.js','src/views/**/*.html','src/less/*.less'],
+            files: ['src/*.js','src/views/**/*.html','src/**/*.less'],
             tasks: ['jshint','build']
         }
     });
@@ -71,6 +91,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-less');
 
     grunt.registerTask('default', ['watch']);
-    grunt.registerTask('build', ['ngtemplates','concat','uglify']);
+    grunt.registerTask('build', ['less','ngtemplates','concat','uglify']);
 
 };

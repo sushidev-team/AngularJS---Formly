@@ -6,7 +6,8 @@
     "build": "grunt build",
     "test:e2e": ""
   },
-  "dependencies": {},
+  "dependencies": {
+  },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-angular-templates": "^0.5.7",

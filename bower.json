@@ -5,7 +5,10 @@
     "Manuel Ihl <manuel.ihl@ambersive.com>"
   ],
   "description": "This module offers additonal functionallty for angular-formly.",
-  "main": "build/formly.js",
+  "main": [
+    "src/less/tinymce/bootstrap/skin.dev.less",
+    "build/formly.js",
+  ]
   "keywords": [
     "AngularJS",
     "Angular",
@@ -25,7 +28,11 @@
     "angular-formly": "~7.3.2",
     "ng-file-upload": "~9.0.13",
     "ambersive-helper": "*",
-    "ngWig": "ng-wig#~2.2.1"
+    "bootstrap": "^3.3.6",
+    "angular-i18n": "^1.5.0",
+    "angular-messages": "^1.5.0",
+    "tinymce": "^4.3.8",
+    "angular-ui-tinymce": "^0.0.14"
   },
   "license": "MIT",
   "homepage": "http://www.ambersive.com"
