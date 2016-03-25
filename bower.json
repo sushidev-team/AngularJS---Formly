@@ -1,14 +1,14 @@
 {
   "name": "ambersive-formly",
-  "version": "0.0.1.9",
+  "version": "0.0.2.0",
   "authors": [
     "Manuel Ihl <manuel.ihl@ambersive.com>"
   ],
   "description": "This module offers additonal functionallty for angular-formly.",
   "main": [
     "src/less/tinymce/bootstrap/skin.dev.less",
-    "build/formly.js",
-  ]
+    "build/formly.js"
+  ],
   "keywords": [
     "AngularJS",
     "Angular",
