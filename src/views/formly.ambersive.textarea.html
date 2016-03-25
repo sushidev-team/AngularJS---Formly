@@ -1,6 +1,6 @@
 <div class="form-group" ng-class="FormlyBootstrapTextarea.getGroupClass(options);">
     <label for="inp_{{options.key}}">{{to.label}} <span class="required" ng-if="options.templateOptions.required">*</span></label>
-    <textarea ng-model="model[options.key]" rows="{{FormlyBootstrapTextarea.settings.rows}}" class="form-control" ng-class="FormlyBootstrapTextarea.getInputClass(options);" id="inp_{{options.key}}" placeholder="{{to.placeholder}}"></textarea>
+    <textarea ng-disabled="options.templateOptions.disabled" ng-model="model[options.key]" rows="{{FormlyBootstrapTextarea.settings.rows}}" class="form-control" ng-class="FormlyBootstrapTextarea.getInputClass(options);" id="inp_{{options.key}}" placeholder="{{to.placeholder}}"></textarea>
     <small class="text-muted" ng-if="to.help !== undefined && showError !== true">
         {{to.help}}
     </small>

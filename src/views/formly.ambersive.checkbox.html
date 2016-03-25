@@ -1,0 +1,20 @@
+<div class="form-group" ng-class="FormlyBootstrapCheckbox.getGroupClass(options);">
+    <div class="checkbox">
+        <label for="inp_{{options.key}}">
+            <input ng-class="FormlyBootstrap.getInputClass(options);" ng-model="model[options.key]" id="inp_{{options.key}}" type="checkbox" ng-disabled="options.templateOptions.disabled"> {{to.label}} <span class="required" ng-if="options.templateOptions.required">*</span>
+            <p class="small" ng-if="options.templateOptions.more !== undefined">{{options.templateOptions.more}}</p>
+            <div class="checkbox_iframe_container" ng-if="options.templateOptions.iframe !== undefined && options.templateOptions.iframe !== ''">
+                <iframe class="checkbox_iframe" ng-src="{{options.templateOptions.iframe}}"></iframe>
+            </div>
+        </label>
+    </div>
+    <small class="text-muted" ng-if="to.help !== undefined && showError !== true">
+        {{to.help}}
+    </small>
+    <div ng-messages="fc.$error" ng-if="form.$submitted || options.formControl.$touched" class="error-messages">
+        <div class="text-danger" ng-repeat="obj in options.validation.messages">
+            <small>{{obj.message}}</small>
+        </div>
+        <small class="text-danger" ng-message="{{key}}" ng-repeat="(key, value) in fc.$error" ng-if="key !== 'server'">{{ FormlyBootstrap.getErrorMessage(key,value); }}</small>
+    </div>
+</div>

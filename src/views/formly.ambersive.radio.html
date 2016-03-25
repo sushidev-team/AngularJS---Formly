@@ -1,0 +1,19 @@
+<div class="form-group" ng-class="FormlyBootstrapRadio.getGroupClass(options);">
+    <label>{{to.label}} <span class="required" ng-if="options.templateOptions.required">*</span></label>
+    <div class="radio" ng-repeat="option in options.templateOptions.options track by $index">
+        <label>
+            <input type="radio" name="inp_{{options.key}}_{{$index}}" id="{{options.key}}{{$index}}" ng-model="model[options.key]" ng-value="option[options.templateOptions.valueProp]">
+            {{option[options.templateOptions.labelProp]}}
+            <p class="small" ng-if="option[options.templateOptions.more] !== undefined">{{option[options.templateOptions.more]}}</p>
+        </label>
+    </div>
+    <small class="text-muted" ng-if="to.help !== undefined && showError !== true">
+        {{to.help}}
+    </small>
+    <div ng-messages="fc.$error" ng-if="form.$submitted || options.formControl.$touched" class="error-messages">
+        <div class="text-danger" ng-repeat="obj in options.validation.messages">
+            <small>{{obj.message}}</small>
+        </div>
+        <small class="text-danger" ng-message="{{key}}" ng-repeat="(key, value) in fc.$error" ng-if="key !== 'server'">{{ FormlyBootstrapRadio.getErrorMessage(key,value); }}</small>
+    </div>
+</div>

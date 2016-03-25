@@ -16,10 +16,11 @@
            .controller('DemoController',function($scope,$log,$rootScope,FormlyBootstrapSrv){
 
                var demo = this;
+
                demo.onSubmit = onSubmit;
 
                demo.formData = {
-                   customDate:'2.5.2015'
+                   customDate:''
                };
 
                demo.formFields = [
@@ -37,6 +38,20 @@
                        }
                    },
                    {
+                       key: 'customText',
+                       type: 'bootstrap_input',
+                       templateOptions: {
+                           label: 'Input',
+                           type:'text',
+                           help: 'Place your help text here',
+                           placeholder:'Placeholder text',
+                           cssClass:'col-sm-6 col-xs-12',
+                           required:false,
+                           disabled:true,
+                           regex:[]
+                       }
+                   },
+                   {
                        key: 'customTextEmail',
                        type: 'bootstrap_input',
                        templateOptions: {
@@ -44,7 +59,7 @@
                            type:'email',
                            help: 'Place your help text here',
                            placeholder:'Placeholder text',
-                           cssClass:'col-sm-6 col-xs-12',
+                           cssClass:'col-xs-12',
                            required:true,
                            regex:[]
                        }
@@ -59,7 +74,9 @@
                            cssClass:'col-sm-6 col-xs-12',
                            required:true,
                            dateFormat:'m-d-Y',
-                           monthFormat:'MMMM'
+                           monthFormat:'MMMM',
+                           yearStart:1900,
+                           yearStop:2000
                        }
                    },
                    {
@@ -80,6 +97,40 @@
                        type: 'bootstrap_select',
                        templateOptions: {
                            label: 'Auswahl',
+                           help: 'Place your help text here',
+                           placeholder:'Placeholder text',
+                           cssClass:'col-sm-12 col-xs-12',
+                           required:true,
+                           valueProp: 'value',
+                           labelProp: 'name',
+                           options:[
+                               {
+                                   name:'Test',
+                                   value:1
+                               },
+                               {
+                                   name:'Test 2',
+                                   value:2
+                               }
+                           ]
+                       }
+                   },
+                   {
+                       key: 'customCheckbox',
+                       type: 'bootstrap_checkbox',
+                       templateOptions: {
+                           label: 'Checkbox',
+                           more:'More Information goes here',
+                           iframe:'data/test.txt',
+                           cssClass:'col-xs-12',
+                           required:true
+                       }
+                   },
+                   {
+                       key: 'customRadio',
+                       type: 'bootstrap_radio',
+                       templateOptions: {
+                           label: 'Radio',
                            help: 'Place your help text here',
                            placeholder:'Placeholder text',
                            cssClass:'col-sm-12 col-xs-12',
@@ -135,8 +186,11 @@
                    var errorMessages = {
                        'server':[{field:'customTinymce',message:'Test error message on response'},{field:'customTextEmail',message:'This E-Mail is already taken'},{field:'customDate2',message:'Test error message on response for dates'}]
                    };
+                   console.log(demo);
                    FormlyBootstrapSrv.serverValidation(demo, errorMessages);
                }
+
+               console.warn(demo);
 
 
         });

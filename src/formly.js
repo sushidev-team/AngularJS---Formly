@@ -76,6 +76,38 @@
                 }
             });
 
+            formlyConfigProvider.setType({
+                name: 'bootstrap_checkbox',
+                templateUrl: 'src/views/formly.ambersive.checkbox.html',
+                controller:'FormlyBootstrapsCheckboxCtrl as FormlyBootstrapCheckbox',
+                defaultOptions: {
+                    templateOptions: {
+                        onKeypress: function (value,field,scope) {
+                            field.formControl.$setValidity('server', true);
+                        }
+                    },
+                    validators: {
+                        standardValidation: FormlyBootstrapSrvProvider.$get().validation
+                    }
+                }
+            });
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_radio',
+                templateUrl: 'src/views/formly.ambersive.radio.html',
+                controller:'FormlyBootstrapsRadioCtrl as FormlyBootstrapRadio',
+                defaultOptions: {
+                    templateOptions: {
+                        onChange: function (value,field,scope) {
+                            field.formControl.$setValidity('server', true);
+                        }
+                    },
+                    validators: {
+                        standardValidation: FormlyBootstrapSrvProvider.$get().validation
+                    }
+                }
+            });
+
         }
     ]);
 
@@ -372,7 +404,27 @@
 
                     return years;
 
+                },
+
+
+                yearListByStartAndStop: function(yearStart, yearStop){
+
+                    var years = [];
+
+                    if(yearStop === undefined){
+                        yearStop = new Date().getFullYear();
+                    }
+
+                    if (yearStart === undefined) { yearStart = 1900; }
+
+                    for (var i = yearStart; i < yearStop; i += 1) {
+                        years.push(i);
+                    }
+
+                    return years;
+
                 }
+
             };
 
             FormlyBootstrapSrv.getErrorMessage = function (options, type, hasError){
@@ -534,13 +586,40 @@
             var datetime = $locale.DATETIME_FORMATS; //get date and time formats
             $scope.months = datetime.MONTH; //access localized months
 
+            if($scope.options.templateOptions.yearStart !== undefined && $scope.options.templateOptions.yearStop !== undefined){
+
+                FormlyBootstrapDate.years = FormlyBootstrapSrv.dateHelper.yearListByStartAndStop($scope.options.templateOptions.yearStart, $scope.options.templateOptions.yearStop);
+                if(FormlyBootstrapDate.years.indexOf(CurrentDate.getFullYear()) === -1){
+                    FormlyBootstrapDate.year = FormlyBootstrapDate.years[FormlyBootstrapDate.years.length-1];
+                }
+
+            } else {
+
+                if($scope.options.templateOptions.yearFromNow === undefined){
+                    $scope.options.templateOptions.yearFromNow = 5;
+                }
+
+                if($scope.options.templateOptions.yearStart === undefined){
+                    $scope.options.templateOptions.yearStart = FormlyBootstrapDate.year;
+                }
+
+                FormlyBootstrapDate.years = FormlyBootstrapSrv.dateHelper.yearList($scope.options.templateOptions.yearFromNow,$scope.options.templateOptions.yearStart);
+
+                if(FormlyBootstrapDate.years.indexOf(CurrentDate.getFullYear()) === -1){
+                    FormlyBootstrapDate.year = FormlyBootstrapDate.years[FormlyBootstrapDate.years.length-1];
+                }
+
+            }
+
             FormlyBootstrapDate.month = CurrentDate.getMonth()+1;
             FormlyBootstrapDate.day   = CurrentDate.getDate();
-            FormlyBootstrapDate.year  = CurrentDate.getFullYear();
+
+            if(FormlyBootstrapDate.year === undefined) {
+                FormlyBootstrapDate.year  = CurrentDate.getFullYear();
+            }
 
             FormlyBootstrapDate.days = FormlyBootstrapSrv.dateHelper.daysListForMonthAndYear(FormlyBootstrapDate.month,FormlyBootstrapDate.year);
             FormlyBootstrapDate.months = FormlyBootstrapSrv.dateHelper.monthList();
-            FormlyBootstrapDate.years = FormlyBootstrapSrv.dateHelper.yearList(5,2000);
 
             FormlyBootstrapDate.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
             FormlyBootstrapDate.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
@@ -616,6 +695,10 @@
 
                     value = $scope.model[$scope.options.key];
 
+                    if(value === ''){
+                        return;
+                    }
+
                     if(value !== null & angular.isString(value)) {
 
                         value = value.split(dateDelimiter).filter(dateFormatFilter);
@@ -681,7 +764,6 @@
                 FormlyBootstrapDate.days = FormlyBootstrapSrv.dateHelper.daysListForMonthAndYear(FormlyBootstrapDate.month,FormlyBootstrapDate.year);
             });
             $scope.$watchGroup(['FormlyBootstrapDate.day','FormlyBootstrapDate.month', 'FormlyBootstrapDate.year'], function(newValues, oldValues, scope) {
-
                 $scope.model[$scope.options.key] = new Date(FormlyBootstrapDate.year,FormlyBootstrapDate.month-1,FormlyBootstrapDate.day);
                 $scope.options.hasServerError = false;
             });
@@ -694,5 +776,32 @@
 
         }
     ]);
+
+    angular.module('ambersive.formly').controller('FormlyBootstrapsCheckboxCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv',
+        function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv){
+
+            var FormlyBootstrapCheckbox = this;
+
+            FormlyBootstrapCheckbox.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrapCheckbox.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+
+            FormlyBootstrapCheckbox.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+
+        }
+    ]);
+
+    angular.module('ambersive.formly').controller('FormlyBootstrapsRadioCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv',
+        function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv){
+
+            var FormlyBootstrapRadio = this;
+
+            FormlyBootstrapRadio.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrapRadio.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+
+            FormlyBootstrapRadio.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+
+        }
+    ]);
+
 
 })(window, document, undefined);

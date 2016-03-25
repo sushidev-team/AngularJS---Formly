@@ -1,6 +1,6 @@
 <div class="form-group" ng-class="FormlyBootstrap.getGroupClass(options);">
     <label for="inp_{{options.key}}">{{to.label}} <span class="required" ng-if="options.templateOptions.required">*</span></label>
-    <input type="{{to.type}}" ng-model="model[options.key]" class="form-control" ng-class="FormlyBootstrap.getInputClass(options);" id="inp_{{options.key}}" placeholder="{{to.placeholder}}">
+    <input type="{{to.type}}" ng-model="model[options.key]" class="form-control" ng-disabled="options.templateOptions.disabled" ng-class="FormlyBootstrap.getInputClass(options);" id="inp_{{options.key}}" placeholder="{{to.placeholder}}">
     <small class="text-muted" ng-if="to.help !== undefined && showError !== true">
         {{to.help}}
     </small>
