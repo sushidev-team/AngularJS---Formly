@@ -1,7 +1,7 @@
 <div class="form-group" ng-class="FormlyBootstrapSelect.getGroupClass(options);">
-     <label for="inp_{{options.key}}">{{to.label}}</label>
-     <select id="inp_{{options.key}}" name="inp_{{options.key}}" class="form-control block" ng-model="model[options.key]" ng-options="" ng-class="FormlyBootstrapSelect.getInputClass(options);"></select>
-     <small class="text-muted" ng-if="to.help !== undefined && showError !== true">
+    <label for="inp_{{options.key}}">{{to.label}}</label>
+    <select id="inp_{{options.key}}" name="inp_{{options.key}}" ng-options="option[options.templateOptions.valueProp] as option[options.templateOptions.labelProp] for option in options.templateOptions.options" class="form-control block" ng-model="model[options.key]" ng-options="" ng-class="FormlyBootstrapSelect.getInputClass(options);"></select>
+    <small class="text-muted" ng-if="to.help !== undefined && showError !== true">
         {{to.help}}
     </small>
     <div ng-messages="fc.$error" ng-if="form.$submitted || options.formControl.$touched" class="error-messages">
