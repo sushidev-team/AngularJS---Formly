@@ -131,6 +131,8 @@
                     'required':'Please fill out the field. This field is required.',
                     'email':'This is not a valid e-mail address'
                 },
+                tinyMCETheme:'bootstrap',
+                tinyMCEThemeUrl:'../build/skins/bootstrap',
                 tinyMCE:{
                     statusbar: false,
                     menubar: false,
@@ -521,8 +523,8 @@
                         if(angular.isDefined(tinymce) === true){
 
                             tinyMceSettings.selector = '*[name="' + $scope.options.id + '"]';
-                            tinyMceSettings.skin     = 'bootstrap';
-                            tinyMceSettings.skin_url = '../build/skins/bootstrap';
+                            tinyMceSettings.skin     = $formlyBootstrapSettings.tinyMCETheme;
+                            tinyMceSettings.skin_url = $formlyBootstrapSettings.tinyMCEThemeUrl;
                             tinyMceSettings.setup    = function(ed) {
 
                                 var render = function () {
