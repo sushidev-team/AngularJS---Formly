@@ -20,7 +20,8 @@
                demo.onSubmit = onSubmit;
 
                demo.formData = {
-                   customDate:''
+                   customDate:'2016-03-27',
+                   customDate2:new Date()
                };
 
                demo.formFields = [
@@ -73,7 +74,8 @@
                            placeholder:'Placeholder text',
                            cssClass:'col-sm-6 col-xs-12',
                            required:true,
-                           dateFormat:'m-d-Y',
+                           dateFormat:'Y-m-d',
+                           dateLayout:'d-m-Y',
                            monthFormat:'MMMM',
                            yearStart:1900,
                            yearStop:2000
@@ -153,7 +155,7 @@
                        key: 'customTinymce',
                        type: 'bootstrap_textarea',
                        templateOptions: {
-                           label: 'TinyMCE',
+                           label: '4',
                            help: 'Place your help text here',
                            placeholder:'Placeholder text',
                            cssClass:'col-sm-12 col-xs-12',

@@ -120,6 +120,7 @@
                 cssWarning:'warning',
                 formControl:'form-control-',
                 formGroup:'has-',
+                dateLayout:'d m y',
                 dateFormat:'d m y',
                 dateDelimiter: '(\\.|\\/|\\-|\\s)',
                 monthFormat:'MMMM',
@@ -668,12 +669,14 @@
                  */
 
                 var dateFormat          = $formlyBootstrapSettings.dateFormat,
+                    dateLayout          = $formlyBootstrapSettings.dateLayout,
                     dateDelimiter       = new RegExp($formlyBootstrapSettings.dateDelimiter),
                     dateFormatFilter    = function (part) {
                         if(dateDelimiter.test(part) === false){
                             return part;
                         }
                     },
+                    dateFormatSplitted  = [],
                     dateFormatFiltered  = null,
                     currentDate         = null,
                     day                 = 1,
@@ -685,13 +688,22 @@
                     dateFormat = $scope.options.templateOptions.dateFormat;
                 }
 
+                if ($scope.options.templateOptions.dateLayout !== undefined && angular.isString($scope.options.templateOptions.dateLayout)) {
+                    dateLayout = $scope.options.templateOptions.dateLayout;
+                }
+
                 if ($scope.options.templateOptions.dateDelimiter !== undefined && angular.isString($scope.options.templateOptions.dateDelimiter)) {
                     dateDelimiter = new RegExp($scope.options.templateOptions.dateDelimiter);
                 }
 
-                FormlyBootstrapDate.order = dateFormat.split(dateDelimiter);
+                FormlyBootstrapDate.order = dateLayout.split(dateDelimiter);
+                dateFormatSplitted        = dateFormat.split(dateDelimiter);
 
-                dateFormatFiltered = angular.copy(FormlyBootstrapDate.order).filter(dateFormatFilter);
+                if(dateFormat !== dateLayout){
+                    FormlyBootstrapDate.order = dateLayout.split(dateDelimiter);
+                }
+
+                dateFormatFiltered = angular.copy(dateFormatSplitted).filter(dateFormatFilter);
 
                 if($scope.model[$scope.options.key] !== undefined){
 
