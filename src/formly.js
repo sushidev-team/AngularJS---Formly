@@ -9,7 +9,7 @@
 
     'use strict';
 
-    angular.module('ambersive.formly', ['formly','ngLocale','ngMessages']);
+    angular.module('ambersive.formly', ['formly','ngLocale','ngMessages','ngFileUpload']);
 
     angular.module('ambersive.formly').config(['formlyConfigProvider', 'FormlyBootstrapSrvProvider',
 
@@ -105,6 +105,46 @@
                     validators: {
                         standardValidation: FormlyBootstrapSrvProvider.$get().validation
                     }
+                }
+            });
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_upload',
+                templateUrl: 'src/views/formly.ambersive.upload.html',
+                controller:'FormlyBootstrapsUploadCtrl as FormlyBootstrapUpload',
+                defaultOptions: {
+                    validators: {
+                        //standardValidation: FormlyBootstrapSrvProvider.$get().validation
+                    }
+                },
+                link: function(scope, el, attrs) {
+                    el.on("change", function (changeEvent) {
+                        alert('test');
+                        var file = changeEvent.target.files[0];
+                        if (file) {
+                            var fd = new FormData();
+                            fd.append('uploadFile', file);
+                            scope.$emit('fileToUpload', fd);
+                            var fileProp = {};
+                            for (var properties in file) {
+                                if (!angular.isFunction(file[properties])) {
+                                    fileProp[properties] = file[properties];
+                                }
+                            }
+                            scope.fc.$setViewValue(fileProp);
+                        } else {
+                            scope.fc.$setViewValue(undefined);
+                        }
+                    });
+                    el.on("focusout", function(focusoutEvent) {
+                        if (window.document.activeElement.id === scope.id) {
+                            scope.$apply(function(scope) {
+                                scope.fc.$setUntouched();
+                            });
+                        } else {
+                            scope.fc.$validate();
+                        }
+                    });
                 }
             });
 
@@ -733,7 +773,7 @@
 
                         });
 
-                        currentDate = new Date(year,month,day);
+                        currentDate = new Date(year,month,day+1);
 
                     }
                     else if(angular.isDate(value)){
@@ -801,6 +841,14 @@
 
             FormlyBootstrapCheckbox.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
 
+            // File Listener
+
+            var unlisten = $scope.$on('fileToUpload', function(event, arg) {
+                $scope.formData = arg;
+            });
+
+            $scope.$on('$destroy', unlisten);
+
         }
     ]);
 
@@ -814,6 +862,23 @@
 
             FormlyBootstrapRadio.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
 
+        }
+    ]);
+
+    angular.module('ambersive.formly').controller('FormlyBootstrapsUploadCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv', 'Upload',
+        function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv, Upload){
+
+            var FormlyBootstrapUpload = this;
+
+            FormlyBootstrapUpload.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrapUpload.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+
+            FormlyBootstrapUpload.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+
+            FormlyBootstrapUpload.picFile = function(){
+                
+            };
+            
         }
     ]);
 
