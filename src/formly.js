@@ -108,46 +108,6 @@
                 }
             });
 
-            formlyConfigProvider.setType({
-                name: 'bootstrap_upload',
-                templateUrl: 'src/views/formly.ambersive.upload.html',
-                controller:'FormlyBootstrapsUploadCtrl as FormlyBootstrapUpload',
-                defaultOptions: {
-                    validators: {
-                        //standardValidation: FormlyBootstrapSrvProvider.$get().validation
-                    }
-                },
-                link: function(scope, el, attrs) {
-                    el.on("change", function (changeEvent) {
-                        alert('test');
-                        var file = changeEvent.target.files[0];
-                        if (file) {
-                            var fd = new FormData();
-                            fd.append('uploadFile', file);
-                            scope.$emit('fileToUpload', fd);
-                            var fileProp = {};
-                            for (var properties in file) {
-                                if (!angular.isFunction(file[properties])) {
-                                    fileProp[properties] = file[properties];
-                                }
-                            }
-                            scope.fc.$setViewValue(fileProp);
-                        } else {
-                            scope.fc.$setViewValue(undefined);
-                        }
-                    });
-                    el.on("focusout", function(focusoutEvent) {
-                        if (window.document.activeElement.id === scope.id) {
-                            scope.$apply(function(scope) {
-                                scope.fc.$setUntouched();
-                            });
-                        } else {
-                            scope.fc.$validate();
-                        }
-                    });
-                }
-            });
-
         }
     ]);
 
@@ -156,6 +116,7 @@
 
             var values = {
                 cssError:'error',
+                cssErrorInput:'error',
                 cssSuccess:'success',
                 cssWarning:'warning',
                 formControl:'form-control-',
@@ -340,7 +301,7 @@
                 var cssClass = '';
 
                 if((options.formControl !== undefined && options.formControl.$invalid === true && options.formControl.$untouched === false) || (options.hasServerError === true)){
-                    cssClass += ' '+$formlyBootstrapSettings.formControl+$formlyBootstrapSettings.cssError;
+                    cssClass += ' '+$formlyBootstrapSettings.formControl+$formlyBootstrapSettings.cssErrorInput;
                 }
 
                 return cssClass;
@@ -862,23 +823,6 @@
 
             FormlyBootstrapRadio.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
 
-        }
-    ]);
-
-    angular.module('ambersive.formly').controller('FormlyBootstrapsUploadCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv', 'Upload',
-        function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv, Upload){
-
-            var FormlyBootstrapUpload = this;
-
-            FormlyBootstrapUpload.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrapUpload.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
-
-            FormlyBootstrapUpload.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
-
-            FormlyBootstrapUpload.picFile = function(){
-                
-            };
-            
         }
     ]);
 

@@ -108,46 +108,6 @@
                 }
             });
 
-            formlyConfigProvider.setType({
-                name: 'bootstrap_upload',
-                templateUrl: 'src/views/formly.ambersive.upload.html',
-                controller:'FormlyBootstrapsUploadCtrl as FormlyBootstrapUpload',
-                defaultOptions: {
-                    validators: {
-                        //standardValidation: FormlyBootstrapSrvProvider.$get().validation
-                    }
-                },
-                link: function(scope, el, attrs) {
-                    el.on("change", function (changeEvent) {
-                        alert('test');
-                        var file = changeEvent.target.files[0];
-                        if (file) {
-                            var fd = new FormData();
-                            fd.append('uploadFile', file);
-                            scope.$emit('fileToUpload', fd);
-                            var fileProp = {};
-                            for (var properties in file) {
-                                if (!angular.isFunction(file[properties])) {
-                                    fileProp[properties] = file[properties];
-                                }
-                            }
-                            scope.fc.$setViewValue(fileProp);
-                        } else {
-                            scope.fc.$setViewValue(undefined);
-                        }
-                    });
-                    el.on("focusout", function(focusoutEvent) {
-                        if (window.document.activeElement.id === scope.id) {
-                            scope.$apply(function(scope) {
-                                scope.fc.$setUntouched();
-                            });
-                        } else {
-                            scope.fc.$validate();
-                        }
-                    });
-                }
-            });
-
         }
     ]);
 
@@ -156,6 +116,7 @@
 
             var values = {
                 cssError:'error',
+                cssErrorInput:'error',
                 cssSuccess:'success',
                 cssWarning:'warning',
                 formControl:'form-control-',
@@ -340,7 +301,7 @@
                 var cssClass = '';
 
                 if((options.formControl !== undefined && options.formControl.$invalid === true && options.formControl.$untouched === false) || (options.hasServerError === true)){
-                    cssClass += ' '+$formlyBootstrapSettings.formControl+$formlyBootstrapSettings.cssError;
+                    cssClass += ' '+$formlyBootstrapSettings.formControl+$formlyBootstrapSettings.cssErrorInput;
                 }
 
                 return cssClass;
@@ -865,23 +826,6 @@
         }
     ]);
 
-    angular.module('ambersive.formly').controller('FormlyBootstrapsUploadCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv', 'Upload',
-        function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv, Upload){
-
-            var FormlyBootstrapUpload = this;
-
-            FormlyBootstrapUpload.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrapUpload.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
-
-            FormlyBootstrapUpload.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
-
-            FormlyBootstrapUpload.picFile = function(){
-                
-            };
-            
-        }
-    ]);
-
 
 })(window, document, undefined);
 angular.module('ambersive.formly').run(['$templateCache', function($templateCache) {
@@ -923,16 +867,6 @@ angular.module('ambersive.formly').run(['$templateCache', function($templateCach
 
   $templateCache.put('src/views/formly.ambersive.textarea.html',
     "<div class=form-group ng-class=FormlyBootstrapTextarea.getGroupClass(options);><label for=inp_{{options.key}}>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><textarea ng-disabled=options.templateOptions.disabled ng-model=model[options.key] rows={{FormlyBootstrapTextarea.settings.rows}} class=form-control ng-class=FormlyBootstrapTextarea.getInputClass(options); id=inp_{{options.key}} placeholder={{to.placeholder}}></textarea><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapTextarea.getErrorMessage(key,value); }}</small></div></div>"
-  );
-
-
-  $templateCache.put('src/views/formly.ambersive.upload.html',
-    "<div class=form-group ng-class=FormlyBootstrapUpload.getGroupClass(options);><label for=inp_{{options.key}}>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><div class=file_container><label class=file><input type=file on-change=\"\" id=inp_{{options.key}} ng-model=model[options.key]> <span class=file-custom></span></label></div><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapUpload.getErrorMessage(key,value); }}</small></div></div>"
-  );
-
-
-  $templateCache.put('src/views/formly.upload.html',
-    "<div class=formly_upload ng-init=FormlyUpload.init(to,model,options.key)><label class=control-label ng-if=to.label>{{to.label}}</label><div compile=FormlyUpload.preview></div><div compile=FormlyUpload.field></div><input type=hidden ng-model=model[options.key]><p ng-if=to.help><small>{{to.help}}</small></p></div>"
   );
 
 }]);
