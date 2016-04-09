@@ -9,7 +9,7 @@
 
     'use strict';
 
-    angular.module('ambersive.formly', ['formly','ngLocale','ngMessages','ngFileUpload']);
+    angular.module('ambersive.formly', ['formly','ngLocale','ngMessages','ui.select', 'ngSanitize']);
 
     angular.module('ambersive.formly').config(['formlyConfigProvider', 'FormlyBootstrapSrvProvider',
 
@@ -51,6 +51,22 @@
                 name: 'bootstrap_select',
                 templateUrl: 'src/views/formly.ambersive.select.html',
                 controller:'FormlyBootstrapsSelectCtrl as FormlyBootstrapSelect',
+                defaultOptions: {
+                    templateOptions: {
+                        onChange: function (value,field,scope) {
+                            field.formControl.$setValidity('server', true);
+                        }
+                    },
+                    validators: {
+                        standardValidation: FormlyBootstrapSrvProvider.$get().validation
+                    }
+                }
+            });
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_select2',
+                templateUrl: 'src/views/formly.ambersive.select2.html',
+                controller:'FormlyBootstrapsSelect2Ctrl as FormlyBootstrapSelect2',
                 defaultOptions: {
                     templateOptions: {
                         onChange: function (value,field,scope) {
@@ -482,6 +498,26 @@
             FormlyBootstrapSelect.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
 
             FormlyBootstrapSelect.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+
+        }
+    ]);
+
+    angular.module('ambersive.formly').controller('FormlyBootstrapsSelect2Ctrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv',
+        function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv){
+
+            var FormlyBootstrapSelect2 = this;
+
+            FormlyBootstrapSelect2.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrapSelect2.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+
+            FormlyBootstrapSelect2.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+
+            FormlyBootstrapSelect2.choose = function(item,model){
+                
+                $scope.model[$scope.options.key] = item[$scope.options.templateOptions.valueProp];
+                $rootScope.$broadcast('changeValue',{item:item,options:$scope.options});
+
+            };
 
         }
     ]);

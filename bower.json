@@ -1,6 +1,6 @@
 {
   "name": "ambersive-formly",
-  "version": "0.0.3.4",
+  "version": "0.0.3.5",
   "authors": [
     "Manuel Ihl <manuel.ihl@ambersive.com>"
   ],
@@ -31,7 +31,9 @@
     "angular-i18n": "^1.5.0",
     "angular-messages": "^1.5.0",
     "tinymce": "^4.3.8",
-    "angular-ui-tinymce": "^0.0.14"
+    "angular-ui-tinymce": "^0.0.14",
+    "ui-select": "angular-ui-select#^0.16.1",
+    "angular-sanitize": "^1.5.3"
   },
   "license": "MIT",
   "homepage": "http://www.ambersive.com"

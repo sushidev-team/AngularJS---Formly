@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <title>AMBERSIVE - Formly - DEMO</title>
     <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../bower_components/ui-select/dist/select.css" rel="stylesheet" />
     <script src="../bower_components/angular/angular.js"></script>
     <script src="../bower_components/angular-messages/angular-messages.js"></script>
     <script src="//npmcdn.com/api-check@latest/dist/api-check.js"></script>
     <script src="../bower_components/angular-formly/dist/formly.js"></script>
     <script src="../bower_components/tinymce/tinymce.min.js"></script>
-    <script src="../build/formly.js"></script>
-    <script src="../bower_components/ng-file-upload/ng-file-upload-shim.js"></script>
-    <script src="../bower_components/ng-file-upload/ng-file-upload.js"></script>
+    <script src="../build/formly.js"></script><script src="../bower_components/ng-file-upload/ng-file-upload-shim.js"></script>
+    <script src="../bower_components/ui-select/dist/select.js"></script>
+    <script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script>
 
-        angular.module('app', ['formly','ambersive.formly'])
+        angular.module('app', ['formly','ambersive.formly','ui.select', 'ngSanitize'])
            .controller('DemoController',function($scope,$log,$rootScope,FormlyBootstrapSrv,$http){
 
                var demo = this;
@@ -68,16 +69,6 @@
                        }
                    },
                    {
-                       key: 'customUpload',
-                       type: 'bootstrap_upload',
-                       templateOptions: {
-                           label: 'File Upload',
-                           help: 'Place your help text here',
-                           cssClass:'col-xs-12',
-                           required:false
-                       }
-                   },
-                   {
                        key: 'customDate',
                        type: 'bootstrap_date',
                        templateOptions: {
@@ -115,6 +106,30 @@
                            placeholder:'Placeholder text',
                            cssClass:'col-sm-12 col-xs-12',
                            required:false,
+                           valueProp: 'value',
+                           labelProp: 'name',
+                           options:[
+                               {
+                                   name:'Test',
+                                   value:1
+                               },
+                               {
+                                   name:'Test 2',
+                                   value:2
+                               }
+                           ]
+                       }
+                   },
+                   {
+                       key: 'customSelect2',
+                       type: 'bootstrap_select2',
+                       templateOptions: {
+                           label: 'Input',
+                           type:'text',
+                           help: 'Place your help text here',
+                           placeholder:'Placeholder text',
+                           cssClass:'col-sm-6 col-xs-12',
+                           required:true,
                            valueProp: 'value',
                            labelProp: 'name',
                            options:[

@@ -9,7 +9,7 @@
 
     'use strict';
 
-    angular.module('ambersive.formly', ['formly','ngLocale','ngMessages','ngFileUpload']);
+    angular.module('ambersive.formly', ['formly','ngLocale','ngMessages','ui.select', 'ngSanitize']);
 
     angular.module('ambersive.formly').config(['formlyConfigProvider', 'FormlyBootstrapSrvProvider',
 
@@ -51,6 +51,22 @@
                 name: 'bootstrap_select',
                 templateUrl: 'src/views/formly.ambersive.select.html',
                 controller:'FormlyBootstrapsSelectCtrl as FormlyBootstrapSelect',
+                defaultOptions: {
+                    templateOptions: {
+                        onChange: function (value,field,scope) {
+                            field.formControl.$setValidity('server', true);
+                        }
+                    },
+                    validators: {
+                        standardValidation: FormlyBootstrapSrvProvider.$get().validation
+                    }
+                }
+            });
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_select2',
+                templateUrl: 'src/views/formly.ambersive.select2.html',
+                controller:'FormlyBootstrapsSelect2Ctrl as FormlyBootstrapSelect2',
                 defaultOptions: {
                     templateOptions: {
                         onChange: function (value,field,scope) {
@@ -486,6 +502,26 @@
         }
     ]);
 
+    angular.module('ambersive.formly').controller('FormlyBootstrapsSelect2Ctrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv',
+        function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv){
+
+            var FormlyBootstrapSelect2 = this;
+
+            FormlyBootstrapSelect2.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrapSelect2.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+
+            FormlyBootstrapSelect2.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+
+            FormlyBootstrapSelect2.choose = function(item,model){
+                
+                $scope.model[$scope.options.key] = item[$scope.options.templateOptions.valueProp];
+                $rootScope.$broadcast('changeValue',{item:item,options:$scope.options});
+
+            };
+
+        }
+    ]);
+
     angular.module('ambersive.formly').controller('FormlyBootstrapsTextareaCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv','$timeout','$sce',
         function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv,$timeout,$sce){
 
@@ -862,6 +898,11 @@ angular.module('ambersive.formly').run(['$templateCache', function($templateCach
 
   $templateCache.put('src/views/formly.ambersive.select.html',
     "<div class=form-group ng-class=FormlyBootstrapSelect.getGroupClass(options);><label for=inp_{{options.key}}>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><select id=inp_{{options.key}} name=inp_{{options.key}} ng-disabled=options.templateOptions.disabled ng-options=\"option[options.templateOptions.valueProp] as option[options.templateOptions.labelProp] for option in options.templateOptions.options\" class=\"form-control block\" ng-model=model[options.key] ng-options=\"\" ng-class=FormlyBootstrapSelect.getInputClass(options);></select><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapSelect.getErrorMessage(key,value); }}</small></div></div>"
+  );
+
+
+  $templateCache.put('src/views/formly.ambersive.select2.html',
+    "<div class=form-group ng-class=FormlyBootstrapSelect2.getGroupClass(options);><label>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><ui-select ng-model=FormlyBootstrapSelect2.data on-select=\"FormlyBootstrapSelect2.choose($item, $model)\"><ui-select-match placeholder={{options.templateOptions.placeholder}}><span ng-bind=$select.selected.name></span></ui-select-match><ui-select-choices ng-click=\"alert('test')\" repeat=\"item in (options.templateOptions.options | filter: $select.search) track by item[options.templateOptions.valueProp]\"><span>{{ item[options.templateOptions.labelProp] }}</span></ui-select-choices></ui-select><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapSelect2.getErrorMessage(key,value); }}</small></div></div>"
   );
 
 
