@@ -3,10 +3,12 @@
     <ui-select ng-model="FormlyBootstrapSelect2.data" on-select="FormlyBootstrapSelect2.choose($item, $model)">
 
         <ui-select-match placeholder="{{options.templateOptions.placeholder}}">
-            <span ng-bind="$select.selected.name"></span>
+            <span ng-if="options.templateOptions.templateSelected === undefined">{{$select.selected.name}}</span>
+            <span ng-if="options.templateOptions.templateSelected !== undefined" ng-include="options.templateOptions.templateSelected"></span>
         </ui-select-match>
-        <ui-select-choices ng-click="alert('test')" repeat="item in (options.templateOptions.options | filter: $select.search) track by item[options.templateOptions.valueProp]">
-            <span>{{ item[options.templateOptions.labelProp] }}</span>
+        <ui-select-choices repeat="item in (options.templateOptions.options | filter: $select.search) track by item[options.templateOptions.valueProp]">
+            <span ng-if="options.templateOptions.template === undefined">{{ item[options.templateOptions.labelProp] }}</span>
+            <span ng-if="options.templateOptions.template !== undefined" ng-include="options.templateOptions.template"></span>
         </ui-select-choices>
     </ui-select>
     <small class="text-muted" ng-if="to.help !== undefined && showError !== true">

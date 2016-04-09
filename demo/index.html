@@ -13,6 +13,12 @@
     <script src="../build/formly.js"></script><script src="../bower_components/ng-file-upload/ng-file-upload-shim.js"></script>
     <script src="../bower_components/ui-select/dist/select.js"></script>
     <script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script type="text/ng-template" id="testSelect2Entry.html">
+        Eintrag: {{ item[options.templateOptions.labelProp] }}
+    </script>
+    <script type="text/ng-template" id="testSelect2EntrySelected.html">
+        ### {{$select.selected.name}} ###
+    </script>
     <script>
 
         angular.module('app', ['formly','ambersive.formly','ui.select', 'ngSanitize'])
@@ -130,6 +136,32 @@
                            placeholder:'Placeholder text',
                            cssClass:'col-sm-6 col-xs-12',
                            required:true,
+                           valueProp: 'value',
+                           labelProp: 'name',
+                           options:[
+                               {
+                                   name:'Test',
+                                   value:1
+                               },
+                               {
+                                   name:'Test 2',
+                                   value:2
+                               }
+                           ]
+                       }
+                   },
+                   {
+                       key: 'customSelect3',
+                       type: 'bootstrap_select2',
+                       templateOptions: {
+                           label: 'Input',
+                           type:'text',
+                           help: 'Place your help text here',
+                           placeholder:'Placeholder text',
+                           cssClass:'col-sm-6 col-xs-12',
+                           required:true,
+                           template:'testSelect2Entry.html',
+                           templateSelected:'testSelect2EntrySelected.html',
                            valueProp: 'value',
                            labelProp: 'name',
                            options:[
