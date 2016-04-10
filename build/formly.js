@@ -539,6 +539,12 @@
             };
 
             FormlyBootstrapSelect2.init();
+            
+            // Broadcasts
+            
+            $scope.$on('FormlyBootstrapSelect2Refresh',function(event,args){
+                FormlyBootstrapSelect2.init();
+            });
 
         }
     ]);
