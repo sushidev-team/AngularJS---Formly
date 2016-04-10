@@ -520,15 +520,19 @@
 
                 if($scope.model[$scope.options.key] !== undefined){
 
-                    chosenElement =$scope.options.templateOptions.options.filter(function(item,index){
+                    if($scope.options.templateOptions.options !== undefined) {
 
-                        if(item[$scope.options.templateOptions.valueProp] === $scope.model[$scope.options.key]){
-                            return item;
-                        }
+                        chosenElement = $scope.options.templateOptions.options.filter(function (item, index) {
 
-                    });
+                            if (item[$scope.options.templateOptions.valueProp] === $scope.model[$scope.options.key]) {
+                                return item;
+                            }
 
-                    FormlyBootstrapSelect2.data = chosenElement[0];
+                        });
+
+                        FormlyBootstrapSelect2.data = chosenElement[0];
+
+                    }
 
                 }
 
