@@ -68,11 +68,6 @@
                 templateUrl: 'src/views/formly.ambersive.select2.html',
                 controller:'FormlyBootstrapsSelect2Ctrl as FormlyBootstrapSelect2',
                 defaultOptions: {
-                    templateOptions: {
-                        onChange: function (value,field,scope) {
-                            field.formControl.$setValidity('server', true);
-                        }
-                    },
                     validators: {
                         standardValidation: FormlyBootstrapSrvProvider.$get().validation
                     }
@@ -518,6 +513,28 @@
                 $rootScope.$broadcast('changeValue',{item:item,options:$scope.options});
 
             };
+
+            FormlyBootstrapSelect2.init = function(){
+
+                var chosenElement = [];
+
+                if($scope.model[$scope.options.key] !== undefined){
+
+                    chosenElement =$scope.options.templateOptions.options.filter(function(item,index){
+
+                        if(item[$scope.options.templateOptions.valueProp] === $scope.model[$scope.options.key]){
+                            return item;
+                        }
+
+                    });
+
+                    FormlyBootstrapSelect2.data = chosenElement[0];
+
+                }
+
+            };
+
+            FormlyBootstrapSelect2.init();
 
         }
     ]);

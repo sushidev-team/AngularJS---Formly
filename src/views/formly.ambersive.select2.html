@@ -1,8 +1,7 @@
 <div class="form-group" ng-class="FormlyBootstrapSelect2.getGroupClass(options);">
     <label>{{to.label}} <span class="required" ng-if="options.templateOptions.required">*</span></label>
     <ui-select ng-model="FormlyBootstrapSelect2.data" on-select="FormlyBootstrapSelect2.choose($item, $model)">
-
-        <ui-select-match placeholder="{{options.templateOptions.placeholder}}">
+        <ui-select-match placeholder="{{options.templateOptions.placeholder}}" ng-model="FormlyBootstrapSelect2.data">
             <span ng-if="options.templateOptions.templateSelected === undefined">{{$select.selected.name}}</span>
             <span ng-if="options.templateOptions.templateSelected !== undefined" ng-include="options.templateOptions.templateSelected"></span>
         </ui-select-match>
