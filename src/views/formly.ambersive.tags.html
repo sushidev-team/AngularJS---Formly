@@ -1,11 +1,11 @@
-<div class="form-group" ng-class="FormlyBootstrapSelect2.getGroupClass(options);">
+<div class="form-group" ng-class="FormlyBootstrapTags.getGroupClass(options);">
     <label>{{to.label}} <span class="required" ng-if="options.templateOptions.required">*</span></label>
-    <ui-select ng-model="FormlyBootstrapSelect2.data" on-select="FormlyBootstrapSelect2.choose($item, $model)">
-        <ui-select-match placeholder="{{options.templateOptions.placeholder}}" ng-model="FormlyBootstrapSelect2.data">
-            <span ng-if="options.templateOptions.templateSelected === undefined">{{$select.selected[options.templateOptions.labelProp]}}</span>
+    <ui-select multiple theme="bootstrap" ng-model="FormlyBootstrapTags.data">
+        <ui-select-match placeholder="{{options.templateOptions.placeholder}}" ng-model="FormlyBootstrapTags.data">
+            <span ng-if="options.templateOptions.templateSelected === undefined">{{$item[options.templateOptions.labelProp]}}</span>
             <span ng-if="options.templateOptions.templateSelected !== undefined" ng-include="options.templateOptions.templateSelected"></span>
         </ui-select-match>
-        <ui-select-choices repeat="item in (options.templateOptions.options | filter: $select.search) track by item[options.templateOptions.valueProp]">
+        <ui-select-choices repeat="item in (options.templateOptions.options | filter: $select.search) track by $index">
             <span ng-if="options.templateOptions.template === undefined">{{ item[options.templateOptions.labelProp] }}</span>
             <span ng-if="options.templateOptions.template !== undefined" ng-include="options.templateOptions.template"></span>
         </ui-select-choices>
@@ -17,6 +17,6 @@
         <div class="text-danger" ng-repeat="obj in options.validation.messages">
             <small>{{obj.message}}</small>
         </div>
-        <small class="text-danger" ng-message="{{key}}" ng-repeat="(key, value) in fc.$error" ng-if="key !== 'server'">{{ FormlyBootstrapSelect2.getErrorMessage(key,value); }}</small>
+        <small class="text-danger" ng-message="{{key}}" ng-repeat="(key, value) in fc.$error" ng-if="key !== 'server'">{{ FormlyBootstrapTags.getErrorMessage(key,value); }}</small>
     </div>
 </div>

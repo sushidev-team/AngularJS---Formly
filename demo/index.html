@@ -19,6 +19,12 @@
     <script type="text/ng-template" id="testSelect2EntrySelected.html">
         ### {{$select.selected.name}} ###
     </script>
+    <script type="text/ng-template" id="testTagsEntry.html">
+        Eintrag: {{ item[options.templateOptions.labelProp] }}
+    </script>
+    <script type="text/ng-template" id="testTagsSelected.html">
+        ### {{$item.name}} ###
+    </script>
     <script>
 
         angular.module('app', ['formly','ambersive.formly','ui.select', 'ngSanitize'])
@@ -31,7 +37,8 @@
                demo.formData = {
                    customDate:'2016-03-27',
                    customDate2:new Date(),
-                   customSelect3:2
+                   customSelect3:2,
+                   tags:[1]
                };
 
                demo.formFields = [
@@ -117,7 +124,7 @@
                            labelProp: 'name',
                            options:[
                                {
-                                   name:'Test',
+                                   name:'Test asdf',
                                    value:1
                                },
                                {
@@ -168,6 +175,54 @@
                            options:[
                                {
                                    name:'Test',
+                                   value:1
+                               },
+                               {
+                                   name:'Test 2',
+                                   value:2
+                               }
+                           ]
+                       }
+                   },
+                   {
+                       key: 'tags',
+                       type: 'bootstrap_tags',
+                       templateOptions: {
+                           label: 'Tags',
+                           help: 'Place your help text here',
+                           placeholder:'Placeholder text',
+                           cssClass:'col-sm-6 col-xs-12',
+                           required:true,
+                           valueProp: 'value',
+                           labelProp: 'name',
+                           options:[
+                               {
+                                   name:'Test 1',
+                                   value:1
+                               },
+                               {
+                                   name:'Test 2',
+                                   value:2
+                               }
+                           ]
+                       }
+                   },
+                   {
+                       key: 'tags2',
+                       type: 'bootstrap_tags',
+                       templateOptions: {
+                           label: 'Tags',
+                           help: 'Place your help text here',
+                           placeholder:'Placeholder text',
+                           cssClass:'col-sm-6 col-xs-12',
+                           required:true,
+                           valueProp: 'value',
+                           labelProp: 'name',
+                           template:'testTagsEntry.html',
+                           templateSelected:'testTagsSelected.html',
+                           options:[
+                               {
+                                   name:'Test 1',
                                    value:1
                                },
                                {

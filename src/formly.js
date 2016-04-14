@@ -75,6 +75,17 @@
             });
 
             formlyConfigProvider.setType({
+                name: 'bootstrap_tags',
+                templateUrl: 'src/views/formly.ambersive.tags.html',
+                controller:'FormlyBootstrapsTagsCtrl as FormlyBootstrapTags',
+                defaultOptions: {
+                    validators: {
+                        standardValidation: FormlyBootstrapSrvProvider.$get().validation
+                    }
+                }
+            });
+
+            formlyConfigProvider.setType({
                 name: 'bootstrap_textarea',
                 templateUrl: 'src/views/formly.ambersive.textarea.html',
                 controller:'FormlyBootstrapsTextareaCtrl as FormlyBootstrapTextarea',
@@ -549,6 +560,78 @@
         }
     ]);
 
+    angular.module('ambersive.formly').controller('FormlyBootstrapsTagsCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv',
+        function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv){
+
+            var FormlyBootstrapTags = this;
+
+            FormlyBootstrapTags.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrapTags.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+
+            FormlyBootstrapTags.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+
+            FormlyBootstrapTags.set = function(newValue){
+
+                if(newValue === undefined){
+                    return;
+                }
+
+                var copy = angular.copy(newValue),
+                    data = [];
+
+                copy.forEach(function(value,index){
+                    data.push(value[$scope.options.templateOptions.valueProp]);
+                });
+
+                $scope.model[$scope.options.key] = data;
+
+            };
+
+            FormlyBootstrapTags.getOptionsForModel = function(){
+
+                var data = angular.copy($scope.options.templateOptions.options);
+
+                if(angular.isArray(data) === true){
+
+                    data = data.filter(function(item){
+
+                        if($scope.model[$scope.options.key] !== undefined && $scope.model[$scope.options.key].indexOf(item[$scope.options.templateOptions.valueProp]) > -1){
+
+                            return item;
+
+                        }
+
+                    });
+
+                    FormlyBootstrapTags.data = data;
+
+                }
+
+            };
+
+            FormlyBootstrapTags.init = function(){
+
+                FormlyBootstrapTags.getOptionsForModel();
+
+            };
+
+            FormlyBootstrapTags.init();
+
+            // Broadcasts
+
+            $scope.$watch('FormlyBootstrapTags.data',function(newValue, oldValue) {
+
+                FormlyBootstrapTags.set(newValue);
+                
+            });
+
+            $scope.$on('FormlyBootstrapTagsRefresh',function(event,args){
+                FormlyBootstrapTags.init();
+            });
+
+        }
+    ]);
+
     angular.module('ambersive.formly').controller('FormlyBootstrapsTextareaCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv','$timeout','$sce',
         function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv,$timeout,$sce){
 
@@ -801,7 +884,7 @@
 
                     }
                     else if(angular.isDate(value)){
- 
+
                         currentDate = value;
 
                     }
