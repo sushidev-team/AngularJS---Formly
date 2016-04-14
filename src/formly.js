@@ -797,11 +797,11 @@
 
                         });
 
-                        currentDate = new Date(year,month,day+1);
+                        currentDate = new Date(year,month,day);
 
                     }
                     else if(angular.isDate(value)){
-
+ 
                         currentDate = value;
 
                     }
