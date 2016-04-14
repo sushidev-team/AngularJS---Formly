@@ -567,6 +567,7 @@
 
             FormlyBootstrapTags.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
             FormlyBootstrapTags.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapTags.customClass   = '';
 
             FormlyBootstrapTags.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
 
@@ -606,10 +607,14 @@
                     FormlyBootstrapTags.data = data;
 
                 }
-
+ 
             };
 
             FormlyBootstrapTags.init = function(){
+
+                if($scope.options.templateOptions.customClass !== undefined){
+                    FormlyBootstrapTags.customClass = $scope.options.templateOptions.customClass;
+                }
 
                 FormlyBootstrapTags.getOptionsForModel();
 
@@ -1017,7 +1022,7 @@ angular.module('ambersive.formly').run(['$templateCache', function($templateCach
 
 
   $templateCache.put('src/views/formly.ambersive.tags.html',
-    "<div class=form-group ng-class=FormlyBootstrapTags.getGroupClass(options);><label>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><ui-select multiple theme=bootstrap ng-model=FormlyBootstrapTags.data><ui-select-match placeholder={{options.templateOptions.placeholder}} ng-model=FormlyBootstrapTags.data><span ng-if=\"options.templateOptions.templateSelected === undefined\">{{$item[options.templateOptions.labelProp]}}</span> <span ng-if=\"options.templateOptions.templateSelected !== undefined\" ng-include=options.templateOptions.templateSelected></span></ui-select-match><ui-select-choices repeat=\"item in (options.templateOptions.options | filter: $select.search) track by $index\"><span ng-if=\"options.templateOptions.template === undefined\">{{ item[options.templateOptions.labelProp] }}</span> <span ng-if=\"options.templateOptions.template !== undefined\" ng-include=options.templateOptions.template></span></ui-select-choices></ui-select><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapTags.getErrorMessage(key,value); }}</small></div></div>"
+    "<div class=\"form-group {{FormlyBootstrapTags.customClass}}\" ng-class=FormlyBootstrapTags.getGroupClass(options);><label>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><ui-select multiple theme=bootstrap ng-model=FormlyBootstrapTags.data><ui-select-match placeholder={{options.templateOptions.placeholder}} ng-model=FormlyBootstrapTags.data><span ng-if=\"options.templateOptions.templateSelected === undefined\">{{$item[options.templateOptions.labelProp]}}</span> <span ng-if=\"options.templateOptions.templateSelected !== undefined\" ng-include=options.templateOptions.templateSelected></span></ui-select-match><ui-select-choices repeat=\"item in (options.templateOptions.options | filter: $select.search) track by $index\"><span ng-if=\"options.templateOptions.template === undefined\">{{ item[options.templateOptions.labelProp] }}</span> <span ng-if=\"options.templateOptions.template !== undefined\" ng-include=options.templateOptions.template></span></ui-select-choices></ui-select><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapTags.getErrorMessage(key,value); }}</small></div></div>"
   );
 
 

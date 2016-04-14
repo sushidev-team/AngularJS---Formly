@@ -567,6 +567,7 @@
 
             FormlyBootstrapTags.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
             FormlyBootstrapTags.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapTags.customClass   = '';
 
             FormlyBootstrapTags.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
 
@@ -606,10 +607,14 @@
                     FormlyBootstrapTags.data = data;
 
                 }
-
+ 
             };
 
             FormlyBootstrapTags.init = function(){
+
+                if($scope.options.templateOptions.customClass !== undefined){
+                    FormlyBootstrapTags.customClass = $scope.options.templateOptions.customClass;
+                }
 
                 FormlyBootstrapTags.getOptionsForModel();
 
