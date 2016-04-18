@@ -741,6 +741,10 @@
             var datetime = $locale.DATETIME_FORMATS; //get date and time formats
             $scope.months = datetime.MONTH; //access localized months
 
+            if($scope.options.templateOptions.time === undefined){
+                $scope.options.templateOptions.time = false;
+            }
+
             if($scope.options.templateOptions.yearStart !== undefined && $scope.options.templateOptions.yearStop !== undefined){
 
                 FormlyBootstrapDate.years = FormlyBootstrapSrv.dateHelper.yearListByStartAndStop($scope.options.templateOptions.yearStart, $scope.options.templateOptions.yearStop);
