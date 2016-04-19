@@ -770,8 +770,8 @@
 
             }
 
-            FormlyBootstrapDate.month   = CurrentDate.getMonth()+1;
-            FormlyBootstrapDate.day     = CurrentDate.getDate();
+            FormlyBootstrapDate.month   = CurrentDate.getUTCMonth();
+            FormlyBootstrapDate.day     = CurrentDate.getUTCDate();
             FormlyBootstrapDate.hour    = 0;
             FormlyBootstrapDate.minute  = 0;
             FormlyBootstrapDate.second  = 0;
@@ -915,8 +915,8 @@
 
                     }
 
-                    FormlyBootstrapDate.month = currentDate.getMonth();
-                    FormlyBootstrapDate.day   = currentDate.getDate();
+                    FormlyBootstrapDate.month = currentDate.getUTCMonth();
+                    FormlyBootstrapDate.day   = currentDate.getUTCDate();
                     FormlyBootstrapDate.year  = currentDate.getFullYear();
 
                     FormlyBootstrapDate.hour    = currentDate.getUTCHours();

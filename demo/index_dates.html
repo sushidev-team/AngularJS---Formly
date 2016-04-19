@@ -36,13 +36,26 @@
 
                demo.formData = {
                    customDate:'2016-03-27',
-                   customDate2:new Date(),
-                   customDateTime:'2016-04-19 06:00:00',
+                   customDateTime:'2016-04-20 00:00:00',
                    customSelect3:2,
                    tags:[1]
                };
 
                demo.formFields = [
+                   {
+                       key: 'customDate',
+                       type: 'bootstrap_date',
+                       templateOptions: {
+                           label: 'Time',
+                           help: 'Place your help text here',
+                           placeholder:'Placeholder text',
+                           cssClass:'col-xs-12',
+                           required:false,
+                           time:true,
+                           dateFormat:'y-m-d',
+                           monthFormat:'MMMM'
+                       }
+                   },
                    {
                        key: 'customDateTime',
                        type: 'bootstrap_date',
