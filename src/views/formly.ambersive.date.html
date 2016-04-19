@@ -33,8 +33,6 @@
 
 
 <div class="form-group form-group-multiple" ng-class="FormlyBootstrapDate.getGroupClass(options);">
-
-    {{model[options.key]}}
     <label for="{{options.key}}_multiple">{{to.label}} <span class="required" ng-if="options.templateOptions.required">*</span></label>
     <div class="row">
         <div class="" ng-repeat="part in FormlyBootstrapDate.order track by $index" ng-if="FormlyBootstrapDate.isNotADateDelimiter(part) === false" ng-include="FormlyBootstrapDate.getPartByDelimiterShortcut(part)"></div>
