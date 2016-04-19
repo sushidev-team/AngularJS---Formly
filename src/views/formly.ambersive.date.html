@@ -33,12 +33,14 @@
 
 
 <div class="form-group form-group-multiple" ng-class="FormlyBootstrapDate.getGroupClass(options);">
+
+    {{model[options.key]}}
     <label for="{{options.key}}_multiple">{{to.label}} <span class="required" ng-if="options.templateOptions.required">*</span></label>
     <div class="row">
         <div class="" ng-repeat="part in FormlyBootstrapDate.order track by $index" ng-if="FormlyBootstrapDate.isNotADateDelimiter(part) === false" ng-include="FormlyBootstrapDate.getPartByDelimiterShortcut(part)"></div>
         <div class="col-xs-3" ng-if="options.templateOptions.time === true">
             <div class="form-group">
-                <input type="time" ng-disabled="options.templateOptions.disabled" ng-required="options.templateOptions.required" class="form-control block" ng-model="model[options.key]" ng-class="FormlyBootstrap.getInputClass(options);" />
+                <input type="time" ng-change="FormlyBootstrapDate.change(model[options.key])" ng-disabled="options.templateOptions.disabled" ng-required="options.templateOptions.required" class="form-control block" ng-model="model[options.key]" ng-class="FormlyBootstrap.getInputClass(options);" />
             </div>
         </div>
     </div>

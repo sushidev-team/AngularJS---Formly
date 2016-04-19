@@ -366,8 +366,8 @@
 
                 daysForMonth: function  (month, year) {
                     if (month === undefined) { month = 1; }
-                    if (year === undefined) { year = new Date().getFullYear(); }
-                    return new Date(year, month, 0).getDate();
+                    if (year === undefined) { year = new Date(Date.UTC()).getFullYear(); }
+                    return new Date(Date.UTC(year, month, 0)).getDate();
                 },
 
                 /***
@@ -438,7 +438,7 @@
                     var years = [];
 
                     if(yearStop === undefined){
-                        yearStop = new Date().getFullYear();
+                        yearStop = new Date(Date.UTC()).getFullYear();
                     }
 
                     if (yearStart === undefined) { yearStart = 1900; }
@@ -734,7 +734,7 @@
         function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv,$locale,$filter){
 
             var FormlyBootstrapDate = this,
-                CurrentDate         = new Date();
+                CurrentDate         = new Date(Date.UTC());
 
             FormlyBootstrapDate.order = [];
 
@@ -770,8 +770,11 @@
 
             }
 
-            FormlyBootstrapDate.month = CurrentDate.getMonth()+1;
-            FormlyBootstrapDate.day   = CurrentDate.getDate();
+            FormlyBootstrapDate.month   = CurrentDate.getMonth()+1;
+            FormlyBootstrapDate.day     = CurrentDate.getDate();
+            FormlyBootstrapDate.hour    = 0;
+            FormlyBootstrapDate.minute  = 0;
+            FormlyBootstrapDate.second  = 0;
 
             if(FormlyBootstrapDate.year === undefined) {
                 FormlyBootstrapDate.year  = CurrentDate.getFullYear();
@@ -817,6 +820,13 @@
 
             };
 
+            FormlyBootstrapDate.change = function(value){
+                var date = new Date(Date.UTC(value));
+                FormlyBootstrapDate.hour    = date.getHours();
+                FormlyBootstrapDate.minute  = date.getMinutes();
+                FormlyBootstrapDate.second  = date.getSeconds();
+            };
+
             FormlyBootstrapDate.init = function () {
 
                 /**
@@ -837,7 +847,8 @@
                     currentDate         = null,
                     day                 = 1,
                     month               = 1,
-                    year                = new Date().getFullYear(),
+                    year                = new Date(Date.UTC()).getFullYear(),
+                    time                = null,
                     value               = null;
 
                 if ($scope.options.templateOptions.dateFormat !== undefined && angular.isString($scope.options.templateOptions.dateFormat)) {
@@ -882,14 +893,37 @@
                                 case 'm':
                                     month   = parseInt(value[index]);
                                     break;
-                                default:
+                                case 'd':
                                     day     = parseInt(value[index]);
                                     break;
                             }
 
                         });
 
-                        currentDate = new Date(year,month,day);
+                        if(value.length === 4){
+
+                            time = value[value.length-1].split(':');
+
+                            var timeData = [0,0,0];
+
+                            for(var index = 0; index < time.length; index += 1) {
+
+                                timeData[index] = parseInt(time[index]);
+
+                            }
+
+                            currentDate = new Date(Date.UTC(year, month, day, timeData[0], timeData[1], timeData[2]));
+
+                            FormlyBootstrapDate.hour    = timeData[0];
+                            FormlyBootstrapDate.minute  = timeData[1];
+                            FormlyBootstrapDate.second  = timeData[2];
+
+
+                        } else {
+
+                            currentDate = new Date(Date.UTC(year, month, day));
+
+                        }
 
                     }
                     else if(angular.isDate(value)){
@@ -921,7 +955,7 @@
                     monthFormat = $scope.options.templateOptions.monthFormat;
                 }
 
-                name = $filter('date')(new Date(FormlyBootstrapDate.year, month-1), monthFormat);
+                name = $filter('date')(new Date(Date.UTC(FormlyBootstrapDate.year, month-1)), monthFormat);
 
                 return  name;
             };
@@ -933,8 +967,14 @@
             $scope.$watchGroup(['FormlyBootstrapDate.month', 'FormlyBootstrapDate.year'], function(newValues, oldValues, scope) {
                 FormlyBootstrapDate.days = FormlyBootstrapSrv.dateHelper.daysListForMonthAndYear(FormlyBootstrapDate.month,FormlyBootstrapDate.year);
             });
-            $scope.$watchGroup(['FormlyBootstrapDate.day','FormlyBootstrapDate.month', 'FormlyBootstrapDate.year'], function(newValues, oldValues, scope) {
-                $scope.model[$scope.options.key] = new Date(FormlyBootstrapDate.year,FormlyBootstrapDate.month-1,FormlyBootstrapDate.day);
+            $scope.$watchGroup(['FormlyBootstrapDate.day','FormlyBootstrapDate.month', 'FormlyBootstrapDate.year','FormlyBootstrapDate.hour','FormlyBootstrapDate.minute','FormlyBootstrapDate.second'], function(newValues, oldValues, scope) {
+
+                if($scope.options.templateOptions.time === true){
+                    $scope.model[$scope.options.key] = new Date(Date.UTC(FormlyBootstrapDate.year,FormlyBootstrapDate.month-1,FormlyBootstrapDate.day, FormlyBootstrapDate.hour, FormlyBootstrapDate.minute, FormlyBootstrapDate.second));
+                } else {
+                    $scope.model[$scope.options.key] = new Date(Date.UTC(FormlyBootstrapDate.year,FormlyBootstrapDate.month-1,FormlyBootstrapDate.day));
+                }
+
                 $scope.options.hasServerError = false;
             });
 
