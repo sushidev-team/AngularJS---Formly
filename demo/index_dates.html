@@ -44,35 +44,6 @@
 
                demo.formFields = [
                    {
-                       key: 'customDate',
-                       type: 'bootstrap_date',
-                       templateOptions: {
-                           label: 'Datum',
-                           help: 'Place your help text here',
-                           placeholder:'Placeholder text',
-                           cssClass:'col-sm-6 col-xs-12',
-                           required:false,
-                           dateFormat:'Y-m-d',
-                           dateLayout:'d-m-Y',
-                           monthFormat:'MMMM',
-                           yearStart:1900,
-                           yearStop:2000
-                       }
-                   },
-                   {
-                       key: 'customDate2',
-                       type: 'bootstrap_date',
-                       templateOptions: {
-                           label: 'Datum',
-                           help: 'Place your help text here',
-                           placeholder:'Placeholder text',
-                           cssClass:'col-sm-6 col-xs-12',
-                           required:false,
-                           dateFormat:'m-d-Y',
-                           monthFormat:'MMMM'
-                       }
-                   },
-                   {
                        key: 'customDateTime',
                        type: 'bootstrap_date',
                        templateOptions: {
@@ -96,11 +67,7 @@
 
                    $http({method:'post','url':'/test',data:demo.formData});
 
-
-                   //FormlyBootstrapSrv.serverValidation(demo, errorMessages);
                }
-
-               console.warn(demo);
 
 
         });

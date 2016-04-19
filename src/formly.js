@@ -821,10 +821,11 @@
             };
 
             FormlyBootstrapDate.change = function(value){
-                var date = new Date(Date.UTC(value));
-                FormlyBootstrapDate.hour    = date.getHours();
-                FormlyBootstrapDate.minute  = date.getMinutes();
-                FormlyBootstrapDate.second  = date.getSeconds();
+
+                FormlyBootstrapDate.hour    = value.getUTCHours();
+                FormlyBootstrapDate.minute  = value.getUTCMinutes();
+                FormlyBootstrapDate.second  = value.getUTCSeconds();
+
             };
 
             FormlyBootstrapDate.init = function () {
@@ -849,7 +850,8 @@
                     month               = 1,
                     year                = new Date(Date.UTC()).getFullYear(),
                     time                = null,
-                    value               = null;
+                    value               = null,
+                    valueCopy           = null;
 
                 if ($scope.options.templateOptions.dateFormat !== undefined && angular.isString($scope.options.templateOptions.dateFormat)) {
                     dateFormat = $scope.options.templateOptions.dateFormat;
@@ -863,18 +865,21 @@
                     dateDelimiter = new RegExp($scope.options.templateOptions.dateDelimiter);
                 }
 
-                FormlyBootstrapDate.order = dateLayout.split(dateDelimiter);
-                dateFormatSplitted        = dateFormat.split(dateDelimiter);
+                FormlyBootstrapDate.order       = dateLayout.split(dateDelimiter);
+                dateFormatSplitted              = dateFormat.split(dateDelimiter);
 
                 if(dateFormat !== dateLayout){
-                    FormlyBootstrapDate.order = dateLayout.split(dateDelimiter);
+                    FormlyBootstrapDate.order   = dateLayout.split(dateDelimiter);
                 }
 
                 dateFormatFiltered = angular.copy(dateFormatSplitted).filter(dateFormatFilter);
 
                 if($scope.model[$scope.options.key] !== undefined){
 
-                    value = $scope.model[$scope.options.key];
+                    value       = $scope.model[$scope.options.key];
+                    valueCopy   = angular.copy(value);
+
+                    time = new Date(valueCopy);
 
                     if(value === ''){
                         return;
@@ -900,30 +905,8 @@
 
                         });
 
-                        if(value.length === 4){
+                        currentDate = new Date(Date.UTC(year, month, day, time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds()));
 
-                            time = value[value.length-1].split(':');
-
-                            var timeData = [0,0,0];
-
-                            for(var index = 0; index < time.length; index += 1) {
-
-                                timeData[index] = parseInt(time[index]);
-
-                            }
-
-                            currentDate = new Date(Date.UTC(year, month, day, timeData[0], timeData[1], timeData[2]));
-
-                            FormlyBootstrapDate.hour    = timeData[0];
-                            FormlyBootstrapDate.minute  = timeData[1];
-                            FormlyBootstrapDate.second  = timeData[2];
-
-
-                        } else {
-
-                            currentDate = new Date(Date.UTC(year, month, day));
-
-                        }
 
                     }
                     else if(angular.isDate(value)){
@@ -935,6 +918,10 @@
                     FormlyBootstrapDate.month = currentDate.getMonth();
                     FormlyBootstrapDate.day   = currentDate.getDate();
                     FormlyBootstrapDate.year  = currentDate.getFullYear();
+
+                    FormlyBootstrapDate.hour    = currentDate.getUTCHours();
+                    FormlyBootstrapDate.minute  = currentDate.getUTCMinutes();
+                    FormlyBootstrapDate.second  = currentDate.getUTCSeconds();
 
                 }
 
@@ -967,15 +954,14 @@
             $scope.$watchGroup(['FormlyBootstrapDate.month', 'FormlyBootstrapDate.year'], function(newValues, oldValues, scope) {
                 FormlyBootstrapDate.days = FormlyBootstrapSrv.dateHelper.daysListForMonthAndYear(FormlyBootstrapDate.month,FormlyBootstrapDate.year);
             });
-            $scope.$watchGroup(['FormlyBootstrapDate.day','FormlyBootstrapDate.month', 'FormlyBootstrapDate.year','FormlyBootstrapDate.hour','FormlyBootstrapDate.minute','FormlyBootstrapDate.second'], function(newValues, oldValues, scope) {
+            $scope.$watchGroup(['FormlyBootstrapDate.day','FormlyBootstrapDate.month', 'FormlyBootstrapDate.year'], function(newValues, oldValues, scope) {
 
-                if($scope.options.templateOptions.time === true){
-                    $scope.model[$scope.options.key] = new Date(Date.UTC(FormlyBootstrapDate.year,FormlyBootstrapDate.month-1,FormlyBootstrapDate.day, FormlyBootstrapDate.hour, FormlyBootstrapDate.minute, FormlyBootstrapDate.second));
-                } else {
-                    $scope.model[$scope.options.key] = new Date(Date.UTC(FormlyBootstrapDate.year,FormlyBootstrapDate.month-1,FormlyBootstrapDate.day));
-                }
+                var newDateObj = new Date(Date.UTC(FormlyBootstrapDate.year,FormlyBootstrapDate.month-1,FormlyBootstrapDate.day));
+
+                $scope.model[$scope.options.key] = newDateObj;
 
                 $scope.options.hasServerError = false;
+
             });
 
             /**
