@@ -730,8 +730,8 @@
         }
     ]);
 
-    angular.module('ambersive.formly').controller('FormlyBootstrapsDateCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv','$locale','$filter',
-        function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv,$locale,$filter){
+    angular.module('ambersive.formly').controller('FormlyBootstrapsDateCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv','$locale','$filter','$timeout',
+        function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv,$locale,$filter,$timeout){
 
             var FormlyBootstrapDate = this,
                 CurrentDate         = new Date(Date.UTC());
@@ -908,9 +908,9 @@
                         currentDate = new Date(Date.UTC(year, month, day, time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds()));
 
 
+
                     }
                     else if(angular.isDate(value)){
-
                         currentDate = value;
 
                     }
@@ -922,6 +922,10 @@
                     FormlyBootstrapDate.hour    = currentDate.getUTCHours();
                     FormlyBootstrapDate.minute  = currentDate.getUTCMinutes();
                     FormlyBootstrapDate.second  = currentDate.getUTCSeconds();
+
+                    $timeout(function(){
+                        $scope.model[$scope.options.key] = currentDate;
+                    });
 
                 }
 
