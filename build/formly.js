@@ -907,8 +907,6 @@
 
                         currentDate = new Date(Date.UTC(year, month, day, time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds()));
 
-
-
                     }
                     else if(angular.isDate(value)){
                         currentDate = value;
@@ -960,7 +958,7 @@
             });
             $scope.$watchGroup(['FormlyBootstrapDate.day','FormlyBootstrapDate.month', 'FormlyBootstrapDate.year'], function(newValues, oldValues, scope) {
 
-                var newDateObj = new Date(Date.UTC(FormlyBootstrapDate.year,FormlyBootstrapDate.month-1,FormlyBootstrapDate.day));
+                var newDateObj = new Date(Date.UTC(FormlyBootstrapDate.year,FormlyBootstrapDate.month-1,FormlyBootstrapDate.day, FormlyBootstrapDate.hour,FormlyBootstrapDate.minute, FormlyBootstrapDate.second));
 
                 $scope.model[$scope.options.key] = newDateObj;
 
@@ -1043,7 +1041,7 @@ angular.module('ambersive.formly').run(['$templateCache', function($templateCach
     "    <div class=\"col-xs-3\" ng-if=\"options.templateOptions.time === true\">\n" +
     "        <select ng-disabled=\"options.templateOptions.disabled\" ng-required=\"options.templateOptions.required\" class=\"form-control block\" ng-options=\"o for o in  FormlyBootstrapDate.years\" ng-model=\"FormlyBootstrapDate.year\" ng-class=\"FormlyBootstrap.getInputClass(options);\">\n" +
     "        </select>\n" +
-    "    </div></script><div class=\"form-group form-group-multiple\" ng-class=FormlyBootstrapDate.getGroupClass(options);><label for={{options.key}}_multiple>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><div class=row><div ng-repeat=\"part in FormlyBootstrapDate.order track by $index\" ng-if=\"FormlyBootstrapDate.isNotADateDelimiter(part) === false\" ng-include=FormlyBootstrapDate.getPartByDelimiterShortcut(part)></div><div class=col-xs-3 ng-if=\"options.templateOptions.time === true\"><div class=form-group><input type=time ng-change=FormlyBootstrapDate.change(model[options.key]) ng-disabled=options.templateOptions.disabled ng-required=options.templateOptions.required class=\"form-control block\" ng-model=model[options.key] ng-class=\"FormlyBootstrap.getInputClass(options);\"></div></div></div><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.hasServerError\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div></div></div>"
+    "    </div></script><div class=\"form-group form-group-multiple\" ng-class=FormlyBootstrapDate.getGroupClass(options);><label for={{options.key}}_multiple>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><div class=row><div ng-repeat=\"part in FormlyBootstrapDate.order track by $index\" ng-if=\"FormlyBootstrapDate.isNotADateDelimiter(part) === false\" ng-include=FormlyBootstrapDate.getPartByDelimiterShortcut(part)></div><div class=col-xs-3 ng-if=\"options.templateOptions.time === true\"><div class=form-group><input type=time step=1 ng-change=FormlyBootstrapDate.change(model[options.key]) ng-disabled=options.templateOptions.disabled ng-required=options.templateOptions.required class=\"form-control block\" ng-model=model[options.key] ng-class=\"FormlyBootstrap.getInputClass(options);\"></div></div></div><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.hasServerError\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div></div></div>"
   );
 
 

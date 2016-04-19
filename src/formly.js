@@ -907,8 +907,6 @@
 
                         currentDate = new Date(Date.UTC(year, month, day, time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds()));
 
-
-
                     }
                     else if(angular.isDate(value)){
                         currentDate = value;
@@ -960,7 +958,7 @@
             });
             $scope.$watchGroup(['FormlyBootstrapDate.day','FormlyBootstrapDate.month', 'FormlyBootstrapDate.year'], function(newValues, oldValues, scope) {
 
-                var newDateObj = new Date(Date.UTC(FormlyBootstrapDate.year,FormlyBootstrapDate.month-1,FormlyBootstrapDate.day));
+                var newDateObj = new Date(Date.UTC(FormlyBootstrapDate.year,FormlyBootstrapDate.month-1,FormlyBootstrapDate.day, FormlyBootstrapDate.hour,FormlyBootstrapDate.minute, FormlyBootstrapDate.second));
 
                 $scope.model[$scope.options.key] = newDateObj;
 
