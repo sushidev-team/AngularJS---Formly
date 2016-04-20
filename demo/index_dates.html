@@ -35,8 +35,8 @@
                demo.onSubmit = onSubmit;
 
                demo.formData = {
-                   customDate:null,
-                   customDateTime:'2016-08-21 20:00:00',
+                   customDate:'2016-07-20 21:11:55',
+                   customDateTime:'2016-07-20 23:11:55',
                    customSelect3:2,
                    tags:[1]
                };
@@ -80,6 +80,9 @@
 
                // function definition
                function onSubmit() {
+
+                   console.log(demo.formData);
+
                    var errorMessages = {
                        'server':[{field:'customTinymce',message:'Test error message on response'},{field:'customTextEmail',message:'This E-Mail is already taken'},{field:'customDate2',message:'Test error message on response for dates'}]
                    };

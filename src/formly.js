@@ -905,7 +905,7 @@
 
                         });
 
-                        currentDate = new Date(Date.UTC(year, month, day, time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds()));
+                        currentDate = new Date(Date.UTC(year, month-1, day, time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds()));
 
                     }
                     else if(angular.isDate(value)){
@@ -914,17 +914,22 @@
 
                     } else {
 
-                        currentDate = new Date(Date.UTC(year, month, day));
+                        currentDate = new Date(Date.UTC(year, month-1, day));
 
                     }
 
                     FormlyBootstrapDate.month = currentDate.getUTCMonth();
+
+                    FormlyBootstrapDate.month += 1;
+
                     FormlyBootstrapDate.day   = currentDate.getUTCDate();
                     FormlyBootstrapDate.year  = currentDate.getFullYear();
 
                     FormlyBootstrapDate.hour    = currentDate.getUTCHours();
                     FormlyBootstrapDate.minute  = currentDate.getUTCMinutes();
                     FormlyBootstrapDate.second  = currentDate.getUTCSeconds();
+
+                    $scope.model[$scope.options.key] = currentDate;
 
                     $timeout(function(){
                         $scope.model[$scope.options.key] = currentDate;
