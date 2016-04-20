@@ -949,7 +949,7 @@
                     monthFormat = $scope.options.templateOptions.monthFormat;
                 }
 
-                name = $filter('date')(new Date(Date.UTC(FormlyBootstrapDate.year, month-1)), monthFormat);
+                name = $filter('date')(new Date(FormlyBootstrapDate.year, month-1), monthFormat);
 
                 return  name;
             };
@@ -968,6 +968,18 @@
                 $scope.model[$scope.options.key] = newDateObj;
 
                 $scope.options.hasServerError = false;
+
+            });
+
+            $scope.$on('updateDateFormly',function(event,args){
+
+                var newDateObj = new Date(Date.UTC(FormlyBootstrapDate.year,FormlyBootstrapDate.month-1,FormlyBootstrapDate.day, FormlyBootstrapDate.hour,FormlyBootstrapDate.minute, FormlyBootstrapDate.second));
+
+                $scope.model[$scope.options.key] = newDateObj;
+
+                $timeout(function(){
+                    $scope.$apply();
+                });
 
             });
 

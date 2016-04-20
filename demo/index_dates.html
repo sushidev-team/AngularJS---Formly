@@ -36,7 +36,7 @@
 
                demo.formData = {
                    customDate:null,
-                   customDateTime:'2016-08-21 04:00:00',
+                   customDateTime:'2016-08-21 20:00:00',
                    customSelect3:2,
                    tags:[1]
                };
@@ -71,6 +71,12 @@
                        }
                    }
                ];
+
+               demo.update = function(){
+
+                   $rootScope.$broadcast('updateDateFormly');
+
+               };
 
                // function definition
                function onSubmit() {
@@ -121,6 +127,7 @@
                                 <button type="submit" class="btn btn-primary submit-button">Submit</button>
                             </div>
                         </formly-form>
+                        <button type="button" ng-click="demo.update()" class="btn btn-default">Update</button>
                     </form>
                 </div>
                 <div class="col-sm-6 col-xs-12">
