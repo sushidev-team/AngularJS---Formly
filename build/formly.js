@@ -734,7 +734,7 @@
         function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv,$locale,$filter,$timeout){
 
             var FormlyBootstrapDate = this,
-                CurrentDate         = new Date(Date.UTC());
+                CurrentDate         = new Date();
 
             FormlyBootstrapDate.order = [];
 
@@ -848,7 +848,7 @@
                     currentDate         = null,
                     day                 = 1,
                     month               = 1,
-                    year                = new Date(Date.UTC()).getFullYear(),
+                    year                = new Date().getFullYear(),
                     time                = null,
                     value               = null,
                     valueCopy           = null;
@@ -909,7 +909,12 @@
 
                     }
                     else if(angular.isDate(value)){
+
                         currentDate = value;
+
+                    } else {
+
+                        currentDate = new Date(Date.UTC(year, month, day));
 
                     }
 
