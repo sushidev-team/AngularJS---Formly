@@ -620,7 +620,16 @@
 
             };
 
+            FormlyBootstrapTags.tagTransform = function(newTag){
+                var element = {};
+
+                element[$scope.options.templateOptions.valueProp] = newTag;
+
+                return element;
+            };
+
             FormlyBootstrapTags.init();
+
 
             // Broadcasts
 

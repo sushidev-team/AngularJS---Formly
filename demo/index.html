@@ -249,6 +249,33 @@
                        }
                    },
                    {
+                       key: 'tags3',
+                       type: 'bootstrap_tags',
+                       templateOptions: {
+                           label: 'Tags add new',
+                           help: 'Place your help text here',
+                           addTags:true,
+                           placeholder:'Placeholder text',
+                           cssClass:'col-sm-6 col-xs-12',
+                           customClass:'test',
+                           required:true,
+                           valueProp: 'value',
+                           labelProp: 'name',
+                           //template:'testTagsEntry.html',
+                          // templateSelected:'testTagsSelected.html',
+                           options:[
+                               {
+                                   name:'Test 1',
+                                   value:1
+                               },
+                               {
+                                   name:'Test 2',
+                                   value:2
+                               }
+                           ]
+                       }
+                   },
+                   {
                        key: 'customCheckbox',
                        type: 'bootstrap_checkbox',
                        templateOptions: {
