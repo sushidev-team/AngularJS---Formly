@@ -633,6 +633,12 @@
 
             // Broadcasts
 
+            $scope.$watch('options.templateOptions.options',function(newValue, oldValue) {
+
+                FormlyBootstrapTags.init();
+
+            });
+
             $scope.$watch('FormlyBootstrapTags.data',function(newValue, oldValue) {
 
                 FormlyBootstrapTags.set(newValue);
