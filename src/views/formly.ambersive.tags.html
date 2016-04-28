@@ -12,13 +12,13 @@
     </ui-select>
     <ui-select multiple tagging="FormlyBootstrapTags.tagTransform" tagging-tokens="SPACE|,|/" theme="bootstrap" ng-model="FormlyBootstrapTags.data" ng-if="options.templateOptions.addTags === true">
         <ui-select-match placeholder="{{options.templateOptions.placeholder}}" ng-model="FormlyBootstrapTags.data">
-            <span ng-if="options.templateOptions.templateSelected === undefined" ng-if="$item[options.templateOptions.labelProp] !== undefined">{{$item[options.templateOptions.labelProp]}}</span>
-            <span ng-if="options.templateOptions.templateSelected === undefined" ng-if="$item[options.templateOptions.labelProp] === undefined">{{$item[options.templateOptions.valueProp]}}</span>
+            <span ng-if="options.templateOptions.templateSelected === undefined && $item[options.templateOptions.labelProp] !== undefined">{{$item[options.templateOptions.labelProp]}}</span>
+            <span ng-if="options.templateOptions.templateSelected === undefined && $item[options.templateOptions.labelProp] === undefined">{{$item[options.templateOptions.valueProp]}}</span>
             <span ng-if="options.templateOptions.templateSelected !== undefined" ng-include="options.templateOptions.templateSelected"></span>
         </ui-select-match>
         <ui-select-choices repeat="item in (options.templateOptions.options | filter: $select.search) track by $index">
-            <span ng-if="options.templateOptions.template === undefined" ng-if="item[options.templateOptions.labelProp] !== undefined">{{ item[options.templateOptions.labelProp] }}</span>
-            <span ng-if="options.templateOptions.template === undefined" ng-if="item[options.templateOptions.labelProp] === undefined">{{ item[options.templateOptions.valueProp] }}</span>
+            <span ng-if="options.templateOptions.template === undefined && item[options.templateOptions.labelProp] !== undefined">{{ item[options.templateOptions.labelProp] }}</span>
+            <span ng-if="options.templateOptions.template === undefined && item[options.templateOptions.labelProp] === undefined">{{ item[options.templateOptions.valueProp] }}</span>
             <span ng-if="options.templateOptions.template !== undefined" ng-include="options.templateOptions.template"></span>
         </ui-select-choices>
     </ui-select>
