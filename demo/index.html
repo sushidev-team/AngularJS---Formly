@@ -7,12 +7,14 @@
     <link href="../bower_components/ui-select/dist/select.css" rel="stylesheet" />
     <script src="../bower_components/angular/angular.js"></script>
     <script src="../bower_components/angular-messages/angular-messages.js"></script>
+    <script src="../bower_components/ment.io/dist/mentio.js"></script>
     <script src="//npmcdn.com/api-check@latest/dist/api-check.js"></script>
     <script src="../bower_components/angular-formly/dist/formly.js"></script>
     <script src="../bower_components/tinymce/tinymce.min.js"></script>
     <script src="../build/formly.js"></script><script src="../bower_components/ng-file-upload/ng-file-upload-shim.js"></script>
     <script src="../bower_components/ui-select/dist/select.js"></script>
     <script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="../bower_components/angular-ui-tinymce/dist/tinymce.min.js"></script>
     <script type="text/ng-template" id="testSelect2Entry.html">
         Eintrag: {{ item[options.templateOptions.labelProp] }}
     </script>
@@ -54,7 +56,10 @@
                            placeholder:'Placeholder text',
                            cssClass:'col-sm-6 col-xs-12',
                            required:true,
-                           regex:[]
+                           regex:[],
+                           mention:{
+
+                           }
                        }
                    },
                    {
@@ -306,7 +311,7 @@
                        key: 'customTinymce',
                        type: 'bootstrap_textarea',
                        templateOptions: {
-                           label: '4',
+                           label: 'Test',
                            help: 'Place your help text here',
                            placeholder:'Placeholder text',
                            cssClass:'col-sm-12 col-xs-12',
@@ -315,7 +320,9 @@
                                toolbar: 'italic | alignleft aligncenter alignright alignjustify | bullist numlist',
                                content_css:[
                                   '../bower_components/bootstrap/dist/css/bootstrap.min.css'
-                               ]
+                               ],
+                               skin: 'lightgray',
+                               theme : 'modern'
                            },
                            required:false
                        }

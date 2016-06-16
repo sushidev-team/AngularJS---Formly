@@ -9,7 +9,7 @@
 
     'use strict';
 
-    angular.module('ambersive.formly', ['formly','ngLocale','ngMessages','ui.select', 'ngSanitize']);
+    angular.module('ambersive.formly', ['formly','ngLocale','ngMessages','ui.select', 'ngSanitize','ui.tinymce']);
 
     angular.module('ambersive.formly').config(['formlyConfigProvider', 'FormlyBootstrapSrvProvider',
 
@@ -688,50 +688,7 @@
 
                     if(angular.isDefined($scope.options.templateOptions.tinyMCE) && $scope.options.templateOptions.tinyMCE === true) {
 
-                        if(angular.isDefined(tinymce) === true){
 
-                            tinyMceSettings.selector = '*[name="' + $scope.options.id + '"]';
-                            tinyMceSettings.skin     = $formlyBootstrapSettings.tinyMCETheme;
-                            tinyMceSettings.skin_url = $formlyBootstrapSettings.tinyMCEThemeUrl;
-                            tinyMceSettings.setup    = function(ed) {
-
-                                var render = function () {
-                                    $scope.model[$scope.options.key] = ed.getContent({format: 'html'}).trim();
-                                    $scope.$apply();
-                                };
-
-                                ed.on('init', function() {
-                                    render();
-                                });
-
-                                ed.on('ExecCommand change NodeChange ObjectResized', function() {
-                                    render();
-                                });
-
-                                ed.on('keyUp', function() {
-                                    render();
-                                });
-
-                                ed.on('focus', function() {
-                                    $scope.options.templateOptions.hasFocus = true;
-                                    render();
-                                });
-
-                                ed.on('blur', function() {
-                                    $scope.options.formControl.$setTouched();
-                                    $scope.options.templateOptions.hasFocus = false;
-                                    render();
-                                });
-
-                            };
-
-                            if(angular.isDefined($scope.options.templateOptions.tinyMCE_Settings)) {
-                                tinyMceSettings = angular.extend(tinyMceSettings, $scope.options.templateOptions.tinyMCE_Settings);
-                            }
-
-                            tinymce.init(tinyMceSettings);
-
-                        }
 
                     }
 
@@ -1108,7 +1065,7 @@ angular.module('ambersive.formly').run(['$templateCache', function($templateCach
 
 
   $templateCache.put('src/views/formly.ambersive.textarea.html',
-    "<div class=form-group ng-class=FormlyBootstrapTextarea.getGroupClass(options);><label for=inp_{{options.key}}>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><textarea ng-disabled=options.templateOptions.disabled ng-model=model[options.key] rows={{FormlyBootstrapTextarea.settings.rows}} class=form-control ng-class=FormlyBootstrapTextarea.getInputClass(options); id=inp_{{options.key}} placeholder={{to.placeholder}}></textarea><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapTextarea.getErrorMessage(key,value); }}</small></div></div>"
+    "<div class=form-group ng-class=FormlyBootstrapTextarea.getGroupClass(options);><label for=inp_{{options.key}}>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><textarea ui-tinymce=options.templateOptions.tinyMCE_Settings ng-model=model[options.key] ng-if=\"options.templateOptions.tinyMCE === true\" class=form-control ng-class=FormlyBootstrapTextarea.getInputClass(options); placeholder={{to.placeholder}}></textarea><textarea ng-disabled=options.templateOptions.disabled ng-if=\"options.templateOptions.tinyMCE === false || options.templateOptions.tinyMCE === undefined\" ng-model=model[options.key] rows={{FormlyBootstrapTextarea.settings.rows}} class=form-control ng-class=FormlyBootstrapTextarea.getInputClass(options); id=inp_{{options.key}} placeholder={{to.placeholder}}></textarea><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapTextarea.getErrorMessage(key,value); }}</small></div></div>"
   );
 
 }]);

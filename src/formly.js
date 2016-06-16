@@ -9,7 +9,7 @@
 
     'use strict';
 
-    angular.module('ambersive.formly', ['formly','ngLocale','ngMessages','ui.select', 'ngSanitize']);
+    angular.module('ambersive.formly', ['formly','ngLocale','ngMessages','ui.select', 'ngSanitize','ui.tinymce']);
 
     angular.module('ambersive.formly').config(['formlyConfigProvider', 'FormlyBootstrapSrvProvider',
 
@@ -688,50 +688,7 @@
 
                     if(angular.isDefined($scope.options.templateOptions.tinyMCE) && $scope.options.templateOptions.tinyMCE === true) {
 
-                        if(angular.isDefined(tinymce) === true){
 
-                            tinyMceSettings.selector = '*[name="' + $scope.options.id + '"]';
-                            tinyMceSettings.skin     = $formlyBootstrapSettings.tinyMCETheme;
-                            tinyMceSettings.skin_url = $formlyBootstrapSettings.tinyMCEThemeUrl;
-                            tinyMceSettings.setup    = function(ed) {
-
-                                var render = function () {
-                                    $scope.model[$scope.options.key] = ed.getContent({format: 'html'}).trim();
-                                    $scope.$apply();
-                                };
-
-                                ed.on('init', function() {
-                                    render();
-                                });
-
-                                ed.on('ExecCommand change NodeChange ObjectResized', function() {
-                                    render();
-                                });
-
-                                ed.on('keyUp', function() {
-                                    render();
-                                });
-
-                                ed.on('focus', function() {
-                                    $scope.options.templateOptions.hasFocus = true;
-                                    render();
-                                });
-
-                                ed.on('blur', function() {
-                                    $scope.options.formControl.$setTouched();
-                                    $scope.options.templateOptions.hasFocus = false;
-                                    render();
-                                });
-
-                            };
-
-                            if(angular.isDefined($scope.options.templateOptions.tinyMCE_Settings)) {
-                                tinyMceSettings = angular.extend(tinyMceSettings, $scope.options.templateOptions.tinyMCE_Settings);
-                            }
-
-                            tinymce.init(tinyMceSettings);
-
-                        }
 
                     }
 
