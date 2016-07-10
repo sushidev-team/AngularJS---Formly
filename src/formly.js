@@ -1061,23 +1061,33 @@
             var FormlyBootstrapCheckboxList = this,
                 ModelValues                 = [];
 
+            FormlyBootstrapCheckboxList.inited          = false;
+
             FormlyBootstrapCheckboxList.getInputClass   = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
             FormlyBootstrapCheckboxList.getGroupClass   = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
 
             FormlyBootstrapCheckboxList.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
             FormlyBootstrapCheckboxList.getOptionLabel  = FormlyBootstrapSrv.getOptionLabel;
 
+
             FormlyBootstrapCheckboxList.init            = function(){
 
-                var length = $scope.options.templateOptions.options.length;
+                var length  = $scope.options.templateOptions.options.length;
+                var options = [];
 
                 angular.forEach($scope.options.templateOptions.options, function (item, index) {
 
                     if(item[$scope.options.templateOptions.valueProp] !== undefined && $scope.model[$scope.options.key].indexOf(item[$scope.options.templateOptions.valueProp]) > -1){
 
                         item.isSelected = true;
-                        $scope.options.templateOptions.options[index] = item;
 
+                    }
+
+                    options.push(item);
+
+                    if(index + 1 === length){
+                        $scope.options.templateOptions.options  = options;
+                        FormlyBootstrapCheckboxList.inited      = true;
                     }
 
                 });
@@ -1090,13 +1100,21 @@
 
             $scope.$watch('options.templateOptions.options',function(newValue,oldValue){
 
+                if($scope.options.templateOptions.options.length === 0){
+                    return;
+                }
+
+                if(FormlyBootstrapCheckboxList.inited === false){
+                    FormlyBootstrapCheckboxList.init();
+                }
+
+                var newValues = [];
+
                 if(newValue === undefined){
                     return;
                 }
 
                 var length = newValue.length;
-
-                ModelValues = [];
 
                 if(length > 0) {
 
@@ -1104,21 +1122,23 @@
 
                         if(item.isSelected === true) {
 
-                            ModelValues.push(item[$scope.options.templateOptions.valueProp]);
+                            newValues.push(item[$scope.options.templateOptions.valueProp]);
 
                         }
 
                         if (index + 1 === length) {
 
-                            $scope.model[$scope.options.key] = ModelValues;
+                            if(FormlyBootstrapCheckboxList.inited === true) {
+
+                                $scope.model[$scope.options.key] = newValues;
+
+                            }
+
+
 
                         }
 
                     });
-
-                } else {
-
-                    $scope.model[$scope.options.key] = ModelValues;
 
                 }
 
