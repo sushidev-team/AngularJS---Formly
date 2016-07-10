@@ -115,6 +115,23 @@
             });
 
             formlyConfigProvider.setType({
+                name: 'bootstrap_checkboxlist',
+                templateUrl: 'src/views/formly.ambersive.checkbox.list.html',
+                controller:'FormlyBootstrapsCheckboxListCtrl as FormlyBootstrapCheckboxList',
+                defaultOptions: {
+                    templateOptions: {
+                        onKeypress: function (value,field,scope) {
+                            field.formControl.$setValidity('server', true);
+                        }
+                    },
+                    validators: {
+                        standardValidation: FormlyBootstrapSrvProvider.$get().validation
+                    }
+                }
+            });
+
+
+            formlyConfigProvider.setType({
                 name: 'bootstrap_radio',
                 templateUrl: 'src/views/formly.ambersive.radio.html',
                 controller:'FormlyBootstrapsRadioCtrl as FormlyBootstrapRadio',
@@ -450,6 +467,54 @@
                     return years;
 
                 }
+
+            };
+
+            FormlyBootstrapSrv.getOptionLabel  = function (option, labelProp){
+
+                var label       = '',
+                    labelObj    = null,
+                    labelParts  = [];
+
+                if(labelProp.indexOf('.') > -1){
+
+                    labelParts = labelProp.split('.');
+
+                    angular.forEach(labelParts,function(item,index){
+
+                        if(labelObj === null && angular.isDefined(option[item]) === true){
+
+                            labelObj = option[item];
+
+                        }
+                        else if(labelObj !== null){
+
+                            if(angular.isDefined(labelObj[item]) === true){
+                                labelObj = labelObj[item];
+                            }
+
+                        }
+
+                        if(angular.isString(labelObj) === true){
+
+                            label = labelObj;
+
+                        }
+                        else if(angular.isFunction(labelObj) === true){
+
+                            label = labelObj();
+
+                        }
+
+                    });
+
+                } else {
+
+                    label = option[labelProp];
+
+                }
+
+                return label;
 
             };
 
@@ -990,15 +1055,88 @@
         }
     ]);
 
+    angular.module('ambersive.formly').controller('FormlyBootstrapsCheckboxListCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv',
+        function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv){
+
+            var FormlyBootstrapCheckboxList = this,
+                ModelValues                 = [];
+
+            FormlyBootstrapCheckboxList.getInputClass   = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrapCheckboxList.getGroupClass   = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+
+            FormlyBootstrapCheckboxList.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+            FormlyBootstrapCheckboxList.getOptionLabel  = FormlyBootstrapSrv.getOptionLabel;
+
+            FormlyBootstrapCheckboxList.init            = function(){
+
+                var length = $scope.options.templateOptions.options.length;
+
+                angular.forEach($scope.options.templateOptions.options, function (item, index) {
+
+                    if(item[$scope.options.templateOptions.valueProp] !== undefined && $scope.model[$scope.options.key].indexOf(item[$scope.options.templateOptions.valueProp]) > -1){
+
+                        item.isSelected = true;
+                        $scope.options.templateOptions.options[index] = item;
+
+                    }
+
+                });
+
+            };
+
+            FormlyBootstrapCheckboxList.init();
+
+            // Watchers
+
+            $scope.$watch('options.templateOptions.options',function(newValue,oldValue){
+
+                if(newValue === undefined){
+                    return;
+                }
+
+                var length = newValue.length;
+
+                ModelValues = [];
+
+                if(length > 0) {
+
+                    angular.forEach(newValue, function (item, index) {
+
+                        if(item.isSelected === true) {
+
+                            ModelValues.push(item[$scope.options.templateOptions.valueProp]);
+
+                        }
+
+                        if (index + 1 === length) {
+
+                            $scope.model[$scope.options.key] = ModelValues;
+
+                        }
+
+                    });
+
+                } else {
+
+                    $scope.model[$scope.options.key] = ModelValues;
+
+                }
+
+            },true);
+            
+        }
+    ]);
+
     angular.module('ambersive.formly').controller('FormlyBootstrapsRadioCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv',
         function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv){
 
             var FormlyBootstrapRadio = this;
 
-            FormlyBootstrapRadio.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrapRadio.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapRadio.getInputClass      = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrapRadio.getGroupClass      = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapRadio.getOptionLabel     = FormlyBootstrapSrv.getOptionLabel;
 
-            FormlyBootstrapRadio.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+            FormlyBootstrapRadio.getErrorMessage    = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
 
         }
     ]);
@@ -1010,6 +1148,11 @@ angular.module('ambersive.formly').run(['$templateCache', function($templateCach
 
   $templateCache.put('src/views/formly.ambersive.checkbox.html',
     "<div class=form-group ng-class=FormlyBootstrapCheckbox.getGroupClass(options);><div class=checkbox><label for=inp_{{options.key}}><input ng-class=FormlyBootstrap.getInputClass(options); ng-model=model[options.key] id=inp_{{options.key}} type=checkbox ng-disabled=options.templateOptions.disabled> {{to.label}} <span class=required ng-if=options.templateOptions.required>*</span><p class=small ng-if=\"options.templateOptions.more !== undefined\">{{options.templateOptions.more}}</p><div class=checkbox_iframe_container ng-if=\"options.templateOptions.iframe !== undefined && options.templateOptions.iframe !== ''\"><iframe class=checkbox_iframe ng-src={{options.templateOptions.iframe}}></iframe></div></label></div><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrap.getErrorMessage(key,value); }}</small></div></div>"
+  );
+
+
+  $templateCache.put('src/views/formly.ambersive.checkbox.list.html',
+    "<div class=form-group ng-class=FormlyBootstrapCheckboxList.getGroupClass(options);><label>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><div class=checkbox ng-repeat=\"option in options.templateOptions.options track by $index\"><label><input ng-class=FormlyBootstrapCheckboxList.getInputClass(options); ng-model=option.isSelected id=inp_{{options.key}} type=checkbox ng-disabled=options.templateOptions.disabled> {{ FormlyBootstrapCheckboxList.getOptionLabel(option,options.templateOptions.labelProp) }} <span class=required ng-if=options.templateOptions.required>*</span></label></div><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapCheckboxList.getErrorMessage(key,value); }}</small></div></div>"
   );
 
 
@@ -1045,7 +1188,7 @@ angular.module('ambersive.formly').run(['$templateCache', function($templateCach
 
 
   $templateCache.put('src/views/formly.ambersive.radio.html',
-    "<div class=form-group ng-class=FormlyBootstrapRadio.getGroupClass(options);><label>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><div class=radio ng-repeat=\"option in options.templateOptions.options track by $index\"><label><input type=radio name=inp_{{options.key}} id={{options.key}}{{$index}} ng-model=model[options.key] ng-value=option[options.templateOptions.valueProp]> {{option[options.templateOptions.labelProp]}}<p class=small ng-if=\"option[options.templateOptions.more] !== undefined\">{{option[options.templateOptions.more]}}</p></label></div><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapRadio.getErrorMessage(key,value); }}</small></div></div>"
+    "<div class=form-group ng-class=FormlyBootstrapRadio.getGroupClass(options);><label>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><div class=radio ng-repeat=\"option in options.templateOptions.options track by $index\"><label><input type=radio name=inp_{{options.key}} id={{options.key}}{{$index}} ng-model=model[options.key] ng-value=option[options.templateOptions.valueProp]> {{ FormlyBootstrapRadio.getOptionLabel(option,options.templateOptions.labelProp) }}<p class=small ng-if=\"option[options.templateOptions.more] !== undefined\">{{option[options.templateOptions.more]}}</p></label></div><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapRadio.getErrorMessage(key,value); }}</small></div></div>"
   );
 
 

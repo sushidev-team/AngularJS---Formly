@@ -3,7 +3,7 @@
     <div class="radio" ng-repeat="option in options.templateOptions.options track by $index">
         <label>
             <input type="radio" name="inp_{{options.key}}" id="{{options.key}}{{$index}}" ng-model="model[options.key]" ng-value="option[options.templateOptions.valueProp]">
-            {{option[options.templateOptions.labelProp]}}
+            {{ FormlyBootstrapRadio.getOptionLabel(option,options.templateOptions.labelProp) }}
             <p class="small" ng-if="option[options.templateOptions.more] !== undefined">{{option[options.templateOptions.more]}}</p>
         </label>
     </div>

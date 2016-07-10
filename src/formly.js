@@ -115,6 +115,23 @@
             });
 
             formlyConfigProvider.setType({
+                name: 'bootstrap_checkboxlist',
+                templateUrl: 'src/views/formly.ambersive.checkbox.list.html',
+                controller:'FormlyBootstrapsCheckboxListCtrl as FormlyBootstrapCheckboxList',
+                defaultOptions: {
+                    templateOptions: {
+                        onKeypress: function (value,field,scope) {
+                            field.formControl.$setValidity('server', true);
+                        }
+                    },
+                    validators: {
+                        standardValidation: FormlyBootstrapSrvProvider.$get().validation
+                    }
+                }
+            });
+
+
+            formlyConfigProvider.setType({
                 name: 'bootstrap_radio',
                 templateUrl: 'src/views/formly.ambersive.radio.html',
                 controller:'FormlyBootstrapsRadioCtrl as FormlyBootstrapRadio',
@@ -450,6 +467,54 @@
                     return years;
 
                 }
+
+            };
+
+            FormlyBootstrapSrv.getOptionLabel  = function (option, labelProp){
+
+                var label       = '',
+                    labelObj    = null,
+                    labelParts  = [];
+
+                if(labelProp.indexOf('.') > -1){
+
+                    labelParts = labelProp.split('.');
+
+                    angular.forEach(labelParts,function(item,index){
+
+                        if(labelObj === null && angular.isDefined(option[item]) === true){
+
+                            labelObj = option[item];
+
+                        }
+                        else if(labelObj !== null){
+
+                            if(angular.isDefined(labelObj[item]) === true){
+                                labelObj = labelObj[item];
+                            }
+
+                        }
+
+                        if(angular.isString(labelObj) === true){
+
+                            label = labelObj;
+
+                        }
+                        else if(angular.isFunction(labelObj) === true){
+
+                            label = labelObj();
+
+                        }
+
+                    });
+
+                } else {
+
+                    label = option[labelProp];
+
+                }
+
+                return label;
 
             };
 
@@ -990,15 +1055,88 @@
         }
     ]);
 
+    angular.module('ambersive.formly').controller('FormlyBootstrapsCheckboxListCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv',
+        function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv){
+
+            var FormlyBootstrapCheckboxList = this,
+                ModelValues                 = [];
+
+            FormlyBootstrapCheckboxList.getInputClass   = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrapCheckboxList.getGroupClass   = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+
+            FormlyBootstrapCheckboxList.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+            FormlyBootstrapCheckboxList.getOptionLabel  = FormlyBootstrapSrv.getOptionLabel;
+
+            FormlyBootstrapCheckboxList.init            = function(){
+
+                var length = $scope.options.templateOptions.options.length;
+
+                angular.forEach($scope.options.templateOptions.options, function (item, index) {
+
+                    if(item[$scope.options.templateOptions.valueProp] !== undefined && $scope.model[$scope.options.key].indexOf(item[$scope.options.templateOptions.valueProp]) > -1){
+
+                        item.isSelected = true;
+                        $scope.options.templateOptions.options[index] = item;
+
+                    }
+
+                });
+
+            };
+
+            FormlyBootstrapCheckboxList.init();
+
+            // Watchers
+
+            $scope.$watch('options.templateOptions.options',function(newValue,oldValue){
+
+                if(newValue === undefined){
+                    return;
+                }
+
+                var length = newValue.length;
+
+                ModelValues = [];
+
+                if(length > 0) {
+
+                    angular.forEach(newValue, function (item, index) {
+
+                        if(item.isSelected === true) {
+
+                            ModelValues.push(item[$scope.options.templateOptions.valueProp]);
+
+                        }
+
+                        if (index + 1 === length) {
+
+                            $scope.model[$scope.options.key] = ModelValues;
+
+                        }
+
+                    });
+
+                } else {
+
+                    $scope.model[$scope.options.key] = ModelValues;
+
+                }
+
+            },true);
+            
+        }
+    ]);
+
     angular.module('ambersive.formly').controller('FormlyBootstrapsRadioCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv',
         function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv){
 
             var FormlyBootstrapRadio = this;
 
-            FormlyBootstrapRadio.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrapRadio.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapRadio.getInputClass      = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrapRadio.getGroupClass      = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapRadio.getOptionLabel     = FormlyBootstrapSrv.getOptionLabel;
 
-            FormlyBootstrapRadio.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+            FormlyBootstrapRadio.getErrorMessage    = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
 
         }
     ]);

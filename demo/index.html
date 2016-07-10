@@ -42,7 +42,9 @@
                    customDateTime:'2016-04-19 06:00:00',
                    customSelect3:2,
                    tags:[1],
-                   tags3:[1]
+                   tags3:[1],
+                   tags4:['test'],
+                   customCheckboxList:[2]
                };
 
                demo.formFields = [
@@ -274,6 +276,25 @@
                        }
                    },
                    {
+                       key: 'tags4',
+                       type: 'bootstrap_tags',
+                       templateOptions: {
+                           label: 'Tags add new',
+                           help: 'Place your help text here',
+                           addTags:true,
+                           placeholder:'Placeholder text',
+                           cssClass:'col-sm-6 col-xs-12',
+                           customClass:'test',
+                           required:true,
+                           valueProp: 'value',
+                           labelProp: 'name',
+                           options:[{
+                               name:'Test 1xx',
+                               value:'test'
+                           }]
+                       }
+                   },
+                   {
                        key: 'customCheckbox',
                        type: 'bootstrap_checkbox',
                        templateOptions: {
@@ -302,6 +323,39 @@
                                },
                                {
                                    name:'Test 2',
+                                   value:2
+                               }
+                           ]
+                       }
+                   },
+                   {
+                       key: 'customCheckboxList',
+                       type: 'bootstrap_checkboxlist',
+                       templateOptions: {
+                           label: 'Checkbox',
+                           help: 'Place your help text here',
+                           placeholder:'Placeholder text',
+                           cssClass:'col-sm-12 col-xs-12',
+                           required:true,
+                           valueProp: 'value',
+                           labelProp: 'translations.de.name',
+                           options:[
+                               {
+                                   translations:{
+                                       de:{
+                                           'name':'test'
+                                       }
+                                   },
+                                   value:1
+                               },
+                               {
+                                   translations:{
+                                       de:{
+                                           'name':function(){
+                                               return 'test 2';
+                                           }
+                                       }
+                                   },
                                    value:2
                                }
                            ]
