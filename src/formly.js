@@ -9,7 +9,7 @@
 
     'use strict';
 
-    angular.module('ambersive.formly', ['formly','ngLocale','ngMessages','ui.select', 'ngSanitize','ui.tinymce']);
+    angular.module('ambersive.formly', ['formly','ngLocale','ngMessages','ui.select', 'ngSanitize','ui.tinymce','ui.bootstrap']);
 
     angular.module('ambersive.formly').config(['formlyConfigProvider', 'FormlyBootstrapSrvProvider',
 
@@ -135,6 +135,22 @@
                 name: 'bootstrap_radio',
                 templateUrl: 'src/views/formly.ambersive.radio.html',
                 controller:'FormlyBootstrapsRadioCtrl as FormlyBootstrapRadio',
+                defaultOptions: {
+                    templateOptions: {
+                        onChange: function (value,field,scope) {
+                            field.formControl.$setValidity('server', true);
+                        }
+                    },
+                    validators: {
+                        standardValidation: FormlyBootstrapSrvProvider.$get().validation
+                    }
+                }
+            });
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_autocomplete',
+                templateUrl: 'src/views/formly.ambersive.autocomplete.html',
+                controller:'FormlyBootstrapsAutocompleteCtrl as FormlyBootstrapsAutocomplete',
                 defaultOptions: {
                     templateOptions: {
                         onChange: function (value,field,scope) {
@@ -578,13 +594,20 @@
 
             var FormlyBootstrapSelect2 = this;
 
+            FormlyBootstrapSelect2.options  = [];
+            FormlyBootstrapSelect2.loaded   = false;
+
             FormlyBootstrapSelect2.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
             FormlyBootstrapSelect2.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
 
             FormlyBootstrapSelect2.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
 
-            FormlyBootstrapSelect2.choose = function(item,model){
-                
+            FormlyBootstrapSelect2.choose = function(item,model,newEntry){
+
+                if(item === undefined){
+                    return;
+                }
+
                 $scope.model[$scope.options.key] = item[$scope.options.templateOptions.valueProp];
                 $rootScope.$broadcast('changeValue',{item:item,options:$scope.options});
 
@@ -624,6 +647,15 @@
 
         }
     ]);
+
+    angular.module('ambersive.formly').directive('myUiSelect', function() {
+        return {
+            require: 'uiSelect',
+            link: function(scope, element, attrs, $select) {
+                console.log(scope);
+            }
+        };
+    });
 
     angular.module('ambersive.formly').controller('FormlyBootstrapsTagsCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv',
         function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv){
@@ -1157,6 +1189,20 @@
             FormlyBootstrapRadio.getOptionLabel     = FormlyBootstrapSrv.getOptionLabel;
 
             FormlyBootstrapRadio.getErrorMessage    = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+
+        }
+    ]);
+
+    angular.module('ambersive.formly').controller('FormlyBootstrapsAutocompleteCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv',
+        function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv){
+
+            var FormlyBootstrapsAutocomplete = this;
+
+            FormlyBootstrapsAutocomplete.getInputClass      = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrapsAutocomplete.getGroupClass      = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapsAutocomplete.getOptionLabel     = FormlyBootstrapSrv.getOptionLabel;
+
+            FormlyBootstrapsAutocomplete.getErrorMessage    = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
 
         }
     ]);

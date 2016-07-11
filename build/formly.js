@@ -9,7 +9,7 @@
 
     'use strict';
 
-    angular.module('ambersive.formly', ['formly','ngLocale','ngMessages','ui.select', 'ngSanitize','ui.tinymce']);
+    angular.module('ambersive.formly', ['formly','ngLocale','ngMessages','ui.select', 'ngSanitize','ui.tinymce','ui.bootstrap']);
 
     angular.module('ambersive.formly').config(['formlyConfigProvider', 'FormlyBootstrapSrvProvider',
 
@@ -135,6 +135,22 @@
                 name: 'bootstrap_radio',
                 templateUrl: 'src/views/formly.ambersive.radio.html',
                 controller:'FormlyBootstrapsRadioCtrl as FormlyBootstrapRadio',
+                defaultOptions: {
+                    templateOptions: {
+                        onChange: function (value,field,scope) {
+                            field.formControl.$setValidity('server', true);
+                        }
+                    },
+                    validators: {
+                        standardValidation: FormlyBootstrapSrvProvider.$get().validation
+                    }
+                }
+            });
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_autocomplete',
+                templateUrl: 'src/views/formly.ambersive.autocomplete.html',
+                controller:'FormlyBootstrapsAutocompleteCtrl as FormlyBootstrapsAutocomplete',
                 defaultOptions: {
                     templateOptions: {
                         onChange: function (value,field,scope) {
@@ -578,13 +594,20 @@
 
             var FormlyBootstrapSelect2 = this;
 
+            FormlyBootstrapSelect2.options  = [];
+            FormlyBootstrapSelect2.loaded   = false;
+
             FormlyBootstrapSelect2.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
             FormlyBootstrapSelect2.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
 
             FormlyBootstrapSelect2.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
 
-            FormlyBootstrapSelect2.choose = function(item,model){
-                
+            FormlyBootstrapSelect2.choose = function(item,model,newEntry){
+
+                if(item === undefined){
+                    return;
+                }
+
                 $scope.model[$scope.options.key] = item[$scope.options.templateOptions.valueProp];
                 $rootScope.$broadcast('changeValue',{item:item,options:$scope.options});
 
@@ -624,6 +647,15 @@
 
         }
     ]);
+
+    angular.module('ambersive.formly').directive('myUiSelect', function() {
+        return {
+            require: 'uiSelect',
+            link: function(scope, element, attrs, $select) {
+                console.log(scope);
+            }
+        };
+    });
 
     angular.module('ambersive.formly').controller('FormlyBootstrapsTagsCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv',
         function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv){
@@ -1161,10 +1193,29 @@
         }
     ]);
 
+    angular.module('ambersive.formly').controller('FormlyBootstrapsAutocompleteCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv',
+        function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv){
+
+            var FormlyBootstrapsAutocomplete = this;
+
+            FormlyBootstrapsAutocomplete.getInputClass      = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrapsAutocomplete.getGroupClass      = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapsAutocomplete.getOptionLabel     = FormlyBootstrapSrv.getOptionLabel;
+
+            FormlyBootstrapsAutocomplete.getErrorMessage    = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+
+        }
+    ]);
+
 
 })(window, document, undefined);
 angular.module('ambersive.formly').run(['$templateCache', function($templateCache) {
   'use strict';
+
+  $templateCache.put('src/views/formly.ambersive.autocomplete.html',
+    "<div class=form-group ng-class=FormlyBootstrapsAutocomplete.getGroupClass(options);><label for=inp_{{options.key}}>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><input type={{to.type}} ng-model=model[options.key] uib-typeahead=\"option for option in options.templateOptions.options | filter:$viewValue | limitTo:8\" class=form-control ng-disabled=options.templateOptions.disabled ng-class=FormlyBootstrapsAutocomplete.getInputClass(options); id=inp_{{options.key}} placeholder={{to.placeholder}}> <small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapsAutocomplete.getErrorMessage(key,value); }}</small></div></div>"
+  );
+
 
   $templateCache.put('src/views/formly.ambersive.checkbox.html',
     "<div class=form-group ng-class=FormlyBootstrapCheckbox.getGroupClass(options);><div class=checkbox><label for=inp_{{options.key}}><input ng-class=FormlyBootstrap.getInputClass(options); ng-model=model[options.key] id=inp_{{options.key}} type=checkbox ng-disabled=options.templateOptions.disabled> {{to.label}} <span class=required ng-if=options.templateOptions.required>*</span><p class=small ng-if=\"options.templateOptions.more !== undefined\">{{options.templateOptions.more}}</p><div class=checkbox_iframe_container ng-if=\"options.templateOptions.iframe !== undefined && options.templateOptions.iframe !== ''\"><iframe class=checkbox_iframe ng-src={{options.templateOptions.iframe}}></iframe></div></label></div><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrap.getErrorMessage(key,value); }}</small></div></div>"

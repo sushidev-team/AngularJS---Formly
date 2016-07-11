@@ -1,0 +1,13 @@
+<div class="form-group" ng-class="FormlyBootstrapsAutocomplete.getGroupClass(options);">
+    <label for="inp_{{options.key}}">{{to.label}} <span class="required" ng-if="options.templateOptions.required">*</span></label>
+    <input type="{{to.type}}" ng-model="model[options.key]" uib-typeahead="option for option in options.templateOptions.options | filter:$viewValue | limitTo:8" class="form-control" ng-disabled="options.templateOptions.disabled" ng-class="FormlyBootstrapsAutocomplete.getInputClass(options);" id="inp_{{options.key}}" placeholder="{{to.placeholder}}">
+    <small class="text-muted" ng-if="to.help !== undefined && showError !== true">
+        {{to.help}}
+    </small>
+    <div ng-messages="fc.$error" ng-if="form.$submitted || options.formControl.$touched" class="error-messages">
+        <div class="text-danger" ng-repeat="obj in options.validation.messages">
+            <small>{{obj.message}}</small>
+        </div>
+        <small class="text-danger" ng-message="{{key}}" ng-repeat="(key, value) in fc.$error" ng-if="key !== 'server'">{{ FormlyBootstrapsAutocomplete.getErrorMessage(key,value); }}</small>
+    </div>
+</div>
