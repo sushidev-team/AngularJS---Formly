@@ -526,7 +526,11 @@
 
                 } else {
 
-                    label = option[labelProp];
+                    if(option !== undefined && option[labelProp] !== undefined) {
+
+                        label = option[labelProp];
+
+                    }
 
                 }
 
@@ -581,10 +585,11 @@
 
             var FormlyBootstrapSelect = this;
 
-            FormlyBootstrapSelect.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrapSelect.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapSelect.getInputClass         = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrapSelect.getGroupClass         = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapSelect.getOptionLabel        = FormlyBootstrapSrv.getOptionLabel;
 
-            FormlyBootstrapSelect.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+            FormlyBootstrapSelect.getErrorMessage       = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
 
         }
     ]);
@@ -597,8 +602,9 @@
             FormlyBootstrapSelect2.options  = [];
             FormlyBootstrapSelect2.loaded   = false;
 
-            FormlyBootstrapSelect2.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrapSelect2.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapSelect2.getInputClass        = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrapSelect2.getGroupClass        = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapSelect2.getOptionLabel       = FormlyBootstrapSrv.getOptionLabel;
 
             FormlyBootstrapSelect2.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
 

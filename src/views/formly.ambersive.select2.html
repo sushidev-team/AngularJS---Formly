@@ -2,11 +2,11 @@
     <label>{{to.label}} <span class="required" ng-if="options.templateOptions.required">*</span></label>
     <ui-select ng-model="FormlyBootstrapSelect2.data" on-select="FormlyBootstrapSelect2.choose($item, $model)">
         <ui-select-match placeholder="{{options.templateOptions.placeholder}}" ng-model="FormlyBootstrapSelect2.data">
-            <span ng-if="options.templateOptions.templateSelected === undefined">{{$select.selected[options.templateOptions.labelProp]}}</span>
+            <span ng-if="options.templateOptions.templateSelected === undefined">{{ FormlyBootstrapSelect2.getOptionLabel($select.selected,options.templateOptions.labelProp) }}</span>
             <span ng-if="options.templateOptions.templateSelected !== undefined" ng-include="options.templateOptions.templateSelected"></span>
         </ui-select-match>
         <ui-select-choices repeat="item in (options.templateOptions.options | filter: $select.search) track by item[options.templateOptions.valueProp]">
-            <span ng-if="options.templateOptions.template === undefined">{{ item[options.templateOptions.labelProp] }}</span>
+            <span ng-if="options.templateOptions.template === undefined">{{ FormlyBootstrapSelect2.getOptionLabel(item,options.templateOptions.labelProp) }}</span>
             <span ng-if="options.templateOptions.template !== undefined" ng-include="options.templateOptions.template"></span>
         </ui-select-choices>
     </ui-select>

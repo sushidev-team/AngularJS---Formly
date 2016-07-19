@@ -1,6 +1,6 @@
 <div class="form-group" ng-class="FormlyBootstrapSelect.getGroupClass(options);">
     <label for="inp_{{options.key}}">{{to.label}} <span class="required" ng-if="options.templateOptions.required">*</span></label>
-    <select id="inp_{{options.key}}" name="inp_{{options.key}}" ng-disabled="options.templateOptions.disabled" ng-options="option[options.templateOptions.valueProp] as option[options.templateOptions.labelProp] for option in options.templateOptions.options" class="form-control block" ng-model="model[options.key]" ng-options="" ng-class="FormlyBootstrapSelect.getInputClass(options);"></select>
+    <select id="inp_{{options.key}}" name="inp_{{options.key}}" ng-disabled="options.templateOptions.disabled" ng-options="option[options.templateOptions.valueProp] as (FormlyBootstrapSelect.getOptionLabel(option,options.templateOptions.labelProp)) for option in options.templateOptions.options" class="form-control block" ng-model="model[options.key]" ng-options="" ng-class="FormlyBootstrapSelect.getInputClass(options);"></select>
     <small class="text-muted" ng-if="to.help !== undefined && showError !== true">
         {{to.help}}
     </small>
