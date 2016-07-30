@@ -7,15 +7,16 @@
     <link href="../bower_components/ui-select/dist/select.css" rel="stylesheet" />
     <script src="../bower_components/angular/angular.js"></script>
     <script src="../bower_components/angular-messages/angular-messages.js"></script>
+    <script src="../bower_components/ment.io/dist/mentio.js"></script>
     <script src="//npmcdn.com/api-check@latest/dist/api-check.js"></script>
     <script src="../bower_components/angular-formly/dist/formly.js"></script>
     <script src="../bower_components/tinymce/tinymce.min.js"></script>
     <script src="../build/formly.js"></script><script src="../bower_components/ng-file-upload/ng-file-upload-shim.js"></script>
     <script src="../bower_components/ui-select/dist/select.js"></script>
     <script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script type="text/ng-template" id="testSelect2Entry.html">
-        Eintrag: {{ item[options.templateOptions.labelProp] }}
-    </script>
+    <script src="../bower_components/angular-ui-tinymce/dist/tinymce.min.js"></script>
+    <script src="../bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script type="text/ng-template" id="testSelect2EntrySelected.html">
         ### {{$select.selected.name}} ###
     </script>
@@ -68,6 +69,24 @@
                            time:true,
                            dateFormat:'y-m-d',
                            monthFormat:'MMMM'
+                       }
+                   },
+                   {
+                       key: 'customDate',
+                       type: 'bootstrap_date',
+                       templateOptions: {
+                           label: 'Time',
+                           help: 'Place your help text here',
+                           placeholder:'Placeholder text',
+                           cssClass:'col-xs-12',
+                           required:false,
+                           time:true,
+                           dateFormat:'y-m-d',
+                           monthFormat:'MMMM',
+                           cssClassDay: 'col-xs-12',
+                           cssClassMonth: 'col-xs-12',
+                           cssClassYear: 'col-xs-12',
+                           cssClassTime: 'col-xs-12'
                        }
                    }
                ];

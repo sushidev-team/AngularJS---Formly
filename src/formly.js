@@ -903,6 +903,99 @@
 
             };
 
+            FormlyBootstrapDate.getCssClassForDateControl = function(part){
+
+                var cssClass = '';
+
+                console.warn(part);
+
+                switch(part.toLowerCase()){
+
+                    case 'd':
+
+                        if($scope.options.templateOptions.cssClassDay !== undefined){
+
+                            cssClass = $scope.options.templateOptions.cssClassDay;
+
+                        } else {
+
+                            if($scope.options.templateOptions.time === true){
+
+                                cssClass = 'col-xs-3';
+
+                            } else {
+
+                                cssClass = 'col-xs-4';
+
+                            }
+
+                        }
+
+                        break;
+
+                    case 'm':
+
+                        if($scope.options.templateOptions.cssClassMonth !== undefined){
+
+                            cssClass = $scope.options.templateOptions.cssClassMonth;
+
+                        } else {
+
+                            if($scope.options.templateOptions.time === true){
+
+                                cssClass = 'col-xs-3';
+
+                            } else {
+
+                                cssClass = 'col-xs-4';
+
+                            }
+
+                        }
+
+                        break;
+
+                    case 'y':
+
+                        if($scope.options.templateOptions.cssClassYear !== undefined){
+
+                            cssClass = $scope.options.templateOptions.cssClassYear;
+
+                        } else {
+
+                            if($scope.options.templateOptions.time === true){
+
+                                cssClass = 'col-xs-2';
+
+                            } else {
+
+                                cssClass = 'col-xs-4';
+
+                            }
+
+                        }
+
+                        break;
+
+                    case 'time':
+
+                        if($scope.options.templateOptions.cssClassTime !== undefined){
+
+                            cssClass = $scope.options.templateOptions.cssClassTime;
+
+                        } else {
+
+                            cssClass = 'col-xs-4';
+
+                        }
+
+                        break;
+                }
+
+                return cssClass;
+
+            };
+
             FormlyBootstrapDate.init = function () {
 
                 /**

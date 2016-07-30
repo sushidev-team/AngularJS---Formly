@@ -1,42 +1,42 @@
 <script type="text/ng-template" id="FormlyBootstrapDate_day.html">
-    <div class="col-xs-3" ng-if="options.templateOptions.time === false">
+    <div ng-if="options.templateOptions.time === false">
         <select ng-disabled="options.templateOptions.disabled" ng-required="options.templateOptions.required" class="form-control block" ng-options="o for o in  FormlyBootstrapDate.days" ng-model="FormlyBootstrapDate.day" ng-class="FormlyBootstrap.getInputClass(options);">
         </select>
     </div>
-    <div class="col-xs-2" ng-if="options.templateOptions.time === true">
+    <div ng-if="options.templateOptions.time === true">
         <select ng-disabled="options.templateOptions.disabled" ng-required="options.templateOptions.required" class="form-control block" ng-options="o for o in  FormlyBootstrapDate.days" ng-model="FormlyBootstrapDate.day" ng-class="FormlyBootstrap.getInputClass(options);">
         </select>
     </div>
 </script>
 
 <script type="text/ng-template" id="FormlyBootstrapDate_month.html">
-    <div class="col-xs-5" ng-if="options.templateOptions.time === false">
+    <div ng-if="options.templateOptions.time === false">
         <select ng-disabled="options.templateOptions.disabled" ng-required="options.templateOptions.required" class="form-control block" ng-options="FormlyBootstrapDate.getMonthName(o) for o in  FormlyBootstrapDate.months" ng-model="FormlyBootstrapDate.month" ng-class="FormlyBootstrap.getInputClass(options);">
         </select>
     </div>
-    <div class="col-xs-4" ng-if="options.templateOptions.time === true">
+    <div ng-if="options.templateOptions.time === true">
         <select ng-disabled="options.templateOptions.disabled" ng-required="options.templateOptions.required" class="form-control block" ng-options="FormlyBootstrapDate.getMonthName(o) for o in  FormlyBootstrapDate.months" ng-model="FormlyBootstrapDate.month" ng-class="FormlyBootstrap.getInputClass(options);">
         </select>
     </div>
 </script>
 
 <script type="text/ng-template" id="FormlyBootstrapDate_year.html">
-    <div class="col-xs-4" ng-if="options.templateOptions.time === false">
+    <div ng-if="options.templateOptions.time === false">
         <select ng-disabled="options.templateOptions.disabled" ng-required="options.templateOptions.required" class="form-control block" ng-options="o for o in  FormlyBootstrapDate.years" ng-model="FormlyBootstrapDate.year" ng-class="FormlyBootstrap.getInputClass(options);">
         </select>
     </div>
-    <div class="col-xs-3" ng-if="options.templateOptions.time === true">
+    <div ng-if="options.templateOptions.time === true">
         <select ng-disabled="options.templateOptions.disabled" ng-required="options.templateOptions.required" class="form-control block" ng-options="o for o in  FormlyBootstrapDate.years" ng-model="FormlyBootstrapDate.year" ng-class="FormlyBootstrap.getInputClass(options);">
         </select>
     </div>
 </script>
 
 
-<div class="form-group form-group-multiple" ng-class="FormlyBootstrapDate.getGroupClass(options);">
+<div class="form-group" ng-class="FormlyBootstrapDate.getGroupClass(options);">
     <label for="{{options.key}}_multiple">{{to.label}} <span class="required" ng-if="options.templateOptions.required">*</span></label>
     <div class="row">
-        <div ng-repeat="part in FormlyBootstrapDate.order track by $index" ng-if="FormlyBootstrapDate.isNotADateDelimiter(part) === false" ng-include="FormlyBootstrapDate.getPartByDelimiterShortcut(part)"></div>
-        <div class="col-xs-3" ng-if="options.templateOptions.time === true">
+        <div ng-class="FormlyBootstrapDate.getCssClassForDateControl(part)" ng-repeat="part in FormlyBootstrapDate.order track by $index" ng-if="FormlyBootstrapDate.isNotADateDelimiter(part) === false" ng-include="FormlyBootstrapDate.getPartByDelimiterShortcut(part)"></div>
+        <div ng-class="FormlyBootstrapDate.getCssClassForDateControl('time')" ng-if="options.templateOptions.time === true">
             <div class="form-group">
                 <input type="time" step="1" ng-change="FormlyBootstrapDate.change(model[options.key])" ng-disabled="options.templateOptions.disabled" ng-required="options.templateOptions.required" class="form-control block" ng-model="model[options.key]" ng-class="FormlyBootstrap.getInputClass(options);" />
             </div>

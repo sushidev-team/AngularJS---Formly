@@ -903,6 +903,99 @@
 
             };
 
+            FormlyBootstrapDate.getCssClassForDateControl = function(part){
+
+                var cssClass = '';
+
+                console.warn(part);
+
+                switch(part.toLowerCase()){
+
+                    case 'd':
+
+                        if($scope.options.templateOptions.cssClassDay !== undefined){
+
+                            cssClass = $scope.options.templateOptions.cssClassDay;
+
+                        } else {
+
+                            if($scope.options.templateOptions.time === true){
+
+                                cssClass = 'col-xs-3';
+
+                            } else {
+
+                                cssClass = 'col-xs-4';
+
+                            }
+
+                        }
+
+                        break;
+
+                    case 'm':
+
+                        if($scope.options.templateOptions.cssClassMonth !== undefined){
+
+                            cssClass = $scope.options.templateOptions.cssClassMonth;
+
+                        } else {
+
+                            if($scope.options.templateOptions.time === true){
+
+                                cssClass = 'col-xs-3';
+
+                            } else {
+
+                                cssClass = 'col-xs-4';
+
+                            }
+
+                        }
+
+                        break;
+
+                    case 'y':
+
+                        if($scope.options.templateOptions.cssClassYear !== undefined){
+
+                            cssClass = $scope.options.templateOptions.cssClassYear;
+
+                        } else {
+
+                            if($scope.options.templateOptions.time === true){
+
+                                cssClass = 'col-xs-2';
+
+                            } else {
+
+                                cssClass = 'col-xs-4';
+
+                            }
+
+                        }
+
+                        break;
+
+                    case 'time':
+
+                        if($scope.options.templateOptions.cssClassTime !== undefined){
+
+                            cssClass = $scope.options.templateOptions.cssClassTime;
+
+                        } else {
+
+                            cssClass = 'col-xs-4';
+
+                        }
+
+                        break;
+                }
+
+                return cssClass;
+
+            };
+
             FormlyBootstrapDate.init = function () {
 
                 /**
@@ -1234,28 +1327,28 @@ angular.module('ambersive.formly').run(['$templateCache', function($templateCach
 
 
   $templateCache.put('src/views/formly.ambersive.date.html',
-    "<script type=text/ng-template id=FormlyBootstrapDate_day.html><div class=\"col-xs-3\" ng-if=\"options.templateOptions.time === false\">\n" +
+    "<script type=text/ng-template id=FormlyBootstrapDate_day.html><div ng-if=\"options.templateOptions.time === false\">\n" +
     "        <select ng-disabled=\"options.templateOptions.disabled\" ng-required=\"options.templateOptions.required\" class=\"form-control block\" ng-options=\"o for o in  FormlyBootstrapDate.days\" ng-model=\"FormlyBootstrapDate.day\" ng-class=\"FormlyBootstrap.getInputClass(options);\">\n" +
     "        </select>\n" +
     "    </div>\n" +
-    "    <div class=\"col-xs-2\" ng-if=\"options.templateOptions.time === true\">\n" +
+    "    <div ng-if=\"options.templateOptions.time === true\">\n" +
     "        <select ng-disabled=\"options.templateOptions.disabled\" ng-required=\"options.templateOptions.required\" class=\"form-control block\" ng-options=\"o for o in  FormlyBootstrapDate.days\" ng-model=\"FormlyBootstrapDate.day\" ng-class=\"FormlyBootstrap.getInputClass(options);\">\n" +
     "        </select>\n" +
-    "    </div></script><script type=text/ng-template id=FormlyBootstrapDate_month.html><div class=\"col-xs-5\" ng-if=\"options.templateOptions.time === false\">\n" +
+    "    </div></script><script type=text/ng-template id=FormlyBootstrapDate_month.html><div ng-if=\"options.templateOptions.time === false\">\n" +
     "        <select ng-disabled=\"options.templateOptions.disabled\" ng-required=\"options.templateOptions.required\" class=\"form-control block\" ng-options=\"FormlyBootstrapDate.getMonthName(o) for o in  FormlyBootstrapDate.months\" ng-model=\"FormlyBootstrapDate.month\" ng-class=\"FormlyBootstrap.getInputClass(options);\">\n" +
     "        </select>\n" +
     "    </div>\n" +
-    "    <div class=\"col-xs-4\" ng-if=\"options.templateOptions.time === true\">\n" +
+    "    <div ng-if=\"options.templateOptions.time === true\">\n" +
     "        <select ng-disabled=\"options.templateOptions.disabled\" ng-required=\"options.templateOptions.required\" class=\"form-control block\" ng-options=\"FormlyBootstrapDate.getMonthName(o) for o in  FormlyBootstrapDate.months\" ng-model=\"FormlyBootstrapDate.month\" ng-class=\"FormlyBootstrap.getInputClass(options);\">\n" +
     "        </select>\n" +
-    "    </div></script><script type=text/ng-template id=FormlyBootstrapDate_year.html><div class=\"col-xs-4\" ng-if=\"options.templateOptions.time === false\">\n" +
+    "    </div></script><script type=text/ng-template id=FormlyBootstrapDate_year.html><div ng-if=\"options.templateOptions.time === false\">\n" +
     "        <select ng-disabled=\"options.templateOptions.disabled\" ng-required=\"options.templateOptions.required\" class=\"form-control block\" ng-options=\"o for o in  FormlyBootstrapDate.years\" ng-model=\"FormlyBootstrapDate.year\" ng-class=\"FormlyBootstrap.getInputClass(options);\">\n" +
     "        </select>\n" +
     "    </div>\n" +
-    "    <div class=\"col-xs-3\" ng-if=\"options.templateOptions.time === true\">\n" +
+    "    <div ng-if=\"options.templateOptions.time === true\">\n" +
     "        <select ng-disabled=\"options.templateOptions.disabled\" ng-required=\"options.templateOptions.required\" class=\"form-control block\" ng-options=\"o for o in  FormlyBootstrapDate.years\" ng-model=\"FormlyBootstrapDate.year\" ng-class=\"FormlyBootstrap.getInputClass(options);\">\n" +
     "        </select>\n" +
-    "    </div></script><div class=\"form-group form-group-multiple\" ng-class=FormlyBootstrapDate.getGroupClass(options);><label for={{options.key}}_multiple>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><div class=row><div ng-repeat=\"part in FormlyBootstrapDate.order track by $index\" ng-if=\"FormlyBootstrapDate.isNotADateDelimiter(part) === false\" ng-include=FormlyBootstrapDate.getPartByDelimiterShortcut(part)></div><div class=col-xs-3 ng-if=\"options.templateOptions.time === true\"><div class=form-group><input type=time step=1 ng-change=FormlyBootstrapDate.change(model[options.key]) ng-disabled=options.templateOptions.disabled ng-required=options.templateOptions.required class=\"form-control block\" ng-model=model[options.key] ng-class=\"FormlyBootstrap.getInputClass(options);\"></div></div></div><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.hasServerError\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div></div></div>"
+    "    </div></script><div class=form-group ng-class=FormlyBootstrapDate.getGroupClass(options);><label for={{options.key}}_multiple>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><div class=row><div ng-class=FormlyBootstrapDate.getCssClassForDateControl(part) ng-repeat=\"part in FormlyBootstrapDate.order track by $index\" ng-if=\"FormlyBootstrapDate.isNotADateDelimiter(part) === false\" ng-include=FormlyBootstrapDate.getPartByDelimiterShortcut(part)></div><div ng-class=\"FormlyBootstrapDate.getCssClassForDateControl('time')\" ng-if=\"options.templateOptions.time === true\"><div class=form-group><input type=time step=1 ng-change=FormlyBootstrapDate.change(model[options.key]) ng-disabled=options.templateOptions.disabled ng-required=options.templateOptions.required class=\"form-control block\" ng-model=model[options.key] ng-class=\"FormlyBootstrap.getInputClass(options);\"></div></div></div><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.hasServerError\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div></div></div>"
   );
 
 
