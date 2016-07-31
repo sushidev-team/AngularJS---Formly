@@ -498,7 +498,7 @@
 
                     angular.forEach(labelParts,function(item,index){
 
-                        if(labelObj === null && angular.isDefined(option[item]) === true){
+                        if(labelObj === null && angular.isDefined(option) && angular.isDefined(option[item]) === true){
 
                             labelObj = option[item];
 

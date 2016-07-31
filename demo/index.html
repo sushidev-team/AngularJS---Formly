@@ -180,21 +180,25 @@
                        key: 'customSelect2',
                        type: 'bootstrap_select2',
                        templateOptions: {
-                           label: 'Input',
+                           label: 'Select 2 implementation',
                            type:'text',
                            help: 'Place your help text here',
                            placeholder:'Placeholder text',
                            cssClass:'col-sm-6 col-xs-12',
                            required:true,
                            valueProp: 'value',
-                           labelProp: 'name',
+                           labelProp: 'name.value',
                            options:[
                                {
-                                   name:'Test',
+                                   name:{
+                                     value:'Test 1'
+                                   },
                                    value:1
                                },
                                {
-                                   name:'Test 2',
+                                   name:{
+                                       value:'Test 1'
+                                   },
                                    value:2
                                }
                            ]
