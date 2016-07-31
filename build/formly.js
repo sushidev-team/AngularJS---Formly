@@ -907,8 +907,6 @@
 
                 var cssClass = '';
 
-                console.warn(part);
-
                 switch(part.toLowerCase()){
 
                     case 'd':
@@ -920,7 +918,7 @@
                         } else {
 
                             if($scope.options.templateOptions.time === true){
-
+ 
                                 cssClass = 'col-xs-3';
 
                             } else {
