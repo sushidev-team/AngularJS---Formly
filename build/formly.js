@@ -9,7 +9,7 @@
 
     'use strict';
 
-    angular.module('ambersive.formly', ['formly','ngLocale','ngMessages','ui.select', 'ngSanitize','ui.tinymce','ui.bootstrap']);
+    angular.module('ambersive.formly', ['formly','ngLocale','ngMessages','ui.select', 'ngSanitize','ui.tinymce','ui.bootstrap','ui.codemirror']);
 
     angular.module('ambersive.formly').config(['formlyConfigProvider', 'FormlyBootstrapSrvProvider',
 
