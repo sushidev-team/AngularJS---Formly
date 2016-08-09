@@ -130,7 +130,6 @@
                 }
             });
 
-
             formlyConfigProvider.setType({
                 name: 'bootstrap_radio',
                 templateUrl: 'src/views/formly.ambersive.radio.html',
@@ -154,6 +153,22 @@
                 defaultOptions: {
                     templateOptions: {
                         onChange: function (value,field,scope) {
+                            field.formControl.$setValidity('server', true);
+                        }
+                    },
+                    validators: {
+                        standardValidation: FormlyBootstrapSrvProvider.$get().validation
+                    }
+                }
+            });
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_codemirror',
+                templateUrl: 'src/views/formly.ambersive.codemirror.html',
+                controller:'FormlyBootstrapsCodemirrorCtrl as FormlyBootstrapCodemirror',
+                defaultOptions: {
+                    templateOptions: {
+                        onKeypress: function (value,field,scope) {
                             field.formControl.$setValidity('server', true);
                         }
                     },
@@ -1304,5 +1319,21 @@
         }
     ]);
 
+    angular.module('ambersive.formly').controller('FormlyBootstrapsCodemirrorCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv',
+        function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv){
+
+            var FormlyBootstrapCodemirror = this;
+
+            FormlyBootstrapCodemirror.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrapCodemirror.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+
+            FormlyBootstrapCodemirror.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+
+            if($scope.options.templateOptions.codemirrorOptions === undefined){
+                $scope.options.templateOptions.codemirrorOptions = {};
+            }
+
+        }
+    ]);
 
 })(window, document, undefined);
