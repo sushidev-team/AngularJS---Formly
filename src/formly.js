@@ -178,6 +178,22 @@
                 }
             });
 
+            formlyConfigProvider.setType({
+                name: 'bootstrap_list',
+                templateUrl: 'src/views/formly.ambersive.list.html',
+                controller:'FormlyBootstrapsListCtrl as FormlyBootstrapList',
+                defaultOptions: {
+                    templateOptions: {
+                        onKeypress: function (value,field,scope) {
+                            field.formControl.$setValidity('server', true);
+                        }
+                    },
+                    validators: {
+                        standardValidation: FormlyBootstrapSrvProvider.$get().validation
+                    }
+                }
+            });
+
         }
     ]);
 
@@ -199,9 +215,11 @@
                     email:"^[-a-z0-9~!$%^&*_=+}{\\'?]+(\\.[-a-z0-9~!$%^&*_=+}{\\'?]+)*@([a-z0-9_][-a-z0-9_]*(\\.[-a-z0-9_]+)*\\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}))(:[0-9]{1,5})?$"
                 },
                 lang:{
-                    'fallbackError':' An error occurs. Please check the field again.',
-                    'required':'Please fill out the field. This field is required.',
-                    'email':'This is not a valid e-mail address'
+                    'fallbackError' :' An error occurs. Please check the field again.',
+                    'required'      :'Please fill out the field. This field is required.',
+                    'email'         :'This is not a valid e-mail address',
+                    'add'           :'Add',
+                    'remove'        :'Remove'
                 },
                 tinyMCETheme:'bootstrap',
                 tinyMCEThemeUrl:'../build/skins/bootstrap',
@@ -1332,6 +1350,71 @@
             if($scope.options.templateOptions.codemirrorOptions === undefined){
                 $scope.options.templateOptions.codemirrorOptions = {};
             }
+
+        }
+    ]);
+
+    angular.module('ambersive.formly').controller('FormlyBootstrapsListCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv',
+        function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv){
+
+            var FormlyBootstrapList = this;
+
+            FormlyBootstrapList.getInputClass   = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrapList.getGroupClass   = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapList.getBtnClass     = function() { return $scope.options.templateOptions.cssBtn; };
+            FormlyBootstrapList.getListClass    = function() { return $scope.options.templateOptions.cssListEntry;};
+
+            FormlyBootstrapList.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+
+            FormlyBootstrapList.formFields      = $scope.options.templateOptions.fields;
+
+            // Data register
+            
+            FormlyBootstrapList.formData        = $scope.model[$scope.options.key];
+            FormlyBootstrapList.formDataFields  = [];
+            FormlyBootstrapList.lang            = {};
+            
+            // List functions
+
+            FormlyBootstrapList.add  = function($event){
+
+                $event.preventDefault();
+                FormlyBootstrapList.formData.push({});
+                
+            };
+
+            FormlyBootstrapList.remove = function($index,$event){
+              
+                $event.preventDefault();
+                
+                FormlyBootstrapList.formData.splice($index, 1);
+
+            };
+
+            FormlyBootstrapList.init = function(){
+
+                FormlyBootstrapList.lang.add    = $formlyBootstrapSettings.lang.add;
+                FormlyBootstrapList.lang.remove = $formlyBootstrapSettings.lang.remove;
+
+                if(angular.isDefined($scope.options.templateOptions.lang)){
+
+                    if(angular.isDefined($scope.options.templateOptions.lang.add)){
+                        FormlyBootstrapList.lang.add = $scope.options.templateOptions.lang.add;
+                    }
+
+                    if(angular.isDefined($scope.options.templateOptions.lang.remove)){
+                        FormlyBootstrapList.lang.remove = $scope.options.templateOptions.lang.remove;
+                    }
+
+                }
+                
+            };
+
+            FormlyBootstrapList.init();
+
+            // Relation
+
+            $scope.model[$scope.options.key] = FormlyBootstrapList.formData;
 
         }
     ]);
