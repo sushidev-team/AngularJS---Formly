@@ -1370,9 +1370,13 @@
 
             // Data register
             
-            FormlyBootstrapList.formData        = $scope.model[$scope.options.key];
+            FormlyBootstrapList.formData        = [];
             FormlyBootstrapList.formDataFields  = [];
             FormlyBootstrapList.lang            = {};
+
+            if(angular.isDefined($scope.model[$scope.options.key])){
+                FormlyBootstrapList.formData = $scope.model[$scope.options.key];
+            }
             
             // List functions
 
