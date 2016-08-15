@@ -64,19 +64,14 @@
                                    }
                                },
                                {
-                                   key: 'customText2',
-                                   type: 'bootstrap_input',
+                                   key: 'publishDate',
+                                   type: 'bootstrap_date',
                                    templateOptions: {
-                                       label: 'Input',
-                                       type:'text',
-                                       help: 'Place your help text here',
-                                       placeholder:'Placeholder text',
-                                       cssClass:'col-sm-6 col-xs-12',
-                                       required:true,
-                                       regex:[],
-                                       mention:{
-
-                                       }
+                                       label: 'Date',
+                                       cssClass:'col-xs-12',
+                                       dateFormat:'Y-m-d',
+                                       dateLayout:'d-m-Y',
+                                       required: true
                                    }
                                }
                            ]

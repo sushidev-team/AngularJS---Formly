@@ -37,9 +37,7 @@
                 controller:'FormlyBootstrapsDateCtrl as FormlyBootstrapDate',
                 defaultOptions: {
                     templateOptions: {
-                        onChange: function (value,field,scope) {
-                            field.hasServerError = false;
-                        }
+
                     },
                     validators: {
                         standardValidation: FormlyBootstrapSrvProvider.$get().validation
@@ -298,6 +296,8 @@
                             }
                         };
 
+                        console.warn(fc.formFields);
+
                         angular.forEach(messages,function(messageData,messageGroup){
 
                             if (messageGroup === 'server' && angular.isArray(messageData)) {
@@ -308,10 +308,8 @@
                                     field.formControl.$setValidity('server', false);
                                     field.validation.messages = filteredMessages;
                                 } else if (filteredMessages.length > 0 && angular.isDefined(field.formControl) === false) {
-                                    field.hasServerError = true;
                                     field.validation.messages = filteredMessages;
                                 } else if (filteredMessages.length === 0 && angular.isDefined(field.formControl) === false) {
-                                    field.hasServerError = false;
                                     field.validation.messages = [];
                                 } else {
                                     field.formControl.$setValidity('server', true);
@@ -1171,8 +1169,6 @@
 
                 $scope.model[$scope.options.key] = newDateObj;
 
-                $scope.options.hasServerError = false;
-
             });
 
             $scope.$on('updateDateFormly',function(event,args){
@@ -1383,7 +1379,27 @@
             FormlyBootstrapList.add  = function($event){
 
                 $event.preventDefault();
-                FormlyBootstrapList.formData.push({});
+
+                var newObject = {};
+
+                angular.forEach($scope.options.templateOptions.fields,function(field,index){
+
+                    switch(field.type){
+
+                        case 'bootstrap_date':
+                            newObject[field.key] = new Date();
+                            break;
+                        default:
+                            newObject[field.key] = '';
+                            break;
+
+                    }
+
+                    if(index + 1 === $scope.options.templateOptions.fields.length){
+                        FormlyBootstrapList.formData.push(newObject);
+                    }
+
+                });
                 
             };
 
