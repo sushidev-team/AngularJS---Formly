@@ -1202,12 +1202,6 @@
 
             FormlyBootstrapCheckbox.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
 
-            // File Listener
-
-            var unlisten = $scope.$on('fileToUpload', function(event, arg) {
-                $scope.formData = arg;
-            });
-
             $scope.$on('$destroy', unlisten);
 
         }
@@ -1234,6 +1228,10 @@
                 var options = [];
 
                 angular.forEach($scope.options.templateOptions.options, function (item, index) {
+
+                    if($scope.model[$scope.options.key] === undefined){
+                        $scope.model[$scope.options.key] = [];
+                    }
 
                     if(item[$scope.options.templateOptions.valueProp] !== undefined && $scope.model[$scope.options.key].indexOf(item[$scope.options.templateOptions.valueProp]) > -1){
 
