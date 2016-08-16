@@ -1202,8 +1202,6 @@
 
             FormlyBootstrapCheckbox.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
 
-            $scope.$on('$destroy', unlisten);
-
         }
     ]);
 
