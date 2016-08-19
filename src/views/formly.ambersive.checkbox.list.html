@@ -2,7 +2,8 @@
     <label>{{to.label}} <span class="required" ng-if="options.templateOptions.required">*</span></label>
     <div class="checkbox" ng-repeat="option in options.templateOptions.options track by $index">
         <label>
-            <input ng-class="FormlyBootstrapCheckboxList.getInputClass(options);" ng-model="option.isSelected" id="inp_{{options.key}}" type="checkbox" ng-disabled="options.templateOptions.disabled"> {{ FormlyBootstrapCheckboxList.getOptionLabel(option,options.templateOptions.labelProp) }} <span class="required" ng-if="options.templateOptions.required">*</span>
+            <input ng-class="FormlyBootstrapCheckboxList.getInputClass(options);" ng-model="option.isSelected" id="inp_{{options.key}}" type="checkbox" ng-disabled="options.templateOptions.disabled"> {{ FormlyBootstrapCheckboxList.getOptionLabel(option,options.templateOptions.labelProp) }} <span class="required" ng-if="options.templateOptions.required">*</span><br/>
+            <small ng-if="options.templateOptions.descriptionProp !== undefined && options.templateOptions.descriptionProp !== ''">{{ FormlyBootstrapCheckboxList.getOptionLabel(option,options.templateOptions.descriptionProp) }}</small>
         </label>
     </div>
     <small class="text-muted" ng-if="to.help !== undefined && showError !== true">
