@@ -1445,9 +1445,29 @@
     angular.module('ambersive.formly').controller('FormlyBootstrapsInfosCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv',
         function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv){
 
-            var FormlyBootstrapInfos = this;
+            var FormlyBootstrapInfos                = this;
 
             FormlyBootstrapInfos.getGroupClass      = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+
+            FormlyBootstrapInfos.hide               = false;
+            FormlyBootstrapInfos.toggle             = function(e){
+
+                e.preventDefault();
+
+                if(angular.isDefined($scope.options.templateOptions.toggle) === false || $scope.options.templateOptions.toggle === false){
+                    return;
+                }
+
+                FormlyBootstrapInfos.hide = !FormlyBootstrapInfos.hide;
+            };
+
+            FormlyBootstrapInfos.init               = function(){
+
+                if(angular.isDefined($scope.options.templateOptions.toggle) === true && $scope.options.templateOptions.toggle === true){
+                    FormlyBootstrapInfos.hide = true;
+                }
+
+            };
 
             // Headline
 
@@ -1464,6 +1484,10 @@
                 FormlyBootstrapInfos.infos = $scope.options.templateOptions.text;
 
             }
+
+            // Init
+
+            FormlyBootstrapInfos.init();
 
         }
     ]);

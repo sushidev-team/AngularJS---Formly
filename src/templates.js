@@ -53,7 +53,7 @@ angular.module('ambersive.formly').run(['$templateCache', function($templateCach
 
 
   $templateCache.put('src/views/formly.ambersive.infos.html',
-    "<div class=info_box ng-class=FormlyBootstrapInfos.getGroupClass(options);><div class=headline ng-if=\"FormlyBootstrapInfos.headline !== '' && FormlyBootstrapInfos.headline !== undefined\" ng-bind-html=FormlyBootstrapInfos.headline></div><div class=infos ng-if=\"FormlyBootstrapInfos.infos !== '' && FormlyBootstrapInfos.infos !== undefined\" ng-bind-html=FormlyBootstrapInfos.infos></div></div>"
+    "<div class=info_box ng-class=FormlyBootstrapInfos.getGroupClass(options);><div class=headline ng-if=\"FormlyBootstrapInfos.headline !== '' && FormlyBootstrapInfos.headline !== undefined\" ng-click=FormlyBootstrapInfos.toggle($event)><div class=pull-right ng-if=\"options.templateOptions.toggle === true\"><div class=headline_toggle_icon ng-bind-html=options.templateOptions.toggleOpen ng-if=\" FormlyBootstrapInfos.hide === false\"></div><div class=headline_toggle_icon ng-bind-html=options.templateOptions.toggleClosed ng-if=\" FormlyBootstrapInfos.hide === true\"></div></div><span class=headline_inside ng-bind-html=FormlyBootstrapInfos.headline></span></div><div class=infos ng-if=\"FormlyBootstrapInfos.infos !== '' && FormlyBootstrapInfos.infos !== undefined\" ng-hide=FormlyBootstrapInfos.hide ng-bind-html=FormlyBootstrapInfos.infos></div></div>"
   );
 
 
