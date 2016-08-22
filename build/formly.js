@@ -192,6 +192,13 @@
                 }
             });
 
+            formlyConfigProvider.setType({
+                name: 'bootstrap_infos',
+                templateUrl: 'src/views/formly.ambersive.infos.html',
+                controller:'FormlyBootstrapsInfosCtrl as FormlyBootstrapInfos',
+                defaultOptions: {}
+            });
+
         }
     ]);
 
@@ -1435,6 +1442,32 @@
         }
     ]);
 
+    angular.module('ambersive.formly').controller('FormlyBootstrapsInfosCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv',
+        function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv){
+
+            var FormlyBootstrapInfos = this;
+
+            FormlyBootstrapInfos.getGroupClass      = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+
+            // Headline
+
+            if($scope.options.templateOptions.headline !== '' && $scope.options.templateOptions.headline !== undefined) {
+
+                FormlyBootstrapInfos.headline = '<' + ($scope.options.templateOptions.headlineSize || 'h1') + '>' + $scope.options.templateOptions.headline + '</' + ($scope.options.templateOptions.headlineSize || 'h1') + '>';
+
+            }
+
+            // Text
+
+            if($scope.options.templateOptions.text !== '' && $scope.options.templateOptions.text !== undefined) {
+
+                FormlyBootstrapInfos.infos = $scope.options.templateOptions.text;
+
+            }
+
+        }
+    ]);
+
 })(window, document, undefined);
 angular.module('ambersive.formly').run(['$templateCache', function($templateCache) {
   'use strict';
@@ -1487,6 +1520,11 @@ angular.module('ambersive.formly').run(['$templateCache', function($templateCach
 
   $templateCache.put('src/views/formly.ambersive.default.html',
     "<div class=form-group ng-class=FormlyBootstrap.getGroupClass(options);><label for=inp_{{options.key}}>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><input type={{to.type}} ng-model=model[options.key] class=form-control ng-disabled=options.templateOptions.disabled ng-class=FormlyBootstrap.getInputClass(options); id=inp_{{options.key}} placeholder={{to.placeholder}}> <small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrap.getErrorMessage(key,value); }}</small></div></div>"
+  );
+
+
+  $templateCache.put('src/views/formly.ambersive.infos.html',
+    "<div class=info_box ng-class=FormlyBootstrapInfos.getGroupClass(options);><div class=headline ng-if=\"FormlyBootstrapInfos.headline !== '' && FormlyBootstrapInfos.headline !== undefined\" ng-bind-html=FormlyBootstrapInfos.headline></div><div class=infos ng-if=\"FormlyBootstrapInfos.infos !== '' && FormlyBootstrapInfos.infos !== undefined\" ng-bind-html=FormlyBootstrapInfos.infos></div></div>"
   );
 
 

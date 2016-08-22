@@ -192,6 +192,13 @@
                 }
             });
 
+            formlyConfigProvider.setType({
+                name: 'bootstrap_infos',
+                templateUrl: 'src/views/formly.ambersive.infos.html',
+                controller:'FormlyBootstrapsInfosCtrl as FormlyBootstrapInfos',
+                defaultOptions: {}
+            });
+
         }
     ]);
 
@@ -1431,6 +1438,32 @@
             // Relation
 
             $scope.model[$scope.options.key] = FormlyBootstrapList.formData;
+
+        }
+    ]);
+
+    angular.module('ambersive.formly').controller('FormlyBootstrapsInfosCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv',
+        function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv){
+
+            var FormlyBootstrapInfos = this;
+
+            FormlyBootstrapInfos.getGroupClass      = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+
+            // Headline
+
+            if($scope.options.templateOptions.headline !== '' && $scope.options.templateOptions.headline !== undefined) {
+
+                FormlyBootstrapInfos.headline = '<' + ($scope.options.templateOptions.headlineSize || 'h1') + '>' + $scope.options.templateOptions.headline + '</' + ($scope.options.templateOptions.headlineSize || 'h1') + '>';
+
+            }
+
+            // Text
+
+            if($scope.options.templateOptions.text !== '' && $scope.options.templateOptions.text !== undefined) {
+
+                FormlyBootstrapInfos.infos = $scope.options.templateOptions.text;
+
+            }
 
         }
     ]);
