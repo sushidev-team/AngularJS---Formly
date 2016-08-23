@@ -9,7 +9,7 @@
                 <div class="row">
 
                     <div class="col-sm-8 col-xs-12">
-                        <formly-form model="FormlyBootstrapList.formData[$index]" fields="FormlyBootstrapList.formFields"></formly-form>
+                        <formly-form model="FormlyBootstrapList.formData[$index]" fields="FormlyBootstrapList.formDataFields[$index]" bind-name="$parent.$index + '_list'"></formly-form>
                     </div>
 
                     <div class="col-sm-4 col-xs-12">

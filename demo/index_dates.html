@@ -17,15 +17,10 @@
     <script src="../bower_components/angular-ui-tinymce/dist/tinymce.min.js"></script>
     <script src="../bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
     <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-    <script type="text/ng-template" id="testSelect2EntrySelected.html">
-        ### {{$select.selected.name}} ###
-    </script>
-    <script type="text/ng-template" id="testTagsEntry.html">
-        Eintrag: {{ item[options.templateOptions.labelProp] }}
-    </script>
-    <script type="text/ng-template" id="testTagsSelected.html">
-        ### {{$item.name}} ###
-    </script>
+    <script type="text/ng-template" id="testSelect2EntrySelected.html"></script>
+
+    <script src="../bower_components/codemirror/lib/codemirror.js"></script>
+    <script src="../bower_components/angular-ui-codemirror/ui-codemirror.min.js"></script>
     <script>
 
         angular.module('app', ['formly','ambersive.formly','ui.select', 'ngSanitize'])
@@ -36,7 +31,7 @@
                demo.onSubmit = onSubmit;
 
                demo.formData = {
-                   customDate:'2016-07-20 21:11:55',
+                   customDate:'2006-04-12',
                    customDateTime:'2016-07-20 23:11:55',
                    customSelect3:2,
                    tags:[1]

@@ -1383,9 +1383,13 @@
 
                 $event.preventDefault();
 
-                var newObject = {};
+                var copy        = angular.copy($scope.options.templateOptions.fields);
 
-                angular.forEach($scope.options.templateOptions.fields,function(field,index){
+                var newObject   = {};
+
+                FormlyBootstrapList.formDataFields.push(copy);
+
+                angular.forEach(copy,function(field,index){
 
                     switch(field.type){
 
@@ -1411,6 +1415,7 @@
                 $event.preventDefault();
                 
                 FormlyBootstrapList.formData.splice($index, 1);
+                FormlyBootstrapList.formDataFields.splice($index, 1);
 
             };
 

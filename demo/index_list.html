@@ -9,7 +9,7 @@
     <script src="../bower_components/angular-messages/angular-messages.js"></script>
     <script src="../bower_components/ment.io/dist/mentio.js"></script>
     <script src="//npmcdn.com/api-check@latest/dist/api-check.js"></script>
-    <script src="../bower_components/angular-formly/dist/formly.js"></script>
+    <script src="../bower_components/angular-formly/dist/formly.min.js"></script>
     <script src="../bower_components/tinymce/tinymce.min.js"></script>
     <script src="../build/formly.js"></script><script src="../bower_components/ng-file-upload/ng-file-upload-shim.js"></script>
     <script src="../bower_components/ui-select/dist/select.js"></script>
@@ -48,30 +48,37 @@
                            },
                            fields: [
                                {
-                                   key: 'customText',
-                                   type: 'bootstrap_input',
+                                   key: 'type',
+                                   type: 'bootstrap_select',
                                    templateOptions: {
-                                       label: 'Input',
+                                       label: 'type',
                                        type:'text',
-                                       help: 'Place your help text here',
-                                       placeholder:'Placeholder text',
                                        cssClass:'col-sm-6 col-xs-12',
-                                       required:true,
-                                       regex:[],
-                                       mention:{
-
-                                       }
+                                       required: true,
+                                       disabled: false,
+                                       labelProp:'label',
+                                       valueProp:'id',
+                                       options:[
+                                           {id:1,  label: 'test1'},
+                                           {id:2,  label: 'test2'}
+                                       ]
                                    }
                                },
                                {
-                                   key: 'publishDate',
-                                   type: 'bootstrap_date',
+                                   key: 'variante1',
+                                   type: 'bootstrap_input',
                                    templateOptions: {
-                                       label: 'Date',
+                                       label: 'variante 1',
+                                       type:'text',
                                        cssClass:'col-xs-12',
-                                       dateFormat:'Y-m-d',
-                                       dateLayout:'d-m-Y',
-                                       required: true
+                                       required: true,
+                                       disabled: false
+                                   },
+                                   hideExpression:function(value1,value,scope,obj){
+
+                                       console.warn(obj);
+
+                                       return (scope.model.type !== 2);
                                    }
                                }
                            ]
