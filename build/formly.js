@@ -819,6 +819,18 @@
 
                 var tinyMceSettings = $formlyBootstrapSettings.tinyMCE;
 
+                $scope.options.templateOptions.tinyMCE_Settings.invalid_elements    = 'pre,code';
+
+                $scope.options.templateOptions.tinyMCE_Settings.setup               = function(editor) {
+                    editor.on("paste", function(e) {
+                        $timeout(function(){
+
+                            $scope.model[$scope.options.key] = editor.getContent();
+
+                        });
+                    });
+                };
+
                 if(angular.isDefined($scope.options.templateOptions)){
 
                     // Define multiple settings
