@@ -1447,6 +1447,19 @@
                     }
 
                 }
+
+                if(angular.isArray(FormlyBootstrapList.formData) === true){
+
+                    FormlyBootstrapList.formDataFields = [];
+
+                    angular.forEach(FormlyBootstrapList.formData,function(){
+
+                        var copy        = angular.copy($scope.options.templateOptions.fields);
+                        FormlyBootstrapList.formDataFields.push(copy);
+
+                    });
+
+                }
                 
             };
 
