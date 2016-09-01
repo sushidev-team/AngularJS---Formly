@@ -820,6 +820,7 @@
                 var tinyMceSettings = $formlyBootstrapSettings.tinyMCE;
 
                 $scope.options.templateOptions.tinyMCE_Settings.invalid_elements    = 'pre,code';
+                $scope.options.templateOptions.tinyMCE_Settings.plugins             = 'paste';
 
                 $scope.options.templateOptions.tinyMCE_Settings.setup               = function(editor) {
                     editor.on("paste", function(e) {
