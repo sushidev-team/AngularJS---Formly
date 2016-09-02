@@ -11,197 +11,6 @@
 
     angular.module('ambersive.formly', ['formly','ngLocale','ngMessages','ui.select', 'ngSanitize','ui.tinymce','ui.bootstrap','ui.codemirror']);
 
-    angular.module('ambersive.formly').config(['formlyConfigProvider', 'FormlyBootstrapSrvProvider',
-
-        function (formlyConfigProvider, FormlyBootstrapSrvProvider) {
-
-            formlyConfigProvider.setType({
-                name: 'bootstrap_input',
-                templateUrl: 'src/views/formly.ambersive.default.html',
-                controller:'FormlyBootstrapsCtrl as FormlyBootstrap',
-                defaultOptions: {
-                    templateOptions: {
-                        onKeypress: function (value,field,scope) {
-                            field.formControl.$setValidity('server', true);
-                        }
-                    },
-                    validators: {
-                        standardValidation: FormlyBootstrapSrvProvider.$get().validation
-                    }
-                }
-            });
-
-            formlyConfigProvider.setType({
-                name: 'bootstrap_date',
-                templateUrl: 'src/views/formly.ambersive.date.html',
-                controller:'FormlyBootstrapsDateCtrl as FormlyBootstrapDate',
-                defaultOptions: {
-                    templateOptions: {
-
-                    },
-                    validators: {
-                        standardValidation: FormlyBootstrapSrvProvider.$get().validation
-                    }
-                }
-            });
-
-            formlyConfigProvider.setType({
-                name: 'bootstrap_select',
-                templateUrl: 'src/views/formly.ambersive.select.html',
-                controller:'FormlyBootstrapsSelectCtrl as FormlyBootstrapSelect',
-                defaultOptions: {
-                    templateOptions: {
-                        onChange: function (value,field,scope) {
-                            field.formControl.$setValidity('server', true);
-                        }
-                    },
-                    validators: {
-                        standardValidation: FormlyBootstrapSrvProvider.$get().validation
-                    }
-                }
-            });
-
-            formlyConfigProvider.setType({
-                name: 'bootstrap_select2',
-                templateUrl: 'src/views/formly.ambersive.select2.html',
-                controller:'FormlyBootstrapsSelect2Ctrl as FormlyBootstrapSelect2',
-                defaultOptions: {
-                    validators: {
-                        standardValidation: FormlyBootstrapSrvProvider.$get().validation
-                    }
-                }
-            });
-
-            formlyConfigProvider.setType({
-                name: 'bootstrap_tags',
-                templateUrl: 'src/views/formly.ambersive.tags.html',
-                controller:'FormlyBootstrapsTagsCtrl as FormlyBootstrapTags',
-                defaultOptions: {
-                    validators: {
-                        standardValidation: FormlyBootstrapSrvProvider.$get().validation
-                    }
-                }
-            });
-
-            formlyConfigProvider.setType({
-                name: 'bootstrap_textarea',
-                templateUrl: 'src/views/formly.ambersive.textarea.html',
-                controller:'FormlyBootstrapsTextareaCtrl as FormlyBootstrapTextarea',
-                defaultOptions: {
-                    templateOptions: {
-                        onKeypress: function (value,field,scope) {
-                            field.formControl.$setValidity('server', true);
-                        }
-                    }
-                }
-            });
-
-            formlyConfigProvider.setType({
-                name: 'bootstrap_checkbox',
-                templateUrl: 'src/views/formly.ambersive.checkbox.html',
-                controller:'FormlyBootstrapsCheckboxCtrl as FormlyBootstrapCheckbox',
-                defaultOptions: {
-                    templateOptions: {
-                        onKeypress: function (value,field,scope) {
-                            field.formControl.$setValidity('server', true);
-                        }
-                    },
-                    validators: {
-                        standardValidation: FormlyBootstrapSrvProvider.$get().validation
-                    }
-                }
-            });
-
-            formlyConfigProvider.setType({
-                name: 'bootstrap_checkboxlist',
-                templateUrl: 'src/views/formly.ambersive.checkbox.list.html',
-                controller:'FormlyBootstrapsCheckboxListCtrl as FormlyBootstrapCheckboxList',
-                defaultOptions: {
-                    templateOptions: {
-                        onKeypress: function (value,field,scope) {
-                            field.formControl.$setValidity('server', true);
-                        }
-                    },
-                    validators: {
-                        standardValidation: FormlyBootstrapSrvProvider.$get().validation
-                    }
-                }
-            });
-
-            formlyConfigProvider.setType({
-                name: 'bootstrap_radio',
-                templateUrl: 'src/views/formly.ambersive.radio.html',
-                controller:'FormlyBootstrapsRadioCtrl as FormlyBootstrapRadio',
-                defaultOptions: {
-                    templateOptions: {
-                        onChange: function (value,field,scope) {
-                            field.formControl.$setValidity('server', true);
-                        }
-                    },
-                    validators: {
-                        standardValidation: FormlyBootstrapSrvProvider.$get().validation
-                    }
-                }
-            });
-
-            formlyConfigProvider.setType({
-                name: 'bootstrap_autocomplete',
-                templateUrl: 'src/views/formly.ambersive.autocomplete.html',
-                controller:'FormlyBootstrapsAutocompleteCtrl as FormlyBootstrapsAutocomplete',
-                defaultOptions: {
-                    templateOptions: {
-                        onChange: function (value,field,scope) {
-                            field.formControl.$setValidity('server', true);
-                        }
-                    },
-                    validators: {
-                        standardValidation: FormlyBootstrapSrvProvider.$get().validation
-                    }
-                }
-            });
-
-            formlyConfigProvider.setType({
-                name: 'bootstrap_codemirror',
-                templateUrl: 'src/views/formly.ambersive.codemirror.html',
-                controller:'FormlyBootstrapsCodemirrorCtrl as FormlyBootstrapCodemirror',
-                defaultOptions: {
-                    templateOptions: {
-                        onKeypress: function (value,field,scope) {
-                            field.formControl.$setValidity('server', true);
-                        }
-                    },
-                    validators: {
-                        standardValidation: FormlyBootstrapSrvProvider.$get().validation
-                    }
-                }
-            });
-
-            formlyConfigProvider.setType({
-                name: 'bootstrap_list',
-                templateUrl: 'src/views/formly.ambersive.list.html',
-                controller:'FormlyBootstrapsListCtrl as FormlyBootstrapList',
-                defaultOptions: {
-                    templateOptions: {
-                        onKeypress: function (value,field,scope) {
-                            field.formControl.$setValidity('server', true);
-                        }
-                    },
-                    validators: {
-                        standardValidation: FormlyBootstrapSrvProvider.$get().validation
-                    }
-                }
-            });
-
-            formlyConfigProvider.setType({
-                name: 'bootstrap_infos',
-                templateUrl: 'src/views/formly.ambersive.infos.html',
-                controller:'FormlyBootstrapsInfosCtrl as FormlyBootstrapInfos',
-                defaultOptions: {}
-            });
-
-        }
-    ]);
-
     angular.module('ambersive.formly').provider('$formlyBootstrapSettings', [
         function () {
 
@@ -242,7 +51,46 @@
                 }
             };
 
+            var validation  = function (viewValue, modelValue, scope) {
+
+                var options         = scope.options,
+                    regexAvailable  = false,
+                    regex,
+                    success         = false,
+                    type            = options.templateOptions.type;
+
+                if(type === undefined){
+                    type = 'text';
+                }
+
+                if(angular.isDefined(options.templateOptions) && angular.isDefined(options.templateOptions.regex)){
+                    if(angular.isString(options.templateOptions.regex)){
+                        options.templateOptions.regex = [options.templateOptions.regex];
+                    }
+                }
+
+                switch(type){
+                    case 'email':
+                        regex = new RegExp(values.regex[type]);
+                        regexAvailable = true;
+                        break;
+                    default:
+                        break;
+                }
+
+                if(regexAvailable === false){
+                    success = true;
+                } else {
+                    success = regex.test(viewValue);
+                }
+
+                return success;
+
+            };
+
+
             return({
+                validation:validation,
                 setLang: function (name, value) {
                     if (values.lang[name] === undefined){ return; }
                     values.lang[name] = value;
@@ -262,6 +110,198 @@
                 $get: function () {
                     return values;
                 }
+            });
+
+        }
+    ]);
+
+    angular.module('ambersive.formly').config(['formlyConfigProvider', '$formlyBootstrapSettingsProvider',
+
+        function (formlyConfigProvider, $formlyBootstrapSettingsProvider) {
+
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_input',
+                templateUrl: 'src/views/formly.ambersive.default.html',
+                controller:'FormlyBootstrapsCtrl as FormlyBootstrap',
+                defaultOptions: {
+                    templateOptions: {
+                        onKeypress: function (value,field,scope) {
+                            field.formControl.$setValidity('server', true);
+                        }
+                    },
+                    validators: {
+                       standardValidation: $formlyBootstrapSettingsProvider.validation
+                    }
+                }
+            });
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_date',
+                templateUrl: 'src/views/formly.ambersive.date.html',
+                controller:'FormlyBootstrapsDateCtrl as FormlyBootstrapDate',
+                defaultOptions: {
+                    templateOptions: {
+
+                    },
+                    validators: {
+                      //  standardValidation: $formlyBootstrapExtProvider.validation
+                    }
+                }
+            });
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_select',
+                templateUrl: 'src/views/formly.ambersive.select.html',
+                controller:'FormlyBootstrapsSelectCtrl as FormlyBootstrapSelect',
+                defaultOptions: {
+                    templateOptions: {
+                        onChange: function (value,field,scope) {
+                            field.formControl.$setValidity('server', true);
+                        }
+                    },
+                    validators: {
+                        //standardValidation: $formlyBootstrapExtProvider.validation
+                    }
+                }
+            });
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_select2',
+                templateUrl: 'src/views/formly.ambersive.select2.html',
+                controller:'FormlyBootstrapsSelect2Ctrl as FormlyBootstrapSelect2',
+                defaultOptions: {
+                    validators: {
+                       // standardValidation: $formlyBootstrapExtProvider.validation
+                    }
+                }
+            });
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_tags',
+                templateUrl: 'src/views/formly.ambersive.tags.html',
+                controller:'FormlyBootstrapsTagsCtrl as FormlyBootstrapTags',
+                defaultOptions: {
+                    validators: {
+                       // standardValidation: $formlyBootstrapExtProvider.validation
+                    }
+                }
+            });
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_textarea',
+                templateUrl: 'src/views/formly.ambersive.textarea.html',
+                controller:'FormlyBootstrapsTextareaCtrl as FormlyBootstrapTextarea',
+                defaultOptions: {
+                    templateOptions: {
+                        onKeypress: function (value,field,scope) {
+                            field.formControl.$setValidity('server', true);
+                        }
+                    }
+                }
+            });
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_checkbox',
+                templateUrl: 'src/views/formly.ambersive.checkbox.html',
+                controller:'FormlyBootstrapsCheckboxCtrl as FormlyBootstrapCheckbox',
+                defaultOptions: {
+                    templateOptions: {
+                        onKeypress: function (value,field,scope) {
+                            field.formControl.$setValidity('server', true);
+                        }
+                    },
+                    validators: {
+                       // standardValidation: $formlyBootstrapExtProvider.validation
+                    }
+                }
+            });
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_checkboxlist',
+                templateUrl: 'src/views/formly.ambersive.checkbox.list.html',
+                controller:'FormlyBootstrapsCheckboxListCtrl as FormlyBootstrapCheckboxList',
+                defaultOptions: {
+                    templateOptions: {
+                        onKeypress: function (value,field,scope) {
+                            field.formControl.$setValidity('server', true);
+                        }
+                    },
+                    validators: {
+                        //standardValidation: $formlyBootstrapExtProvider.validation
+                    }
+                }
+            });
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_radio',
+                templateUrl: 'src/views/formly.ambersive.radio.html',
+                controller:'FormlyBootstrapsRadioCtrl as FormlyBootstrapRadio',
+                defaultOptions: {
+                    templateOptions: {
+                        onChange: function (value,field,scope) {
+                            field.formControl.$setValidity('server', true);
+                        }
+                    },
+                    validators: {
+                       // standardValidation: $formlyBootstrapExtProvider.validation
+                    }
+                }
+            });
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_autocomplete',
+                templateUrl: 'src/views/formly.ambersive.autocomplete.html',
+                controller:'FormlyBootstrapsAutocompleteCtrl as FormlyBootstrapsAutocomplete',
+                defaultOptions: {
+                    templateOptions: {
+                        onChange: function (value,field,scope) {
+                            field.formControl.$setValidity('server', true);
+                        }
+                    },
+                    validators: {
+                        //standardValidation: $formlyBootstrapExtProvider.validation
+                    }
+                }
+            });
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_codemirror',
+                templateUrl: 'src/views/formly.ambersive.codemirror.html',
+                controller:'FormlyBootstrapsCodemirrorCtrl as FormlyBootstrapCodemirror',
+                defaultOptions: {
+                    templateOptions: {
+                        onKeypress: function (value,field,scope) {
+                            field.formControl.$setValidity('server', true);
+                        }
+                    },
+                    validators: {
+                        //standardValidation: $formlyBootstrapExtProvider.validation
+                    }
+                }
+            });
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_list',
+                templateUrl: 'src/views/formly.ambersive.list.html',
+                controller:'FormlyBootstrapsListCtrl as FormlyBootstrapList',
+                defaultOptions: {
+                    templateOptions: {
+                        onKeypress: function (value,field,scope) {
+                            field.formControl.$setValidity('server', true);
+                        }
+                    },
+                    validators: {
+                        //standardValidation: $formlyBootstrapExtProvider.validation
+                    }
+                }
+            });
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_infos',
+                templateUrl: 'src/views/formly.ambersive.infos.html',
+                controller:'FormlyBootstrapsInfosCtrl as FormlyBootstrapInfos',
+                defaultOptions: {}
             });
 
         }
