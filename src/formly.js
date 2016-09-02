@@ -819,18 +819,25 @@
 
                 var tinyMceSettings = $formlyBootstrapSettings.tinyMCE;
 
-                $scope.options.templateOptions.tinyMCE_Settings.invalid_elements    = 'pre,code';
-                $scope.options.templateOptions.tinyMCE_Settings.plugins             = 'paste';
+                if(angular.isDefined($scope.options.templateOptions.tinyMCE) && $scope.options.templateOptions.tinyMCE === true) {
 
-                $scope.options.templateOptions.tinyMCE_Settings.setup               = function(editor) {
-                    editor.on("paste", function(e) {
-                        $timeout(function(){
+                    if (angular.isDefined($scope.options.templateOptions.tinyMCE_Settings) === true) {
 
-                            $scope.model[$scope.options.key] = editor.getContent();
+                        $scope.options.templateOptions.tinyMCE_Settings.invalid_elements = 'pre,code';
+                        $scope.options.templateOptions.tinyMCE_Settings.plugins = 'paste';
 
-                        });
-                    });
-                };
+                        $scope.options.templateOptions.tinyMCE_Settings.setup = function (editor) {
+                            editor.on("paste", function (e) {
+                                $timeout(function () {
+
+                                    $scope.model[$scope.options.key] = editor.getContent();
+
+                                });
+                            });
+                        };
+                    }
+
+                }
 
                 if(angular.isDefined($scope.options.templateOptions)){
 
@@ -840,13 +847,9 @@
                         FormlyBootstrapTextarea.settings.rows = $scope.options.templateOptions.rows;
                     }
 
-                    if(angular.isDefined($scope.options.templateOptions.tinyMCE) && $scope.options.templateOptions.tinyMCE === true) {
-
-
-
-                    }
-
                 }
+
+
 
             };
 
