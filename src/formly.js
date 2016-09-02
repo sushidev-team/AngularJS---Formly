@@ -145,7 +145,7 @@
 
                     },
                     validators: {
-                      //  standardValidation: $formlyBootstrapExtProvider.validation
+                      standardValidation: $formlyBootstrapExtProvider.validation
                     }
                 }
             });
@@ -161,7 +161,7 @@
                         }
                     },
                     validators: {
-                        //standardValidation: $formlyBootstrapExtProvider.validation
+                        standardValidation: $formlyBootstrapExtProvider.validation
                     }
                 }
             });
@@ -172,7 +172,7 @@
                 controller:'FormlyBootstrapsSelect2Ctrl as FormlyBootstrapSelect2',
                 defaultOptions: {
                     validators: {
-                       // standardValidation: $formlyBootstrapExtProvider.validation
+                       standardValidation: $formlyBootstrapExtProvider.validation
                     }
                 }
             });
@@ -183,7 +183,7 @@
                 controller:'FormlyBootstrapsTagsCtrl as FormlyBootstrapTags',
                 defaultOptions: {
                     validators: {
-                       // standardValidation: $formlyBootstrapExtProvider.validation
+                       standardValidation: $formlyBootstrapExtProvider.validation
                     }
                 }
             });
@@ -212,7 +212,7 @@
                         }
                     },
                     validators: {
-                       // standardValidation: $formlyBootstrapExtProvider.validation
+                       standardValidation: $formlyBootstrapExtProvider.validation
                     }
                 }
             });
@@ -228,7 +228,7 @@
                         }
                     },
                     validators: {
-                        //standardValidation: $formlyBootstrapExtProvider.validation
+                        standardValidation: $formlyBootstrapExtProvider.validation
                     }
                 }
             });
@@ -244,7 +244,7 @@
                         }
                     },
                     validators: {
-                       // standardValidation: $formlyBootstrapExtProvider.validation
+                       standardValidation: $formlyBootstrapExtProvider.validation
                     }
                 }
             });
@@ -260,7 +260,7 @@
                         }
                     },
                     validators: {
-                        //standardValidation: $formlyBootstrapExtProvider.validation
+                        standardValidation: $formlyBootstrapExtProvider.validation
                     }
                 }
             });
@@ -276,7 +276,7 @@
                         }
                     },
                     validators: {
-                        //standardValidation: $formlyBootstrapExtProvider.validation
+                        standardValidation: $formlyBootstrapExtProvider.validation
                     }
                 }
             });
@@ -292,7 +292,7 @@
                         }
                     },
                     validators: {
-                        //standardValidation: $formlyBootstrapExtProvider.validation
+                        standardValidation: $formlyBootstrapExtProvider.validation
                     }
                 }
             });
