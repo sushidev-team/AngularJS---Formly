@@ -119,7 +119,6 @@
 
         function (formlyConfigProvider, $formlyBootstrapSettingsProvider) {
 
-
             formlyConfigProvider.setType({
                 name: 'bootstrap_input',
                 templateUrl: 'src/views/formly.ambersive.default.html',
@@ -145,7 +144,7 @@
 
                     },
                     validators: {
-                      standardValidation: $formlyBootstrapExtProvider.validation
+                      standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -161,7 +160,7 @@
                         }
                     },
                     validators: {
-                        standardValidation: $formlyBootstrapExtProvider.validation
+                        standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -172,7 +171,7 @@
                 controller:'FormlyBootstrapsSelect2Ctrl as FormlyBootstrapSelect2',
                 defaultOptions: {
                     validators: {
-                       standardValidation: $formlyBootstrapExtProvider.validation
+                       standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -183,7 +182,7 @@
                 controller:'FormlyBootstrapsTagsCtrl as FormlyBootstrapTags',
                 defaultOptions: {
                     validators: {
-                       standardValidation: $formlyBootstrapExtProvider.validation
+                       standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -212,7 +211,7 @@
                         }
                     },
                     validators: {
-                       standardValidation: $formlyBootstrapExtProvider.validation
+                       standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -228,7 +227,7 @@
                         }
                     },
                     validators: {
-                        standardValidation: $formlyBootstrapExtProvider.validation
+                        standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -244,7 +243,7 @@
                         }
                     },
                     validators: {
-                       standardValidation: $formlyBootstrapExtProvider.validation
+                       standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -260,7 +259,7 @@
                         }
                     },
                     validators: {
-                        standardValidation: $formlyBootstrapExtProvider.validation
+                        standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -276,7 +275,7 @@
                         }
                     },
                     validators: {
-                        standardValidation: $formlyBootstrapExtProvider.validation
+                        standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -292,7 +291,7 @@
                         }
                     },
                     validators: {
-                        standardValidation: $formlyBootstrapExtProvider.validation
+                        standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -342,8 +341,6 @@
                                 return group;
                             }
                         };
-
-                        console.warn(fc.formFields);
 
                         angular.forEach(messages,function(messageData,messageGroup){
 
@@ -460,6 +457,49 @@
                 }
 
                 return cssClass;
+            };
+
+            FormlyBootstrapSrv.hasAddon      = function(which,field){
+
+                if(angular.isDefined(field) && angular.isDefined(field.templateOptions) && angular.isDefined(field.templateOptions.addons)){
+
+                    if(which === null){
+
+                        if(angular.isDefined(field.templateOptions.addons.left) || angular.isDefined(field.templateOptions.addons.right)){
+                            return true;
+                        }
+                        return false;
+
+                    } else {
+
+                        if(angular.isDefined(field.templateOptions.addons[which])){
+                            return true;
+                        }
+
+                        return false;
+
+                    }
+
+                }
+
+            };
+
+            FormlyBootstrapSrv.hasAddonAction      = function(which,field){
+
+                if(angular.isDefined(field) && angular.isDefined(field.templateOptions) && angular.isDefined(field.templateOptions.addons)){
+
+                    if(which !== null){
+
+                        if(angular.isDefined(field.templateOptions.addons[which]) && angular.isDefined(field.templateOptions.addons[which].action) && angular.isFunction(field.templateOptions.addons[which].action)){
+                            field.templateOptions.addons[which].action(field,which);
+                        }
+
+                        return false;
+
+                    }
+
+                }
+
             };
 
             /***
@@ -650,10 +690,13 @@
 
             var FormlyBootstrap = this;
 
-            FormlyBootstrap.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrap.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrap.getInputClass       = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrap.getGroupClass       = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
 
-            FormlyBootstrap.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+            FormlyBootstrap.hasAddon            = FormlyBootstrapSrv.hasAddon;
+            FormlyBootstrap.hasAddonAction      = FormlyBootstrapSrv.hasAddonAction;
+
+            FormlyBootstrap.getErrorMessage     = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
 
         }
     ]);
@@ -1386,6 +1429,8 @@
             FormlyBootstrapsAutocomplete.getInputClass      = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
             FormlyBootstrapsAutocomplete.getGroupClass      = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
             FormlyBootstrapsAutocomplete.getOptionLabel     = FormlyBootstrapSrv.getOptionLabel;
+            FormlyBootstrapsAutocomplete.hasAddon           = FormlyBootstrapSrv.hasAddon;
+            FormlyBootstrapsAutocomplete.hasAddonAction     = FormlyBootstrapSrv.hasAddonAction;
 
             FormlyBootstrapsAutocomplete.getErrorMessage    = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
 
@@ -1453,7 +1498,18 @@
                             newObject[field.key] = new Date();
                             break;
                         default:
-                            newObject[field.key] = '';
+
+                            if(angular.isDefined(field.defaultValue)){
+
+                                if(angular.isFunction(field.defaultValue)){
+                                    newObject[field.key] = field.defaultValue(field,$scope.options,$scope);
+                                } else {
+                                    newObject[field.key] = field.defaultValue;
+                                }
+
+                            } else {
+                                newObject[field.key] = '';
+                            }
                             break;
 
                     }

@@ -119,7 +119,6 @@
 
         function (formlyConfigProvider, $formlyBootstrapSettingsProvider) {
 
-
             formlyConfigProvider.setType({
                 name: 'bootstrap_input',
                 templateUrl: 'src/views/formly.ambersive.default.html',
@@ -145,7 +144,7 @@
 
                     },
                     validators: {
-                      standardValidation: $formlyBootstrapExtProvider.validation
+                      standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -161,7 +160,7 @@
                         }
                     },
                     validators: {
-                        standardValidation: $formlyBootstrapExtProvider.validation
+                        standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -172,7 +171,7 @@
                 controller:'FormlyBootstrapsSelect2Ctrl as FormlyBootstrapSelect2',
                 defaultOptions: {
                     validators: {
-                       standardValidation: $formlyBootstrapExtProvider.validation
+                       standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -183,7 +182,7 @@
                 controller:'FormlyBootstrapsTagsCtrl as FormlyBootstrapTags',
                 defaultOptions: {
                     validators: {
-                       standardValidation: $formlyBootstrapExtProvider.validation
+                       standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -212,7 +211,7 @@
                         }
                     },
                     validators: {
-                       standardValidation: $formlyBootstrapExtProvider.validation
+                       standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -228,7 +227,7 @@
                         }
                     },
                     validators: {
-                        standardValidation: $formlyBootstrapExtProvider.validation
+                        standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -244,7 +243,7 @@
                         }
                     },
                     validators: {
-                       standardValidation: $formlyBootstrapExtProvider.validation
+                       standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -260,7 +259,7 @@
                         }
                     },
                     validators: {
-                        standardValidation: $formlyBootstrapExtProvider.validation
+                        standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -276,7 +275,7 @@
                         }
                     },
                     validators: {
-                        standardValidation: $formlyBootstrapExtProvider.validation
+                        standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -292,7 +291,7 @@
                         }
                     },
                     validators: {
-                        standardValidation: $formlyBootstrapExtProvider.validation
+                        standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -342,8 +341,6 @@
                                 return group;
                             }
                         };
-
-                        console.warn(fc.formFields);
 
                         angular.forEach(messages,function(messageData,messageGroup){
 
@@ -460,6 +457,49 @@
                 }
 
                 return cssClass;
+            };
+
+            FormlyBootstrapSrv.hasAddon      = function(which,field){
+
+                if(angular.isDefined(field) && angular.isDefined(field.templateOptions) && angular.isDefined(field.templateOptions.addons)){
+
+                    if(which === null){
+
+                        if(angular.isDefined(field.templateOptions.addons.left) || angular.isDefined(field.templateOptions.addons.right)){
+                            return true;
+                        }
+                        return false;
+
+                    } else {
+
+                        if(angular.isDefined(field.templateOptions.addons[which])){
+                            return true;
+                        }
+
+                        return false;
+
+                    }
+
+                }
+
+            };
+
+            FormlyBootstrapSrv.hasAddonAction      = function(which,field){
+
+                if(angular.isDefined(field) && angular.isDefined(field.templateOptions) && angular.isDefined(field.templateOptions.addons)){
+
+                    if(which !== null){
+
+                        if(angular.isDefined(field.templateOptions.addons[which]) && angular.isDefined(field.templateOptions.addons[which].action) && angular.isFunction(field.templateOptions.addons[which].action)){
+                            field.templateOptions.addons[which].action(field,which);
+                        }
+
+                        return false;
+
+                    }
+
+                }
+
             };
 
             /***
@@ -650,10 +690,13 @@
 
             var FormlyBootstrap = this;
 
-            FormlyBootstrap.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrap.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrap.getInputClass       = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrap.getGroupClass       = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
 
-            FormlyBootstrap.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+            FormlyBootstrap.hasAddon            = FormlyBootstrapSrv.hasAddon;
+            FormlyBootstrap.hasAddonAction      = FormlyBootstrapSrv.hasAddonAction;
+
+            FormlyBootstrap.getErrorMessage     = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
 
         }
     ]);
@@ -1386,6 +1429,8 @@
             FormlyBootstrapsAutocomplete.getInputClass      = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
             FormlyBootstrapsAutocomplete.getGroupClass      = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
             FormlyBootstrapsAutocomplete.getOptionLabel     = FormlyBootstrapSrv.getOptionLabel;
+            FormlyBootstrapsAutocomplete.hasAddon           = FormlyBootstrapSrv.hasAddon;
+            FormlyBootstrapsAutocomplete.hasAddonAction     = FormlyBootstrapSrv.hasAddonAction;
 
             FormlyBootstrapsAutocomplete.getErrorMessage    = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
 
@@ -1453,7 +1498,18 @@
                             newObject[field.key] = new Date();
                             break;
                         default:
-                            newObject[field.key] = '';
+
+                            if(angular.isDefined(field.defaultValue)){
+
+                                if(angular.isFunction(field.defaultValue)){
+                                    newObject[field.key] = field.defaultValue(field,$scope.options,$scope);
+                                } else {
+                                    newObject[field.key] = field.defaultValue;
+                                }
+
+                            } else {
+                                newObject[field.key] = '';
+                            }
                             break;
 
                     }
@@ -1571,7 +1627,7 @@ angular.module('ambersive.formly').run(['$templateCache', function($templateCach
   'use strict';
 
   $templateCache.put('src/views/formly.ambersive.autocomplete.html',
-    "<div class=form-group ng-class=FormlyBootstrapsAutocomplete.getGroupClass(options);><label for=inp_{{options.key}}>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><input type={{to.type}} ng-model=model[options.key] uib-typeahead=\"option for option in options.templateOptions.options | filter:$viewValue | limitTo:8\" class=form-control ng-disabled=options.templateOptions.disabled ng-class=FormlyBootstrapsAutocomplete.getInputClass(options); id=inp_{{options.key}} placeholder={{to.placeholder}}> <small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapsAutocomplete.getErrorMessage(key,value); }}</small></div></div>"
+    "<div class=form-group ng-class=FormlyBootstrapsAutocomplete.getGroupClass(options);><label for=inp_{{options.key}}>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><div class=input-group ng-if=FormlyBootstrapsAutocomplete.hasAddon(null,options)><div class=input-group-addon ng-if=\"FormlyBootstrapsAutocomplete.hasAddon('left',options)\" ng-bind-html=options.templateOptions.addons.left.content ng-click=\"FormlyBootstrapsAutocomplete.hasAddonAction('left',options)\"></div><input type={{to.type}} ng-model=model[options.key] uib-typeahead=\"option for option in options.templateOptions.options | filter:$viewValue | limitTo:8\" class=form-control ng-disabled=options.templateOptions.disabled ng-class=FormlyBootstrapsAutocomplete.getInputClass(options); id=inp_{{options.key}} placeholder={{to.placeholder}}><div class=input-group-addon ng-if=\"FormlyBootstrapsAutocomplete.hasAddon('right',options)\" ng-bind-html=options.templateOptions.addons.right.content ng-click=\"FormlyBootstrapsAutocomplete.hasAddonAction('right',options)\"></div></div><input type={{to.type}} ng-if=\"FormlyBootstrapsAutocomplete.hasAddon(null,options) === false\" ng-model=model[options.key] uib-typeahead=\"option for option in options.templateOptions.options | filter:$viewValue | limitTo:8\" class=form-control ng-disabled=options.templateOptions.disabled ng-class=FormlyBootstrapsAutocomplete.getInputClass(options); id=inp_{{options.key}} placeholder={{to.placeholder}}> <small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapsAutocomplete.getErrorMessage(key,value); }}</small></div></div>"
   );
 
 
@@ -1617,7 +1673,7 @@ angular.module('ambersive.formly').run(['$templateCache', function($templateCach
 
 
   $templateCache.put('src/views/formly.ambersive.default.html',
-    "<div class=form-group ng-class=FormlyBootstrap.getGroupClass(options);><label for=inp_{{options.key}}>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><input type={{to.type}} ng-model=model[options.key] class=form-control ng-disabled=options.templateOptions.disabled ng-class=FormlyBootstrap.getInputClass(options); id=inp_{{options.key}} placeholder={{to.placeholder}}> <small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrap.getErrorMessage(key,value); }}</small></div></div>"
+    "<div class=form-group ng-class=FormlyBootstrap.getGroupClass(options);><label for=inp_{{options.key}}>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><div class=input-group ng-if=FormlyBootstrap.hasAddon(null,options)><div class=input-group-addon ng-if=\"FormlyBootstrap.hasAddon('left',options)\" ng-bind-html=options.templateOptions.addons.left.content ng-click=\"FormlyBootstrap.hasAddonAction('left',options)\"></div><input type={{to.type}} ng-model=model[options.key] class=form-control ng-disabled=options.templateOptions.disabled ng-class=FormlyBootstrap.getInputClass(options); id=inp_{{options.key}} placeholder={{to.placeholder}}><div class=input-group-addon ng-if=\"FormlyBootstrap.hasAddon('right',options)\" ng-bind-html=options.templateOptions.addons.right.content ng-click=\"FormlyBootstrap.hasAddonAction('right',options)\"></div></div><input type={{to.type}} ng-if=\"FormlyBootstrap.hasAddon(null,options) === false\" ng-model=model[options.key] class=form-control ng-disabled=options.templateOptions.disabled ng-class=FormlyBootstrap.getInputClass(options); id=inp_{{options.key}} placeholder={{to.placeholder}}> <small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrap.getErrorMessage(key,value); }}</small></div></div>"
   );
 
 
