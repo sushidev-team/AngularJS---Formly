@@ -480,6 +480,8 @@
 
                     }
 
+                } else {
+                    return false;
                 }
 
             };
@@ -498,6 +500,8 @@
 
                     }
 
+                } else {
+                    return false;
                 }
 
             };

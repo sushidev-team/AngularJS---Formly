@@ -1,7 +1,7 @@
 # FORMLY FIELDS - For Formly for AngularJS
 
 ### Version
-0.0.9.0
+0.0.9.1
 
 NOT STABLE
 
