@@ -48,7 +48,7 @@
                     plugins: [
                         'visualblocks'
                     ]
-                }
+                },
             };
 
             var validation  = function (viewValue, modelValue, scope) {
@@ -87,7 +87,6 @@
                 return success;
 
             };
-
 
             return({
                 validation:validation,
@@ -317,9 +316,10 @@
     angular.module('ambersive.formly').factory('FormlyBootstrapSrv',['$q', '$log', '$rootScope', '$formlyBootstrapSettings','$timeout',
         function($q, $log, $rootScope, $formlyBootstrapSettings,$timeout){
 
-            var FormlyBootstrapSrv           = {};
+            var FormlyBootstrapSrv              = {};
 
-            FormlyBootstrapSrv.errorMessages = {};
+            FormlyBootstrapSrv.errorMessages    = {};
+            FormlyBootstrapSrv.tinyMCEPlugins   = [];
 
             FormlyBootstrapSrv.serverValidation = function (fc, messages){
 
@@ -680,6 +680,14 @@
 
             };
 
+            FormlyBootstrapSrv.setTinyMCEPlugins = function(obj){
+                FormlyBootstrapSrv.tinyMCEPlugins.push(obj);
+            };
+
+            FormlyBootstrapSrv.getTinyMCEPlugins = function(){
+                return FormlyBootstrapSrv.tinyMCEPlugins;
+            };
+
             return FormlyBootstrapSrv;
 
         }
@@ -914,6 +922,25 @@
                         $scope.options.templateOptions.tinyMCE_Settings.plugins = 'paste';
 
                         $scope.options.templateOptions.tinyMCE_Settings.setup = function (editor) {
+
+                            var plugins = FormlyBootstrapSrv.getTinyMCEPlugins();
+
+                            // Init custom buttons
+
+                            angular.forEach(plugins,function(plugin){
+
+                                switch(plugin.type){
+
+                                    case 'button':
+
+                                        editor.addButton(plugin.name, plugin.data);
+
+                                        break;
+
+                                }
+
+                            });
+
                             editor.on("paste", function (e) {
                                 $timeout(function () {
 

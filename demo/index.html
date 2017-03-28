@@ -40,6 +40,8 @@
 
                var demo = this;
 
+               $rootScope.language = 'de';
+
                demo.onSubmit = onSubmit;
 
                demo.formData = {
@@ -418,7 +420,7 @@
                            cssClass:'col-sm-12 col-xs-12',
                            required:true,
                            valueProp: 'value',
-                           labelProp: 'translations.de.name',
+                           labelProp: 'translations.'+ $rootScope.language + '.name',
                            descriptionProp: 'translations.de.description',
                            options:[
                                {

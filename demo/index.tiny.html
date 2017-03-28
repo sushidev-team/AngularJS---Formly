@@ -33,14 +33,39 @@
     <script type="text/ng-template" id="testTagsSelected.html">
         ### {{$item.name}} ###
     </script>
-    <script>
 
-        angular.module('app', ['formly','ambersive.formly','ui.select', 'ngSanitize','ui.codemirror'])
+    <script>
+        angular.module('app', ['formly','ambersive.formly','ui.select', 'ngSanitize','ui.codemirror',])
+                .run(function($formlyBootstrapSettings){
+
+                })
            .controller('DemoController',function($scope,$log,$rootScope,FormlyBootstrapSrv,$http){
 
                var demo = this;
 
                demo.onSubmit = onSubmit;
+
+               console.log(FormlyBootstrapSrv);
+
+               FormlyBootstrapSrv.setTinyMCEPlugins({
+                   'name':'gaps',
+                   'type':'button',
+                   'data':{
+                       text: 'Lücken',
+                       icon: false,
+                       onclick: function () {
+
+                           var event = new CustomEvent('GapDialog', {
+                               'isTrusted': true,
+                               'url': url,
+                               'detail': editor
+                           });
+
+                           window.dispatchEvent(event);
+
+                       }
+                   }
+               });
 
                demo.formData = {
                    customDate:'2016-03-27',
@@ -64,7 +89,7 @@
                            cssClass:'col-sm-12 col-xs-12',
                            tinyMCE:true,
                            tinyMCE_Settings:{
-                               toolbar: 'italic | alignleft aligncenter alignright alignjustify | bullist numlist',
+                               toolbar: 'gaps',
                                content_css:[
                                   '../bower_components/bootstrap/dist/css/bootstrap.min.css'
                                ],
