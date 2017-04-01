@@ -1490,12 +1490,36 @@
 
             var FormlyBootstrapList = this;
 
-            FormlyBootstrapList.getInputClass   = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrapList.getGroupClass   = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
-            FormlyBootstrapList.getBtnClass     = function() { return $scope.options.templateOptions.cssBtn; };
-            FormlyBootstrapList.getListClass    = function() { return $scope.options.templateOptions.cssListEntry;};
+            FormlyBootstrapList.getInputClass       = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrapList.getGroupClass       = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapList.getBtnClass         = function() { return $scope.options.templateOptions.cssBtn; };
+            FormlyBootstrapList.getListClass        = function() { return $scope.options.templateOptions.cssListEntry;};
 
-            FormlyBootstrapList.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+            FormlyBootstrapList.getErrorMessage     = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+
+            FormlyBootstrapList.getCssClassList     = function(){
+
+                var cssClass = 'col-sm-8 col-xs-12';
+
+                if(angular.isDefined($scope.options.templateOptions) && angular.isDefined($scope.options.templateOptions.cssClassList)){
+                    cssClass = $scope.options.templateOptions.cssClassList;
+                }
+
+                return cssClass;
+
+            };
+
+            FormlyBootstrapList.getCssClassListBtn  = function(){
+
+                var cssClass = 'col-sm-4 col-xs-12';
+
+                if(angular.isDefined($scope.options.templateOptions) && angular.isDefined($scope.options.templateOptions.cssClassListBtn)){
+                    cssClass = $scope.options.templateOptions.cssClassListBtn;
+                }
+
+                return cssClass;
+
+            };
 
             FormlyBootstrapList.formFields      = $scope.options.templateOptions.fields;
 

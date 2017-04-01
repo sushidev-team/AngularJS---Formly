@@ -1490,12 +1490,36 @@
 
             var FormlyBootstrapList = this;
 
-            FormlyBootstrapList.getInputClass   = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrapList.getGroupClass   = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
-            FormlyBootstrapList.getBtnClass     = function() { return $scope.options.templateOptions.cssBtn; };
-            FormlyBootstrapList.getListClass    = function() { return $scope.options.templateOptions.cssListEntry;};
+            FormlyBootstrapList.getInputClass       = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrapList.getGroupClass       = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapList.getBtnClass         = function() { return $scope.options.templateOptions.cssBtn; };
+            FormlyBootstrapList.getListClass        = function() { return $scope.options.templateOptions.cssListEntry;};
 
-            FormlyBootstrapList.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+            FormlyBootstrapList.getErrorMessage     = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+
+            FormlyBootstrapList.getCssClassList     = function(){
+
+                var cssClass = 'col-sm-8 col-xs-12';
+
+                if(angular.isDefined($scope.options.templateOptions) && angular.isDefined($scope.options.templateOptions.cssClassList)){
+                    cssClass = $scope.options.templateOptions.cssClassList;
+                }
+
+                return cssClass;
+
+            };
+
+            FormlyBootstrapList.getCssClassListBtn  = function(){
+
+                var cssClass = 'col-sm-4 col-xs-12';
+
+                if(angular.isDefined($scope.options.templateOptions) && angular.isDefined($scope.options.templateOptions.cssClassListBtn)){
+                    cssClass = $scope.options.templateOptions.cssClassListBtn;
+                }
+
+                return cssClass;
+
+            };
 
             FormlyBootstrapList.formFields      = $scope.options.templateOptions.fields;
 
@@ -1714,7 +1738,7 @@ angular.module('ambersive.formly').run(['$templateCache', function($templateCach
 
 
   $templateCache.put('src/views/formly.ambersive.list.html',
-    "<div class=form-group ng-class=FormlyBootstrapList.getGroupClass(options);><label for=inp_{{options.key}}>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><div class=row><div class=list_container><div class=list_entry ng-repeat=\"listEntry in FormlyBootstrapList.formData track by $index\" ng-class=FormlyBootstrapList.getListClass(options);><div class=row><div class=\"col-sm-8 col-xs-12\"><formly-form model=FormlyBootstrapList.formData[$index] fields=FormlyBootstrapList.formDataFields[$index] bind-name=\"$parent.$index + '_list'\"></formly-form></div><div class=\"col-sm-4 col-xs-12\"><div ng-class=FormlyBootstrapList.getBtnClass(options);><button ng-click=FormlyBootstrapList.remove($index,$event) class=\"btn btn-danger btn-block\"><span ng-bind-html=FormlyBootstrapList.lang.remove></span></button></div></div></div></div><div class=list_add><div ng-class=FormlyBootstrapList.getGroupClass(options);><button ng-click=FormlyBootstrapList.add($event) class=\"btn btn-success btn-block\"><span ng-bind-html=FormlyBootstrapList.lang.add></span></button></div></div></div></div><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapList.getErrorMessage(key,value); }}</small></div></div>"
+    "<div class=form-group ng-class=FormlyBootstrapList.getGroupClass(options);><label for=inp_{{options.key}}>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><div class=row><div class=list_container><div class=list_entry ng-repeat=\"listEntry in FormlyBootstrapList.formData track by $index\" ng-class=FormlyBootstrapList.getListClass(options);><div class=row><div ng-class=FormlyBootstrapList.getCssClassList()><formly-form model=FormlyBootstrapList.formData[$index] fields=FormlyBootstrapList.formDataFields[$index] bind-name=\"$parent.$index + '_list'\"></formly-form></div><div ng-class=FormlyBootstrapList.getCssClassListBtn()><div ng-class=FormlyBootstrapList.getBtnClass(options);><button ng-click=FormlyBootstrapList.remove($index,$event) class=\"btn btn-danger btn-block\"><span ng-bind-html=FormlyBootstrapList.lang.remove></span></button></div></div></div></div><div class=list_add><div ng-class=FormlyBootstrapList.getGroupClass(options);><button ng-click=FormlyBootstrapList.add($event) class=\"btn btn-success btn-block\"><span ng-bind-html=FormlyBootstrapList.lang.add></span></button></div></div></div></div><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapList.getErrorMessage(key,value); }}</small></div></div>"
   );
 
 
