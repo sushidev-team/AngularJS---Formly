@@ -9,7 +9,7 @@
 
     'use strict';
 
-    angular.module('ambersive.formly', ['formly','ngLocale','ngMessages','ui.select', 'ngSanitize','ui.tinymce','ui.bootstrap','ui.codemirror']);
+    angular.module('ambersive.formly', ['formly','ngLocale','ngMessages','ui.select', 'ngSanitize','ui.tinymce','ui.bootstrap','ui.codemirror','colorpicker.module']);
 
     angular.module('ambersive.formly').provider('$formlyBootstrapSettings', [
         function () {
@@ -130,6 +130,22 @@
                     },
                     validators: {
                        standardValidation: $formlyBootstrapSettingsProvider.validation
+                    }
+                }
+            });
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_color',  
+                templateUrl: 'src/views/formly.ambersive.color.html',
+                controller:'FormlyBootstrapsColorCtrl as FormlyBootstrapColor',
+                defaultOptions: {
+                    templateOptions: {
+                        onKeypress: function (value,field,scope) {
+                            field.formControl.$setValidity('server', true);
+                        }
+                    },
+                    validators: {
+                        standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -709,6 +725,22 @@
             FormlyBootstrap.hasAddonAction      = FormlyBootstrapSrv.hasAddonAction;
 
             FormlyBootstrap.getErrorMessage     = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+
+        }
+    ]);
+
+    angular.module('ambersive.formly').controller('FormlyBootstrapsColorCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv',
+        function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv){
+
+            var FormlyBootstrapColor = this;
+
+            FormlyBootstrapColor.getInputClass       = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrapColor.getGroupClass       = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+
+            FormlyBootstrapColor.hasAddon            = FormlyBootstrapSrv.hasAddon;
+            FormlyBootstrapColor.hasAddonAction      = FormlyBootstrapSrv.hasAddonAction;
+
+            FormlyBootstrapColor.getErrorMessage     = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
 
         }
     ]);
@@ -1698,6 +1730,11 @@ angular.module('ambersive.formly').run(['$templateCache', function($templateCach
 
   $templateCache.put('src/views/formly.ambersive.codemirror.html',
     "<div class=form-group ng-class=FormlyBootstrapCodemirror.getGroupClass(options);><label for=inp_{{options.key}}>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><ui-codemirror ng-model=model[options.key] ui-codemirror-opts=options.templateOptions.codemirrorOptions></ui-codemirror><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapCodemirror.getErrorMessage(key,value); }}</small></div></div>"
+  );
+
+
+  $templateCache.put('src/views/formly.ambersive.color.html',
+    "<div class=form-group ng-class=FormlyBootstrapColor.getGroupClass(options);><label for=inp_{{options.key}}>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><input colorpicker=hex ng-model=model[options.key] class=form-control ng-disabled=options.templateOptions.disabled ng-class=FormlyBootstrapColor.getInputClass(options); id=inp_{{options.key}} placeholder={{to.placeholder}}> <small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapColor.getErrorMessage(key,value); }}</small></div></div>"
   );
 
 

@@ -9,7 +9,7 @@
 
     'use strict';
 
-    angular.module('ambersive.formly', ['formly','ngLocale','ngMessages','ui.select', 'ngSanitize','ui.tinymce','ui.bootstrap','ui.codemirror']);
+    angular.module('ambersive.formly', ['formly','ngLocale','ngMessages','ui.select', 'ngSanitize','ui.tinymce','ui.bootstrap','ui.codemirror','colorpicker.module']);
 
     angular.module('ambersive.formly').provider('$formlyBootstrapSettings', [
         function () {
@@ -130,6 +130,22 @@
                     },
                     validators: {
                        standardValidation: $formlyBootstrapSettingsProvider.validation
+                    }
+                }
+            });
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_color',  
+                templateUrl: 'src/views/formly.ambersive.color.html',
+                controller:'FormlyBootstrapsColorCtrl as FormlyBootstrapColor',
+                defaultOptions: {
+                    templateOptions: {
+                        onKeypress: function (value,field,scope) {
+                            field.formControl.$setValidity('server', true);
+                        }
+                    },
+                    validators: {
+                        standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -709,6 +725,22 @@
             FormlyBootstrap.hasAddonAction      = FormlyBootstrapSrv.hasAddonAction;
 
             FormlyBootstrap.getErrorMessage     = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+
+        }
+    ]);
+
+    angular.module('ambersive.formly').controller('FormlyBootstrapsColorCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv',
+        function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv){
+
+            var FormlyBootstrapColor = this;
+
+            FormlyBootstrapColor.getInputClass       = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrapColor.getGroupClass       = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+
+            FormlyBootstrapColor.hasAddon            = FormlyBootstrapSrv.hasAddon;
+            FormlyBootstrapColor.hasAddonAction      = FormlyBootstrapSrv.hasAddonAction;
+
+            FormlyBootstrapColor.getErrorMessage     = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
 
         }
     ]);

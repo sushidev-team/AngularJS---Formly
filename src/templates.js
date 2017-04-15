@@ -21,6 +21,11 @@ angular.module('ambersive.formly').run(['$templateCache', function($templateCach
   );
 
 
+  $templateCache.put('src/views/formly.ambersive.color.html',
+    "<div class=form-group ng-class=FormlyBootstrapColor.getGroupClass(options);><label for=inp_{{options.key}}>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><input colorpicker=hex ng-model=model[options.key] class=form-control ng-disabled=options.templateOptions.disabled ng-class=FormlyBootstrapColor.getInputClass(options); id=inp_{{options.key}} placeholder={{to.placeholder}}> <small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapColor.getErrorMessage(key,value); }}</small></div></div>"
+  );
+
+
   $templateCache.put('src/views/formly.ambersive.date.html',
     "<script type=text/ng-template id=FormlyBootstrapDate_day.html><div ng-if=\"options.templateOptions.time === false\">\n" +
     "        <select ng-disabled=\"options.templateOptions.disabled\" ng-required=\"options.templateOptions.required\" class=\"form-control block\" ng-options=\"o for o in  FormlyBootstrapDate.days\" ng-model=\"FormlyBootstrapDate.day\" ng-class=\"FormlyBootstrap.getInputClass(options);\">\n" +

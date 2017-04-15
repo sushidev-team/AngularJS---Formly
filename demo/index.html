@@ -6,6 +6,7 @@
     <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../bower_components/ui-select/dist/select.css" rel="stylesheet" />
     <link href="../bower_components/codemirror/lib/codemirror.css" rel="stylesheet" />
+    <link href="../bower_components/angular-bootstrap-colorpicker/css/colorpicker.min.css" rel="stylesheet" />
     <script src="../bower_components/angular/angular.js"></script>
     <script src="../bower_components/angular-messages/angular-messages.js"></script>
     <script src="../bower_components/ment.io/dist/mentio.js"></script>
@@ -20,6 +21,7 @@
     <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="../bower_components/codemirror/lib/codemirror.js"></script>
     <script src="../bower_components/angular-ui-codemirror/ui-codemirror.min.js"></script>
+    <script src="../bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.min.js"></script>
 
     <script type="text/ng-template" id="testSelect2Entry.html">
         Eintrag: {{ item[options.templateOptions.labelProp] }}
@@ -112,6 +114,21 @@
                            required:false,
                            disabled:true,
                            regex:[]
+                       }
+                   },
+                   {
+                       key: 'customColor',
+                       type: 'bootstrap_color',
+                       templateOptions: {
+                           label: 'Color',
+                           help: 'Place your help text here',
+                           placeholder:'Placeholder text',
+                           cssClass:'col-sm-6 col-xs-12',
+                           required:true,
+                           regex:[],
+                           mention:{
+
+                           }
                        }
                    },
                    {
