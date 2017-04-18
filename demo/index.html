@@ -228,6 +228,56 @@
                        }
                    },
                    {
+                       key: 'customSelect',
+                       type: 'bootstrap_select',
+                       templateOptions: {
+                           label: 'Auswahl with template',
+                           help: 'Place your help text here',
+                           placeholder:'Placeholder text',
+                           cssClass:'col-sm-12 col-xs-12',
+                           required:false,
+                           valueProp: 'value',
+                           labelProp: 'name',
+                           labelTemplate:'obj.name',
+                           options:[
+                               {
+                                   name:'Test asdf',
+                                   value:1
+                               },
+                               {
+                                   name:'Test 2',
+                                   value:2
+                               }
+                           ]
+                       }
+                   },
+                   {
+                       key: 'customSelect',
+                       type: 'bootstrap_select',
+                       templateOptions: {
+                           label: 'Auswahl with template function',
+                           help: 'Place your help text here',
+                           placeholder:'Placeholder text',
+                           cssClass:'col-sm-12 col-xs-12',
+                           required:false,
+                           valueProp: 'value',
+                           labelProp: 'name',
+                           labelTemplate: function(obj){
+                               return obj.name
+                           },
+                           options:[
+                               {
+                                   name:'Test asdf',
+                                   value:1
+                               },
+                               {
+                                   name:'Test 2',
+                                   value:2
+                               }
+                           ]
+                       }
+                   },
+                   {
                        key: 'customSelect2',
                        type: 'bootstrap_select2',
                        templateOptions: {

@@ -624,49 +624,86 @@
 
             };
 
-            FormlyBootstrapSrv.getOptionLabel  = function (option, labelProp){
+            FormlyBootstrapSrv.getOptionLabel  = function (option, labelProp,templateOptions){
 
                 var label       = '',
                     labelObj    = null,
                     labelParts  = [];
 
-                if(labelProp.indexOf('.') > -1){
+                var getOption   = function(obj,template){
 
-                    labelParts = labelProp.split('.');
+                    var val = '';
 
-                    angular.forEach(labelParts,function(item,index){
+                    /* jshint ignore:start */
 
-                        if(labelObj === null && angular.isDefined(option) && angular.isDefined(option[item]) === true){
+                    try {
+                        val = eval(template);
+                    } catch(err){
+                        console.error(err);
+                    }
 
-                            labelObj = option[item];
+                    /* jshint ignore:end */
 
-                        }
-                        else if(labelObj !== null){
+                    return val;
+                };
 
-                            if(angular.isDefined(labelObj[item]) === true){
-                                labelObj = labelObj[item];
-                            }
+                if(angular.isDefined(templateOptions) && angular.isDefined(templateOptions.labelTemplate)){
 
-                        }
+                    if(angular.isFunction(templateOptions.labelTemplate)){
 
-                        if(angular.isString(labelObj) === true){
+                        // is function
 
-                            label = labelObj;
+                        label = templateOptions.labelTemplate(option);
 
-                        }
-                        else if(angular.isFunction(labelObj) === true){
+                    } else {
 
-                            label = labelObj();
+                        // is string
 
-                        }
+                        label = getOption(option,templateOptions.labelTemplate);
 
-                    });
+                    }
 
                 } else {
 
-                    if(option !== undefined && option[labelProp] !== undefined) {
+                    if (labelProp.indexOf('.') > -1) {
 
-                        label = option[labelProp];
+                        labelParts = labelProp.split('.');
+
+                        angular.forEach(labelParts, function (item, index) {
+
+                            if (labelObj === null && angular.isDefined(option) && angular.isDefined(option[item]) === true) {
+
+                                labelObj = option[item];
+
+                            }
+                            else if (labelObj !== null) {
+
+                                if (angular.isDefined(labelObj[item]) === true) {
+                                    labelObj = labelObj[item];
+                                }
+
+                            }
+
+                            if (angular.isString(labelObj) === true) {
+
+                                label = labelObj;
+
+                            }
+                            else if (angular.isFunction(labelObj) === true) {
+
+                                label = labelObj();
+
+                            }
+
+                        });
+
+                    } else {
+
+                        if (option !== undefined && option[labelProp] !== undefined) {
+
+                            label = option[labelProp];
+
+                        }
 
                     }
 
@@ -1785,7 +1822,7 @@ angular.module('ambersive.formly').run(['$templateCache', function($templateCach
 
 
   $templateCache.put('src/views/formly.ambersive.select.html',
-    "<div class=form-group ng-class=FormlyBootstrapSelect.getGroupClass(options);><label for=inp_{{options.key}}>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><select id=inp_{{options.key}} name=inp_{{options.key}} ng-disabled=options.templateOptions.disabled ng-options=\"option[options.templateOptions.valueProp] as (FormlyBootstrapSelect.getOptionLabel(option,options.templateOptions.labelProp)) for option in options.templateOptions.options\" class=\"form-control block\" ng-model=model[options.key] ng-options=\"\" ng-class=FormlyBootstrapSelect.getInputClass(options);></select><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapSelect.getErrorMessage(key,value); }}</small></div></div>"
+    "<div class=form-group ng-class=FormlyBootstrapSelect.getGroupClass(options);><label for=inp_{{options.key}}>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><select id=inp_{{options.key}} name=inp_{{options.key}} ng-disabled=options.templateOptions.disabled ng-options=\"option[options.templateOptions.valueProp] as (FormlyBootstrapSelect.getOptionLabel(option,options.templateOptions.labelProp,options.templateOptions)) for option in options.templateOptions.options\" class=\"form-control block\" ng-model=model[options.key] ng-if=\"options.templateOptions.labelTemplate !== undefined\" ng-class=FormlyBootstrapSelect.getInputClass(options);></select><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapSelect.getErrorMessage(key,value); }}</small></div></div>"
   );
 
 

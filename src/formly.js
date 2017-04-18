@@ -624,49 +624,86 @@
 
             };
 
-            FormlyBootstrapSrv.getOptionLabel  = function (option, labelProp){
+            FormlyBootstrapSrv.getOptionLabel  = function (option, labelProp,templateOptions){
 
                 var label       = '',
                     labelObj    = null,
                     labelParts  = [];
 
-                if(labelProp.indexOf('.') > -1){
+                var getOption   = function(obj,template){
 
-                    labelParts = labelProp.split('.');
+                    var val = '';
 
-                    angular.forEach(labelParts,function(item,index){
+                    /* jshint ignore:start */
 
-                        if(labelObj === null && angular.isDefined(option) && angular.isDefined(option[item]) === true){
+                    try {
+                        val = eval(template);
+                    } catch(err){
+                        console.error(err);
+                    }
 
-                            labelObj = option[item];
+                    /* jshint ignore:end */
 
-                        }
-                        else if(labelObj !== null){
+                    return val;
+                };
 
-                            if(angular.isDefined(labelObj[item]) === true){
-                                labelObj = labelObj[item];
-                            }
+                if(angular.isDefined(templateOptions) && angular.isDefined(templateOptions.labelTemplate)){
 
-                        }
+                    if(angular.isFunction(templateOptions.labelTemplate)){
 
-                        if(angular.isString(labelObj) === true){
+                        // is function
 
-                            label = labelObj;
+                        label = templateOptions.labelTemplate(option);
 
-                        }
-                        else if(angular.isFunction(labelObj) === true){
+                    } else {
 
-                            label = labelObj();
+                        // is string
 
-                        }
+                        label = getOption(option,templateOptions.labelTemplate);
 
-                    });
+                    }
 
                 } else {
 
-                    if(option !== undefined && option[labelProp] !== undefined) {
+                    if (labelProp.indexOf('.') > -1) {
 
-                        label = option[labelProp];
+                        labelParts = labelProp.split('.');
+
+                        angular.forEach(labelParts, function (item, index) {
+
+                            if (labelObj === null && angular.isDefined(option) && angular.isDefined(option[item]) === true) {
+
+                                labelObj = option[item];
+
+                            }
+                            else if (labelObj !== null) {
+
+                                if (angular.isDefined(labelObj[item]) === true) {
+                                    labelObj = labelObj[item];
+                                }
+
+                            }
+
+                            if (angular.isString(labelObj) === true) {
+
+                                label = labelObj;
+
+                            }
+                            else if (angular.isFunction(labelObj) === true) {
+
+                                label = labelObj();
+
+                            }
+
+                        });
+
+                    } else {
+
+                        if (option !== undefined && option[labelProp] !== undefined) {
+
+                            label = option[labelProp];
+
+                        }
 
                     }
 
