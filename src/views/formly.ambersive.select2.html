@@ -7,12 +7,11 @@
             <span ng-if="FormlyBootstrapSelect2.isDefined(options.templateOptions.templateFn) === true" ng-bind-html="options.templateOptions.templateFn($select.selected)"></span>
         </ui-select-match>
         <ui-select-choices repeat="item in (options.templateOptions.options | filter: $select.search) track by item[options.templateOptions.valueProp]">
-            <span ng-if="options.templateOptions.template === undefined && FormlyBootstrapSelect2.isDefined(options.templateOptions.templateFn) === false">{{ FormlyBootstrapSelect2.getOptionLabel(item,options.templateOptions.label)) }}</span>
+            <span ng-if="options.templateOptions.template === undefined && FormlyBootstrapSelect2.isDefined(options.templateOptions.templateFn) === false">{{ FormlyBootstrapSelect2.getOptionLabel(item,options.templateOptions.labelProp) }}</span>
             <span ng-if="options.templateOptions.template !== undefined && FormlyBootstrapSelect2.isDefined(options.templateOptions.templateFn) === false" ng-include="options.templateOptions.template" ></span>
             <span ng-if="options.templateOptions.template === undefined || FormlyBootstrapSelect2.isDefined(options.templateOptions.templateFn) === true" ng-bind-html="options.templateOptions.templateFn(item)"></span>
         </ui-select-choices>
     </ui-select>
-    {{angular.isFunction(options.templateOptions.template)}}
     <small class="text-muted" ng-if="to.help !== undefined && showError !== true">
         {{to.help}}
     </small>

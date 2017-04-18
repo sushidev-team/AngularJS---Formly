@@ -703,6 +703,7 @@
 
                             if (option !== undefined && option[labelProp] !== undefined) {
 
+
                                 label = option[labelProp];
 
                             }
@@ -710,7 +711,7 @@
                         }
 
                     } catch(err){
-
+                        console.error(err);
                     }
 
                 }
