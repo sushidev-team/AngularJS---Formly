@@ -665,45 +665,51 @@
 
                 } else {
 
-                    if (labelProp.indexOf('.') > -1) {
+                    try {
 
-                        labelParts = labelProp.split('.');
+                        if (labelProp.indexOf('.') > -1) {
 
-                        angular.forEach(labelParts, function (item, index) {
+                            labelParts = labelProp.split('.');
 
-                            if (labelObj === null && angular.isDefined(option) && angular.isDefined(option[item]) === true) {
+                            angular.forEach(labelParts, function (item, index) {
 
-                                labelObj = option[item];
+                                if (labelObj === null && angular.isDefined(option) && angular.isDefined(option[item]) === true) {
 
-                            }
-                            else if (labelObj !== null) {
+                                    labelObj = option[item];
 
-                                if (angular.isDefined(labelObj[item]) === true) {
-                                    labelObj = labelObj[item];
+                                }
+                                else if (labelObj !== null) {
+
+                                    if (angular.isDefined(labelObj[item]) === true) {
+                                        labelObj = labelObj[item];
+                                    }
+
                                 }
 
+                                if (angular.isString(labelObj) === true) {
+
+                                    label = labelObj;
+
+                                }
+                                else if (angular.isFunction(labelObj) === true) {
+
+                                    label = labelObj();
+
+                                }
+
+                            });
+
+                        } else {
+
+                            if (option !== undefined && option[labelProp] !== undefined) {
+
+                                label = option[labelProp];
+
                             }
-
-                            if (angular.isString(labelObj) === true) {
-
-                                label = labelObj;
-
-                            }
-                            else if (angular.isFunction(labelObj) === true) {
-
-                                label = labelObj();
-
-                            }
-
-                        });
-
-                    } else {
-
-                        if (option !== undefined && option[labelProp] !== undefined) {
-
-                            label = option[labelProp];
 
                         }
+
+                    } catch(err){
 
                     }
 
@@ -820,6 +826,8 @@
                 $rootScope.$broadcast('changeValue',{item:item,options:$scope.options});
 
             };
+
+            FormlyBootstrapSelect2.isDefined = angular.isDefined;
 
             FormlyBootstrapSelect2.init = function(){
 

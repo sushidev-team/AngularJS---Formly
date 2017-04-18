@@ -665,45 +665,51 @@
 
                 } else {
 
-                    if (labelProp.indexOf('.') > -1) {
+                    try {
 
-                        labelParts = labelProp.split('.');
+                        if (labelProp.indexOf('.') > -1) {
 
-                        angular.forEach(labelParts, function (item, index) {
+                            labelParts = labelProp.split('.');
 
-                            if (labelObj === null && angular.isDefined(option) && angular.isDefined(option[item]) === true) {
+                            angular.forEach(labelParts, function (item, index) {
 
-                                labelObj = option[item];
+                                if (labelObj === null && angular.isDefined(option) && angular.isDefined(option[item]) === true) {
 
-                            }
-                            else if (labelObj !== null) {
+                                    labelObj = option[item];
 
-                                if (angular.isDefined(labelObj[item]) === true) {
-                                    labelObj = labelObj[item];
+                                }
+                                else if (labelObj !== null) {
+
+                                    if (angular.isDefined(labelObj[item]) === true) {
+                                        labelObj = labelObj[item];
+                                    }
+
                                 }
 
+                                if (angular.isString(labelObj) === true) {
+
+                                    label = labelObj;
+
+                                }
+                                else if (angular.isFunction(labelObj) === true) {
+
+                                    label = labelObj();
+
+                                }
+
+                            });
+
+                        } else {
+
+                            if (option !== undefined && option[labelProp] !== undefined) {
+
+                                label = option[labelProp];
+
                             }
-
-                            if (angular.isString(labelObj) === true) {
-
-                                label = labelObj;
-
-                            }
-                            else if (angular.isFunction(labelObj) === true) {
-
-                                label = labelObj();
-
-                            }
-
-                        });
-
-                    } else {
-
-                        if (option !== undefined && option[labelProp] !== undefined) {
-
-                            label = option[labelProp];
 
                         }
+
+                    } catch(err){
 
                     }
 
@@ -820,6 +826,8 @@
                 $rootScope.$broadcast('changeValue',{item:item,options:$scope.options});
 
             };
+
+            FormlyBootstrapSelect2.isDefined = angular.isDefined;
 
             FormlyBootstrapSelect2.init = function(){
 
@@ -1827,7 +1835,7 @@ angular.module('ambersive.formly').run(['$templateCache', function($templateCach
 
 
   $templateCache.put('src/views/formly.ambersive.select2.html',
-    "<div class=form-group ng-class=FormlyBootstrapSelect2.getGroupClass(options);><label>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><ui-select ng-model=FormlyBootstrapSelect2.data on-select=\"FormlyBootstrapSelect2.choose($item, $model)\"><ui-select-match placeholder={{options.templateOptions.placeholder}} ng-model=FormlyBootstrapSelect2.data><span ng-if=\"options.templateOptions.templateSelected === undefined\">{{ FormlyBootstrapSelect2.getOptionLabel($select.selected,options.templateOptions.labelProp) }}</span> <span ng-if=\"options.templateOptions.templateSelected !== undefined\" ng-include=options.templateOptions.templateSelected></span></ui-select-match><ui-select-choices repeat=\"item in (options.templateOptions.options | filter: $select.search) track by item[options.templateOptions.valueProp]\"><span ng-if=\"options.templateOptions.template === undefined\">{{ FormlyBootstrapSelect2.getOptionLabel(item,options.templateOptions.labelProp) }}</span> <span ng-if=\"options.templateOptions.template !== undefined\" ng-include=options.templateOptions.template></span></ui-select-choices></ui-select><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapSelect2.getErrorMessage(key,value); }}</small></div></div>"
+    "<div class=form-group ng-class=FormlyBootstrapSelect2.getGroupClass(options);><label>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><ui-select ng-model=FormlyBootstrapSelect2.data on-select=\"FormlyBootstrapSelect2.choose($item, $model)\"><ui-select-match placeholder={{options.templateOptions.placeholder}} ng-model=FormlyBootstrapSelect2.data><span ng-if=\"options.templateOptions.templateSelected === undefined && FormlyBootstrapSelect2.isDefined(options.templateOptions.templateFn) === false\">{{ FormlyBootstrapSelect2.getOptionLabel($select.selected,options.templateOptions.labelProp,options.templateOptions) }}</span> <span ng-if=\"options.templateOptions.templateSelected !== undefined && FormlyBootstrapSelect2.isDefined(options.templateOptions.templateFn) === false\" ng-include=options.templateOptions.templateSelected></span> <span ng-if=\"FormlyBootstrapSelect2.isDefined(options.templateOptions.templateFn) === true\" ng-bind-html=options.templateOptions.templateFn($select.selected)></span></ui-select-match><ui-select-choices repeat=\"item in (options.templateOptions.options | filter: $select.search) track by item[options.templateOptions.valueProp]\"><span ng-if=\"options.templateOptions.template === undefined && FormlyBootstrapSelect2.isDefined(options.templateOptions.templateFn) === false\">{{ FormlyBootstrapSelect2.getOptionLabel(item,options.templateOptions.label)) }}</span> <span ng-if=\"options.templateOptions.template !== undefined && FormlyBootstrapSelect2.isDefined(options.templateOptions.templateFn) === false\" ng-include=options.templateOptions.template></span> <span ng-if=\"options.templateOptions.template === undefined || FormlyBootstrapSelect2.isDefined(options.templateOptions.templateFn) === true\" ng-bind-html=options.templateOptions.templateFn(item)></span></ui-select-choices></ui-select>{{angular.isFunction(options.templateOptions.template)}} <small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.formControl.$touched\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div><small class=text-danger ng-message={{key}} ng-repeat=\"(key, value) in fc.$error\" ng-if=\"key !== 'server'\">{{ FormlyBootstrapSelect2.getErrorMessage(key,value); }}</small></div></div>"
   );
 
 

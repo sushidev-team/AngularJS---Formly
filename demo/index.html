@@ -306,16 +306,72 @@
                        }
                    },
                    {
+                       key: 'customSelect2_tempalte',
+                       type: 'bootstrap_select2',
+                       templateOptions: {
+                           label: 'Select2 with template function',
+                           help: 'Place your help text here',
+                           placeholder:'Placeholder text',
+                           cssClass:'col-sm-12 col-xs-12',
+                           required:false,
+                           valueProp: 'value',
+                           labelProp: 'name',
+                           labelTemplate: function(obj){
+                               return 'TEST';
+                           },
+                           options:[
+                               {
+                                   name:'Test asdf',
+                                   value:1
+                               },
+                               {
+                                   name:'Test 2',
+                                   value:2
+                               }
+                           ]
+                       }
+                   },
+                   {
                        key: 'customSelect3',
                        type: 'bootstrap_select2',
                        templateOptions: {
-                           label: 'Input',
+                           label: 'Select2',
                            type:'text',
                            help: 'Place your help text here',
                            placeholder:'Placeholder text',
                            cssClass:'col-sm-6 col-xs-12',
                            required:true,
                            template:'testSelect2Entry.html',
+                           templateSelected:'testSelect2EntrySelected.html',
+                           valueProp: 'value',
+                           labelProp: 'name',
+                           options:[
+                               {
+                                   name:'Test',
+                                   value:1
+                               },
+                               {
+                                   name:'Test 2',
+                                   value:2
+                               }
+                           ]
+                       }
+                   },
+                   {
+                       key: 'customSelect3x',
+                       type: 'bootstrap_select2',
+                       templateOptions: {
+                           label: 'Select2 - Function template',
+                           type:'text',
+                           help: 'Place your help text here',
+                           placeholder:'Placeholder text',
+                           cssClass:'col-sm-6 col-xs-12',
+                           required:true,
+                           templateFn: function(data){
+                               if(angular.isDefined(data)) {
+                                   return 'Fn-Entry:' + data.name;
+                               }
+                           },
                            templateSelected:'testSelect2EntrySelected.html',
                            valueProp: 'value',
                            labelProp: 'name',
