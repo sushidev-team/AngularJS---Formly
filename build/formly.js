@@ -59,7 +59,7 @@
                     success         = false,
                     type            = options.templateOptions.type;
 
-                if(type === undefined){
+                if(type === undefined){ 
                     type = 'text';
                 }
 
@@ -125,7 +125,7 @@
                 defaultOptions: {
                     templateOptions: {
                         onKeypress: function (value,field,scope) {
-                            field.formControl.$setValidity('server', true);
+
                         }
                     },
                     validators: {
@@ -141,7 +141,7 @@
                 defaultOptions: {
                     templateOptions: {
                         onKeypress: function (value,field,scope) {
-                            field.formControl.$setValidity('server', true);
+
                         }
                     },
                     validators: {
@@ -171,7 +171,7 @@
                 defaultOptions: {
                     templateOptions: {
                         onChange: function (value,field,scope) {
-                            field.formControl.$setValidity('server', true);
+                            //field.formControl.$setValidity('server', true);
                         }
                     },
                     validators: {
@@ -209,7 +209,7 @@
                 defaultOptions: {
                     templateOptions: {
                         onKeypress: function (value,field,scope) {
-                            field.formControl.$setValidity('server', true);
+
                         }
                     }
                 }
@@ -222,7 +222,7 @@
                 defaultOptions: {
                     templateOptions: {
                         onKeypress: function (value,field,scope) {
-                            field.formControl.$setValidity('server', true);
+
                         }
                     },
                     validators: {
@@ -238,7 +238,7 @@
                 defaultOptions: {
                     templateOptions: {
                         onKeypress: function (value,field,scope) {
-                            field.formControl.$setValidity('server', true);
+
                         }
                     },
                     validators: {
@@ -254,7 +254,7 @@
                 defaultOptions: {
                     templateOptions: {
                         onChange: function (value,field,scope) {
-                            field.formControl.$setValidity('server', true);
+
                         }
                     },
                     validators: {
@@ -270,7 +270,7 @@
                 defaultOptions: {
                     templateOptions: {
                         onChange: function (value,field,scope) {
-                            field.formControl.$setValidity('server', true);
+
                         }
                     },
                     validators: {
