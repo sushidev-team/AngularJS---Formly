@@ -59,7 +59,7 @@
                     success         = false,
                     type            = options.templateOptions.type;
 
-                if(type === undefined){ 
+                if(type === undefined){
                     type = 'text';
                 }
 
@@ -130,6 +130,22 @@
                     },
                     validators: {
                        standardValidation: $formlyBootstrapSettingsProvider.validation
+                    }
+                }
+            });
+
+            formlyConfigProvider.setType({
+                name: 'bootstrap_input_check',
+                templateUrl: 'src/views/formly.ambersive.check.html',
+                controller:'FormlyBootstrapsCheckCtrl as FormlyBootstrapCheck',
+                defaultOptions: {
+                    templateOptions: {
+                        onKeypress: function (value,field,scope) {
+
+                        }
+                    },
+                    validators: {
+                        standardValidation: $formlyBootstrapSettingsProvider.validation
                     }
                 }
             });
@@ -769,6 +785,145 @@
             FormlyBootstrap.hasAddonAction      = FormlyBootstrapSrv.hasAddonAction;
 
             FormlyBootstrap.getErrorMessage     = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+
+        }
+    ]);
+
+    angular.module('ambersive.formly').controller('FormlyBootstrapsCheckCtrl',['$rootScope','$scope','$formlyBootstrapSettings','FormlyBootstrapSrv',
+        function($rootScope,$scope,$formlyBootstrapSettings,FormlyBootstrapSrv){
+
+            var FormlyBootstrapCheck = this;
+
+            FormlyBootstrapCheck.getInputClass       = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
+            FormlyBootstrapCheck.getGroupClass       = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+
+            FormlyBootstrapCheck.hasAddon            = FormlyBootstrapSrv.hasAddon;
+            FormlyBootstrapCheck.hasAddonAction      = FormlyBootstrapSrv.hasAddonAction;
+
+            FormlyBootstrapCheck.textes              = {
+                invalid:    'invalid',
+                valid:      'valid',
+                none:       'n/a',
+                progress:   'please wait...'
+            };
+
+            FormlyBootstrapCheck.getErrorMessage     = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
+
+            FormlyBootstrapCheck.value               = '';
+            FormlyBootstrapCheck.content             = '';
+
+            FormlyBootstrapCheck.keyDownEvent        = null;
+
+            /***
+             * The actual action
+             */
+
+            FormlyBootstrapCheck.action              = function(){
+
+                if(angular.isDefined($scope.options.templateOptions) && angular.isDefined($scope.options.templateOptions.check) && angular.isFunction($scope.options.templateOptions.check)){
+
+                    try {
+
+                        $scope.options.templateOptions.check().then(
+                            function () {
+
+                                // Success
+
+                                FormlyBootstrapCheck.content = angular.copy(FormlyBootstrapCheck.textes.valid);
+
+                            },
+                            function () {
+
+                                // Error
+
+                                FormlyBootstrapCheck.content = angular.copy(FormlyBootstrapCheck.textes.invalid);
+
+                            }
+                        );
+
+                    } catch(err){
+
+                        FormlyBootstrapCheck.content = angular.copy(FormlyBootstrapCheck.textes.invalid);
+
+                    }
+                }
+
+            };
+
+            /***
+             * Keydown event in the input
+             * @param e
+             */
+
+            FormlyBootstrapCheck.keydown             = function(e){
+
+                // Disable enter the keydown
+
+                var ts = 500;
+
+                if(angular.isDefined(e) && e.keyCode === 13){
+                    e.preventDefault();
+                    ts = 0;
+                }
+
+                FormlyBootstrapCheck.content = angular.copy(FormlyBootstrapCheck.textes.progress);
+
+                clearTimeout(FormlyBootstrapCheck.keyDownEvent);
+
+                setTimeout(function(){
+
+                    FormlyBootstrapCheck.action();
+
+                },ts);
+
+            };
+
+            /***
+             * Force the validation
+             */
+
+            FormlyBootstrapCheck.force               = function(){
+
+                clearTimeout(FormlyBootstrapCheck.keyDownEvent);
+                FormlyBootstrapCheck.action();
+
+            };
+
+            FormlyBootstrapCheck.init                = function(){
+
+                FormlyBootstrapCheck.value = angular.copy($scope.model[$scope.options.key]);
+
+                if(angular.isDefined($scope.options.templateOptions.checkValid)){
+                    FormlyBootstrapCheck.textes.valid   = $scope.options.templateOptions.checkValid;
+                }
+
+                if(angular.isDefined($scope.options.templateOptions.checkInvalid)){
+                    FormlyBootstrapCheck.textes.invalid = $scope.options.templateOptions.checkInvalid;
+                }
+
+                if(angular.isDefined($scope.options.templateOptions.checkValid)){
+                    FormlyBootstrapCheck.textes.none   = $scope.options.templateOptions.checkNone;
+                }
+
+                if(angular.isDefined($scope.options.templateOptions.checkProress)){
+                    FormlyBootstrapCheck.textes.progress   = $scope.options.templateOptions.checkProress;
+                }
+
+                FormlyBootstrapCheck.content = angular.copy(FormlyBootstrapCheck.textes.none);
+
+            };
+
+            FormlyBootstrapCheck.init();
+
+            $scope.$watch('FormlyBootstrapCheck.value',function(){
+
+                FormlyBootstrapCheck.keydown();
+
+                $scope.model[$scope.options.key] = FormlyBootstrapCheck.value;
+
+            },true);
+
+            //model[options.key]
 
         }
     ]);

@@ -1,9 +1,26 @@
 # FORMLY FIELDS - For Formly for AngularJS
 
 ### Version
-0.0.9.9
+0.0.10.0
 
-NOT STABLE
+The package is still suppored by AMBERSIVE.com
+
+This package provides a collection of useful formly control fields.
+
+Currently the following controlfields are provides
+
+- Input
+- Checkbox (boots)
+- Colorpicker
+- Radio
+- Tags
+- Textarea with TinyMCE Implementation
+- Codemirror implementation
+- Autocomplete
+- Select and also Select2
+- Infotext
+- Datepicker / Timepicker
+- Radio- and checkboxlist
 
 ### Installation
 
@@ -31,7 +48,7 @@ angular.module('app', ['ambersive.formly'])
 
 ### Options and Updates
 
-
+Documentation coming soon
 
 License
 ----

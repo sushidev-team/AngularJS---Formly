@@ -38,7 +38,7 @@
     <script>
 
         angular.module('app', ['formly','ambersive.formly','ui.select', 'ngSanitize','ui.codemirror'])
-           .controller('DemoController',function($scope,$log,$rootScope,FormlyBootstrapSrv,$http){
+           .controller('DemoController',function($scope,$log,$rootScope,FormlyBootstrapSrv,$http,$q){
 
                var demo = this;
 
@@ -64,7 +64,7 @@
                demo.formFields = [
                    {
                        key: 'customSelect4',
-                       type: 'bootstrap_select2',
+                       type: 'bootstrap_input_check',
                        templateOptions: {
                            label: 'Select 2 - Standard',
                            type:'text',
@@ -72,35 +72,17 @@
                            placeholder:'Placeholder text',
                            cssClass:'col-xs-12',
                            required:true,
-                           valueProp: 'value',
-                           labelProp: 'name',
-                           addTags:true,
-                           options:[
-                               {
-                                   name:'Test',
-                                   value:1
-                               },
-                               {
-                                   name:'Test 2',
-                                   value:2
-                               }
-                           ]
-                       }
-                   },
-                   {
-                       key: 'customSelect4',
-                       type: 'bootstrap_select2',
-                       templateOptions: {
-                           label: 'Select 2 - Standard',
-                           type:'text',
-                           help: 'Place your help text here',
-                           placeholder:'Placeholder text',
-                           cssClass:'col-xs-12',
-                           required:true,
-                           valueProp: 'value',
-                           labelProp: 'name',
-                           template:'testSelect2Entry.html',
-                           options:demo.data
+                           check:function(){
+
+                               var deferred = $q.defer();
+
+                               setTimeout(function() {
+                                   deferred.resolve(true);
+                               }, 1000);
+
+                               return deferred.promise;
+
+                           }
                        }
                    }
                ];
