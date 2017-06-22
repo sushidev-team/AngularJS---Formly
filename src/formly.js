@@ -822,9 +822,9 @@
 
                 if(angular.isDefined($scope.options.templateOptions) && angular.isDefined($scope.options.templateOptions.check) && angular.isFunction($scope.options.templateOptions.check)){
 
-                    try {
+                    try { 
 
-                        $scope.options.templateOptions.check().then(
+                        $scope.options.templateOptions.check(FormlyBootstrapCheck.value).then(
                             function () {
 
                                 // Success
