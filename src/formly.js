@@ -879,7 +879,7 @@
             };
 
             /***
-             * Force the validation
+             * Force the validation 
              */
 
             FormlyBootstrapCheck.force               = function(){
@@ -905,8 +905,8 @@
                     FormlyBootstrapCheck.textes.none   = $scope.options.templateOptions.checkNone;
                 }
 
-                if(angular.isDefined($scope.options.templateOptions.checkProress)){
-                    FormlyBootstrapCheck.textes.progress   = $scope.options.templateOptions.checkProress;
+                if(angular.isDefined($scope.options.templateOptions.checkProgress)){
+                    FormlyBootstrapCheck.textes.progress   = $scope.options.templateOptions.checkProgress;
                 }
 
                 FormlyBootstrapCheck.content = angular.copy(FormlyBootstrapCheck.textes.none);
