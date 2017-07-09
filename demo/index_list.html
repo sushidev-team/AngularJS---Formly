@@ -18,6 +18,7 @@
     <script src="../bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
     <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script type="text/ng-template" id="testSelect2EntrySelected.html"></script>
+    <script src="../bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.min.js"></script>
 
     <script src="../bower_components/codemirror/lib/codemirror.js"></script>
     <script src="../bower_components/angular-ui-codemirror/ui-codemirror.min.js"></script>
@@ -68,6 +69,29 @@
 
                demo.formFields = [
                    {
+                       key: 'customSelect',
+                       type: 'bootstrap_select',
+                       templateOptions: {
+                           label: 'Auswahl',
+                           help: 'Place your help text here',
+                           placeholder:'Placeholder text',
+                           cssClass:'col-sm-12 col-xs-12',
+                           required:false,
+                           valueProp: 'value',
+                           labelProp: 'name',
+                           options:[
+                               {
+                                   name:'Test asdf',
+                                   value:1
+                               },
+                               {
+                                   name:'Test 2',
+                                   value:2
+                               }
+                           ]
+                       }
+                   },
+                   {
                        key: 'addresses',
                        type: 'bootstrap_list',
                        templateOptions: {
@@ -92,10 +116,10 @@
                                        type:'text',
                                        cssClass:'col-xs-12',
                                        required: false,
-                                       disabled: false
+                                       disabled: false,
+                                       parent:demo.formData
                                    },
                                    hideExpression:function(value1,value,scope,obj){
-
                                    }
                                },
                                {

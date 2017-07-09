@@ -1723,6 +1723,8 @@
 
             var FormlyBootstrapList = this;
 
+            FormlyBootstrapList.modelDataParent     = $scope.model;
+
             FormlyBootstrapList.getInputClass       = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
             FormlyBootstrapList.getGroupClass       = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
             FormlyBootstrapList.getBtnClass         = function() { return $scope.options.templateOptions.cssBtn; };
@@ -1848,6 +1850,10 @@
                     });
 
                 }
+
+                angular.forEach($scope.options.templateOptions.fields,function(item,index){
+                    item.templateOptions.parent = $scope.model;
+                });
                 
             };
 

@@ -1,7 +1,7 @@
 # FORMLY FIELDS - For Formly for AngularJS
 
 ### Version
-0.0.10.2
+0.0.10.3
 
 The package is still suppored by AMBERSIVE.com
 
