@@ -120,6 +120,15 @@
                                        parent:demo.formData
                                    },
                                    hideExpression:function(value1,value,scope,obj){
+
+                                       if(obj.options.templateOptions.parentValue !== undefined) {
+
+                                           console.error(obj.options.templateOptions);
+
+                                           console.error(obj.options.templateOptions.parentValue('customSelect'));
+
+                                       }
+
                                    }
                                },
                                {

@@ -476,9 +476,12 @@
              * @returns {string}
              */
 
-            FormlyBootstrapSrv.getGroupClass = function (options) {
+            FormlyBootstrapSrv.getGroupClass = function (options,modelData) {
 
                 var cssClass = '';
+
+                console.warn(options.originalModel);
+                console.error(modelData);
 
                 if(options.templateOptions !== undefined &&  options.templateOptions.cssClass !== undefined){
                     cssClass = options.templateOptions.cssClass;
@@ -486,6 +489,12 @@
 
                 if((options.formControl !== undefined && options.formControl.$invalid === true && options.formControl.$untouched === false) || (options.hasServerError === true)) {
                     cssClass += ' ' + $formlyBootstrapSettings.formGroup + $formlyBootstrapSettings.cssError;
+                }
+
+                if(angular.isDefined(modelData) && modelData !== ''){
+
+                    cssClass += ' ' + 'hasData';
+
                 }
 
                 return cssClass;
@@ -779,7 +788,7 @@
             var FormlyBootstrap = this;
 
             FormlyBootstrap.getInputClass       = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrap.getGroupClass       = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrap.getGroupClass       = function(options,model) { return FormlyBootstrapSrv.getGroupClass($scope.options,model); };
 
             FormlyBootstrap.hasAddon            = FormlyBootstrapSrv.hasAddon;
             FormlyBootstrap.hasAddonAction      = FormlyBootstrapSrv.hasAddonAction;
@@ -795,7 +804,7 @@
             var FormlyBootstrapCheck = this;
 
             FormlyBootstrapCheck.getInputClass       = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrapCheck.getGroupClass       = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapCheck.getGroupClass       = function() { return FormlyBootstrapSrv.getGroupClass($scope.options,$scope.model[$scope.options.key]); };
 
             FormlyBootstrapCheck.hasAddon            = FormlyBootstrapSrv.hasAddon;
             FormlyBootstrapCheck.hasAddonAction      = FormlyBootstrapSrv.hasAddonAction;
@@ -934,7 +943,7 @@
             var FormlyBootstrapColor = this;
 
             FormlyBootstrapColor.getInputClass       = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrapColor.getGroupClass       = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapColor.getGroupClass       = function() { return FormlyBootstrapSrv.getGroupClass($scope.options,$scope.model[$scope.options.key]); };
 
             FormlyBootstrapColor.hasAddon            = FormlyBootstrapSrv.hasAddon;
             FormlyBootstrapColor.hasAddonAction      = FormlyBootstrapSrv.hasAddonAction;
@@ -950,7 +959,7 @@
             var FormlyBootstrapSelect = this;
 
             FormlyBootstrapSelect.getInputClass         = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrapSelect.getGroupClass         = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapSelect.getGroupClass         = function() { return FormlyBootstrapSrv.getGroupClass($scope.options,$scope.model[$scope.options.key]); };
             FormlyBootstrapSelect.getOptionLabel        = FormlyBootstrapSrv.getOptionLabel;
 
             FormlyBootstrapSelect.getErrorMessage       = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
@@ -967,7 +976,7 @@
             FormlyBootstrapSelect2.loaded   = false;
 
             FormlyBootstrapSelect2.getInputClass        = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrapSelect2.getGroupClass        = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapSelect2.getGroupClass        = function() { return FormlyBootstrapSrv.getGroupClass($scope.options,$scope.model[$scope.options.key]); };
             FormlyBootstrapSelect2.getOptionLabel       = FormlyBootstrapSrv.getOptionLabel;
 
             FormlyBootstrapSelect2.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
@@ -1035,7 +1044,7 @@
             var FormlyBootstrapTags = this;
 
             FormlyBootstrapTags.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrapTags.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapTags.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options,$scope.model[$scope.options.key]); };
             FormlyBootstrapTags.customClass   = '';
 
             FormlyBootstrapTags.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
@@ -1132,7 +1141,7 @@
 
             FormlyBootstrapTextarea.getInputClass = function () { return FormlyBootstrapSrv.getInputClass($scope.options); };
             FormlyBootstrapTextarea.getGroupClass = function () {
-                var className = FormlyBootstrapSrv.getGroupClass($scope.options);
+                var className = FormlyBootstrapSrv.getGroupClass($scope.options,$scope.model[$scope.options.key]);
 
                 if($scope.options.templateOptions.hasFocus === true){
                     className += ' focus';
@@ -1260,7 +1269,7 @@
             FormlyBootstrapDate.months = FormlyBootstrapSrv.dateHelper.monthList();
 
             FormlyBootstrapDate.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrapDate.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapDate.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options,$scope.model[$scope.options.key]); };
 
             FormlyBootstrapDate.isNotADateDelimiter = function (char) {
 
@@ -1568,7 +1577,7 @@
             var FormlyBootstrapCheckbox = this;
 
             FormlyBootstrapCheckbox.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrapCheckbox.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapCheckbox.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options,$scope.model[$scope.options.key]); };
 
             FormlyBootstrapCheckbox.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
 
@@ -1584,7 +1593,7 @@
             FormlyBootstrapCheckboxList.inited          = false;
 
             FormlyBootstrapCheckboxList.getInputClass   = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrapCheckboxList.getGroupClass   = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapCheckboxList.getGroupClass   = function() { return FormlyBootstrapSrv.getGroupClass($scope.options,$scope.model[$scope.options.key]); };
 
             FormlyBootstrapCheckboxList.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
             FormlyBootstrapCheckboxList.getOptionLabel  = FormlyBootstrapSrv.getOptionLabel;
@@ -1677,7 +1686,7 @@
             var FormlyBootstrapRadio = this;
 
             FormlyBootstrapRadio.getInputClass      = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrapRadio.getGroupClass      = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapRadio.getGroupClass      = function() { return FormlyBootstrapSrv.getGroupClass($scope.options,$scope.model[$scope.options.key]); };
             FormlyBootstrapRadio.getOptionLabel     = FormlyBootstrapSrv.getOptionLabel;
 
             FormlyBootstrapRadio.getErrorMessage    = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
@@ -1691,7 +1700,7 @@
             var FormlyBootstrapsAutocomplete = this;
 
             FormlyBootstrapsAutocomplete.getInputClass      = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrapsAutocomplete.getGroupClass      = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapsAutocomplete.getGroupClass      = function() { return FormlyBootstrapSrv.getGroupClass($scope.options,$scope.model[$scope.options.key]); };
             FormlyBootstrapsAutocomplete.getOptionLabel     = FormlyBootstrapSrv.getOptionLabel;
             FormlyBootstrapsAutocomplete.hasAddon           = FormlyBootstrapSrv.hasAddon;
             FormlyBootstrapsAutocomplete.hasAddonAction     = FormlyBootstrapSrv.hasAddonAction;
@@ -1707,7 +1716,7 @@
             var FormlyBootstrapCodemirror = this;
 
             FormlyBootstrapCodemirror.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrapCodemirror.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapCodemirror.getGroupClass = function() { return FormlyBootstrapSrv.getGroupClass($scope.options,$scope.model[$scope.options.key]); };
 
             FormlyBootstrapCodemirror.getErrorMessage = function (type, hasError) { return FormlyBootstrapSrv.getErrorMessage($scope.options, type, hasError); };
 
@@ -1726,7 +1735,7 @@
             FormlyBootstrapList.modelDataParent     = $scope.model;
 
             FormlyBootstrapList.getInputClass       = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
-            FormlyBootstrapList.getGroupClass       = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapList.getGroupClass       = function() { return FormlyBootstrapSrv.getGroupClass($scope.options,$scope.model[$scope.options.key]); };
             FormlyBootstrapList.getBtnClass         = function() { return $scope.options.templateOptions.cssBtn; };
             FormlyBootstrapList.getListClass        = function() { return $scope.options.templateOptions.cssListEntry;};
 
@@ -1850,10 +1859,6 @@
                     });
 
                 }
-
-                angular.forEach($scope.options.templateOptions.fields,function(item,index){
-                    item.templateOptions.parent = $scope.model;
-                });
                 
             };
 
@@ -1871,7 +1876,7 @@
 
             var FormlyBootstrapInfos                = this;
 
-            FormlyBootstrapInfos.getGroupClass      = function() { return FormlyBootstrapSrv.getGroupClass($scope.options); };
+            FormlyBootstrapInfos.getGroupClass      = function() { return FormlyBootstrapSrv.getGroupClass($scope.options,$scope.model[$scope.options.key]); };
 
             FormlyBootstrapInfos.hide               = false;
             FormlyBootstrapInfos.toggle             = function(e){

@@ -1,4 +1,4 @@
-<div class="form-group" ng-class="FormlyBootstrap.getGroupClass(options);">
+<div class="form-group" ng-class="FormlyBootstrap.getGroupClass(options,model[options.key]);">
     <label for="inp_{{options.key}}">{{to.label}} <span class="required" ng-if="options.templateOptions.required">*</span></label>
 
     <div class="input-group" ng-if="FormlyBootstrap.hasAddon(null,options)">
