@@ -480,9 +480,6 @@
 
                 var cssClass = '';
 
-                console.warn(options.originalModel);
-                console.error(modelData);
-
                 if(options.templateOptions !== undefined &&  options.templateOptions.cssClass !== undefined){
                     cssClass = options.templateOptions.cssClass;
                 }
