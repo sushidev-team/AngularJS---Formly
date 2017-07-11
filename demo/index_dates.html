@@ -19,6 +19,7 @@
     <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script type="text/ng-template" id="testSelect2EntrySelected.html"></script>
 
+    <script src="../bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.min.js"></script>
     <script src="../bower_components/codemirror/lib/codemirror.js"></script>
     <script src="../bower_components/angular-ui-codemirror/ui-codemirror.min.js"></script>
     <script>
@@ -38,6 +39,20 @@
                };
 
                demo.formFields = [
+                   {
+                       key: 'customDateToday',
+                       type: 'bootstrap_date',
+                       templateOptions: {
+                           label: 'Date of todaygr',
+                           help: 'Place your help text here',
+                           placeholder:'Placeholder text',
+                           cssClass:'col-xs-12',
+                           required:false,
+                           time:true,
+                           dateFormat:'y-m-d',
+                           monthFormat:'MMMM'
+                       }
+                   },
                    {
                        key: 'customDate',
                        type: 'bootstrap_date',

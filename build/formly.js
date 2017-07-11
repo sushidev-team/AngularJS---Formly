@@ -1252,11 +1252,13 @@
 
             }
 
-            FormlyBootstrapDate.month   = CurrentDate.getUTCMonth();
+            FormlyBootstrapDate.month   = CurrentDate.getUTCMonth() + 1;
             FormlyBootstrapDate.day     = CurrentDate.getUTCDate();
             FormlyBootstrapDate.hour    = 0;
             FormlyBootstrapDate.minute  = 0;
             FormlyBootstrapDate.second  = 0;
+
+            console.error(FormlyBootstrapDate.month);
 
             if(FormlyBootstrapDate.year === undefined) {
                 FormlyBootstrapDate.year  = CurrentDate.getFullYear();
