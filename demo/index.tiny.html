@@ -20,6 +20,7 @@
     <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="../bower_components/codemirror/lib/codemirror.js"></script>
     <script src="../bower_components/angular-ui-codemirror/ui-codemirror.min.js"></script>
+    <script src="../bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.min.js"></script>
 
     <script type="text/ng-template" id="testSelect2Entry.html">
         Eintrag: {{ item[options.templateOptions.labelProp] }}
@@ -97,6 +98,27 @@
                                theme : 'modern'
                            },
                            required:false
+                       }
+                   },
+                   {
+                       key: 'customTinymce2',
+                       type: 'bootstrap_textarea',
+                       templateOptions: {
+                           label: 'Test',
+                           help: 'Place your help text here',
+                           placeholder:'Placeholder text',
+                           cssClass:'col-sm-12 col-xs-12',
+                           tinyMCE:true,
+                           tinyMCE_Settings:{
+                               toolbar: 'gaps',
+                               content_css:[
+                                   '../bower_components/bootstrap/dist/css/bootstrap.min.css'
+                               ],
+                               skin: 'lightgray',
+                               theme : 'modern',
+                           },
+                           required:false,
+                           disabled:true
                        }
                    }
                ];

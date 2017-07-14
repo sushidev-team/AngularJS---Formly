@@ -1030,7 +1030,7 @@
         return {
             require: 'uiSelect',
             link: function(scope, element, attrs, $select) {
-                console.log(scope);
+
             }
         };
     });
@@ -1160,6 +1160,12 @@
                         $scope.options.templateOptions.tinyMCE_Settings.invalid_elements = 'pre,code';
                         $scope.options.templateOptions.tinyMCE_Settings.plugins = 'paste';
 
+                        if($scope.options.templateOptions.disabled === true){
+
+                            $scope.options.templateOptions.tinyMCE_Settings.readonly = 1;
+
+                        }
+
                         $scope.options.templateOptions.tinyMCE_Settings.setup = function (editor) {
 
                             var plugins = FormlyBootstrapSrv.getTinyMCEPlugins();
@@ -1257,8 +1263,6 @@
             FormlyBootstrapDate.hour    = 0;
             FormlyBootstrapDate.minute  = 0;
             FormlyBootstrapDate.second  = 0;
-
-            console.error(FormlyBootstrapDate.month);
 
             if(FormlyBootstrapDate.year === undefined) {
                 FormlyBootstrapDate.year  = CurrentDate.getFullYear();
