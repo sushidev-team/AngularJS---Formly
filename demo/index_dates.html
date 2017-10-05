@@ -17,6 +17,7 @@
     <script src="../bower_components/angular-ui-tinymce/dist/tinymce.min.js"></script>
     <script src="../bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
     <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="../bower_components/moment/min/moment-with-locales.min.js"></script>
     <script type="text/ng-template" id="testSelect2EntrySelected.html"></script>
 
     <script src="../bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.min.js"></script>
@@ -32,39 +33,37 @@
                demo.onSubmit = onSubmit;
 
                demo.formData = {
-                   customDate:'2006-04-12',
-                   customDateTime:'2016-07-20 23:11:55',
-                   customSelect3:2,
-                   tags:[1]
+                   customDateTime:'2017-10-1 21:00:00'
                };
 
                demo.formFields = [
                    {
-                       key: 'customDateToday',
-                       type: 'bootstrap_date',
-                       templateOptions: {
-                           label: 'Date of todaygr',
-                           help: 'Place your help text here',
-                           placeholder:'Placeholder text',
-                           cssClass:'col-xs-12',
-                           required:false,
-                           time:true,
-                           dateFormat:'y-m-d',
-                           monthFormat:'MMMM'
-                       }
-                   },
-                   {
                        key: 'customDate',
                        type: 'bootstrap_date',
                        templateOptions: {
-                           label: 'Time',
+                           label: 'Date (start of day)',
                            help: 'Place your help text here',
                            placeholder:'Placeholder text',
                            cssClass:'col-xs-12',
                            required:false,
-                           time:true,
+                           time:false,
                            dateFormat:'y-m-d',
-                           monthFormat:'MMMM'
+                           language:'fr'
+                       }
+                   },
+                   {
+                       key: 'customDateEnd',
+                       type: 'bootstrap_date',
+                       templateOptions: {
+                           label: 'Date (end of day)',
+                           help: 'Place your help text here',
+                           placeholder:'Placeholder text',
+                           cssClass:'col-xs-12',
+                           required:false,
+                           time:false,
+                           dateFormat:'y-m-d',
+                           dateMode:'end',
+                           language:'de'
                        }
                    },
                    {
@@ -78,25 +77,7 @@
                            required:false,
                            time:true,
                            dateFormat:'y-m-d',
-                           monthFormat:'MMMM'
-                       }
-                   },
-                   {
-                       key: 'customDate',
-                       type: 'bootstrap_date',
-                       templateOptions: {
-                           label: 'Time',
-                           help: 'Place your help text here',
-                           placeholder:'Placeholder text',
-                           cssClass:'col-xs-12',
-                           required:false,
-                           time:true,
-                           dateFormat:'y-m-d',
-                           monthFormat:'MMMM',
-                           cssClassDay: 'col-xs-12',
-                           cssClassMonth: 'col-xs-12',
-                           cssClassYear: 'col-xs-12',
-                           cssClassTime: 'col-xs-12'
+                           language:'de'
                        }
                    }
                ];

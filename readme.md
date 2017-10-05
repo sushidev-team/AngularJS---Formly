@@ -1,7 +1,7 @@
 # FORMLY FIELDS - For Formly for AngularJS
 
 ### Version
-0.0.10.8
+0.0.11.0
 
 The package is still suppored by AMBERSIVE.com
 
@@ -46,9 +46,9 @@ angular.module('app', ['ambersive.formly'])
 });
 ```
 
-### Options and Updates
+### Changelog
 
-Documentation coming soon
+0.0.11.0 Change date calculations to moment js (add requirements)
 
 License
 ----
