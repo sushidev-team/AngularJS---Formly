@@ -1455,7 +1455,7 @@
                 var lang         = $formlyBootstrapSettings.language;
                 var layout       = $formlyBootstrapSettings.dateLayout;
 
-                var tempLayout   = ($scope.options.templateOptions.dateLayout || layout);
+                var tempLayout   = ($scope.options.templateOptions.dateLayout || layout).toLowerCase();
                 var tempSplitted = tempLayout.split($formlyBootstrapSettings.dateLayoutRegex);
 
                 tempSplitted = tempSplitted.filter(function(item){
