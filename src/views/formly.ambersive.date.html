@@ -31,14 +31,20 @@
     </div>
 </script>
 
-
 <div class="form-group" ng-class="FormlyBootstrapDate.getGroupClass(options);">
     <label for="{{options.key}}_multiple">{{to.label}} <span class="required" ng-if="options.templateOptions.required">*</span></label>
     <div class="row">
         <div ng-class="FormlyBootstrapDate.getCssClassForDateControl(part)" ng-repeat="part in FormlyBootstrapDate.order track by $index" ng-include="FormlyBootstrapDate.getPartByDelimiterShortcut(part)"></div>
         <div ng-class="FormlyBootstrapDate.getCssClassForDateControl('time')" ng-if="options.templateOptions.time === true">
             <div class="form-group">
-                <input type="time" step="1" ng-disabled="options.templateOptions.disabled" ng-required="options.templateOptions.required" class="form-control block" ng-model="model[options.key]" ng-class="FormlyBootstrap.getInputClass(options);" />
+                <div class="time">
+                    <select ng-disabled="options.templateOptions.disabled" ng-required="options.templateOptions.required" class="form-control" ng-options="o for o in  FormlyBootstrapDate.hoursList" ng-model="FormlyBootstrapDate.hours" ng-class="FormlyBootstrap.getInputClass(options);">
+                    </select>
+                    <select ng-disabled="options.templateOptions.disabled" ng-required="options.templateOptions.required" class="form-control" ng-options="o for o in  FormlyBootstrapDate.minutesList" ng-model="FormlyBootstrapDate.minutes" ng-class="FormlyBootstrap.getInputClass(options);">
+                    </select>
+                    <select ng-disabled="options.templateOptions.disabled" ng-required="options.templateOptions.required" class="form-control" ng-options="o for o in  FormlyBootstrapDate.minutesList" ng-model="FormlyBootstrapDate.seconds" ng-class="FormlyBootstrap.getInputClass(options);">
+                    </select>
+                </div>
             </div>
         </div>
     </div>

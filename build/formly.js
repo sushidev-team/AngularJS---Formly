@@ -1247,6 +1247,8 @@
 
             FormlyBootstrapDate.order           = [];
             FormlyBootstrapDate.years           = [];
+            FormlyBootstrapDate.hoursList       = [];
+            FormlyBootstrapDate.minutesList     = [];
             FormlyBootstrapDate.current         = null;
 
             FormlyBootstrapDate.getInputClass = function() { return FormlyBootstrapSrv.getInputClass($scope.options); };
@@ -1390,6 +1392,32 @@
 
             };
 
+            FormlyBootstrapDate.populateControlsTime              = function(){
+
+                var hoursArr    = [];
+                var h           = 0;
+
+                var minutesArr  = [];
+                var m           = 0;
+
+
+                for(h = 0; h < 24; h += 1){
+
+                    hoursArr.push(h);
+
+                }
+
+                for(m = 0; m < 60; m += 1){
+
+                    minutesArr.push(m);
+
+                }
+
+                FormlyBootstrapDate.hoursList   = hoursArr;
+                FormlyBootstrapDate.minutesList = minutesArr;
+
+            };
+
             FormlyBootstrapDate.getPartByDelimiterShortcut       = function(part){
 
                 var template = '';
@@ -1419,6 +1447,7 @@
                 var year         = 1900;
 
                 var hours        = 0;
+                var hoursOffset  = 0;
                 var minutes      = 0;
                 var seconds      = 0;
 
@@ -1465,7 +1494,7 @@
 
                 if(angular.isUndefined($scope.model[$scope.options.key]) === true || moment($scope.model[$scope.options.key]).isValid() === false){
 
-                    FormlyBootstrapDate.current = moment();
+                    FormlyBootstrapDate.current = moment().utc();
 
                     FormlyBootstrapDate.current.hours(0);
                     FormlyBootstrapDate.current.minutes(0);
@@ -1477,6 +1506,7 @@
 
                 FormlyBootstrapDate.populateControlsYear();
                 FormlyBootstrapDate.populateControlsMonths();
+                FormlyBootstrapDate.populateControlsTime();
 
                 FormlyBootstrapDate.order = tempSplitted;
 
@@ -1512,7 +1542,8 @@
 
                 // Define hours
 
-                hours   = FormlyBootstrapDate.current.hours();
+                hours       = FormlyBootstrapDate.current.hours();
+                hoursOffset = new Date().getTimezoneOffset() / 60 * -1;
 
                 if(isNaN(hours) === true){
 
@@ -1598,6 +1629,28 @@
 
             };
 
+            FormlyBootstrapDate.getHoursStr   = function(){
+
+                var str = [];
+
+                var fn  = function(val){
+
+                    if(FormlyBootstrapDate[val] < 10){
+                        str.push('0' + FormlyBootstrapDate[val]);
+                    }
+                    else {
+                        str.push(FormlyBootstrapDate[val]);
+                    }
+
+                };
+
+                fn('hours');
+                fn('minutes');
+                fn('seconds');
+
+                return str.join(':');
+
+            };
 
             /**
              * Watchers
@@ -1617,12 +1670,12 @@
              * Define watchers
              */
 
-            $scope.$watchGroup(['FormlyBootstrapDate.day','FormlyBootstrapDate.month', 'FormlyBootstrapDate.year'], function(newValues, oldValues, scope) {
+            $scope.$watchGroup(['FormlyBootstrapDate.day','FormlyBootstrapDate.month', 'FormlyBootstrapDate.year','FormlyBootstrapDate.hours','FormlyBootstrapDate.minutes','FormlyBootstrapDate.seconds'], function(newValues, oldValues, scope) {
 
                 if(FormlyBootstrapDate.initDone === true) {
 
                     FormlyBootstrapDate.setDateMode();
-                    FormlyBootstrapDate.dateString = moment(FormlyBootstrapDate.year + '-' + FormlyBootstrapDate.month + '-' + FormlyBootstrapDate.day + ' ' + FormlyBootstrapDate.current.format('HH:mm:ss')).format('YYYY-MM-DD HH:mm:ss');
+                    FormlyBootstrapDate.dateString = moment(FormlyBootstrapDate.year + '-' + FormlyBootstrapDate.month + '-' + FormlyBootstrapDate.day + ' ' + FormlyBootstrapDate.getHoursStr()).format('YYYY-MM-DD HH:mm:ss');
 
                 }
 
@@ -1630,16 +1683,19 @@
 
             $scope.$watch('FormlyBootstrapDate.dateString',function(){
 
+               var dateData     = null;
+               var localFormat  = 'YYYY-MM-DD[T]HH:mm:ss';
+
                if(angular.isUndefined(FormlyBootstrapDate.dateString) === true){
                    FormlyBootstrapDate.setDateMode();
-                   FormlyBootstrapDate.dateString = moment(FormlyBootstrapDate.year + '-' + FormlyBootstrapDate.month + '-' + FormlyBootstrapDate.day + ' ' + FormlyBootstrapDate.current.format('HH:mm:ss')).format('YYYY-MM-DD HH:mm:ss');
+                   FormlyBootstrapDate.dateString = moment(FormlyBootstrapDate.year + '-' + FormlyBootstrapDate.month + '-' + FormlyBootstrapDate.day + ' ' + FormlyBootstrapDate.getHoursStr()).format('YYYY-MM-DD HH:mm:ss');
                    return;
                }
 
                if(angular.isDefined(FormlyBootstrapDate.dateString) === true) {
 
-                   FormlyBootstrapDate.current      = moment(FormlyBootstrapDate.dateString);
-                   $scope.model[$scope.options.key] = FormlyBootstrapDate.current.toDate();
+                   dateData                         = moment(FormlyBootstrapDate.dateString);
+                   $scope.model[$scope.options.key] = dateData.format(localFormat);
 
                }
 
@@ -2058,7 +2114,7 @@ angular.module('ambersive.formly').run(['$templateCache', function($templateCach
     "    <div ng-if=\"options.templateOptions.time === true\">\n" +
     "        <select ng-disabled=\"options.templateOptions.disabled\" ng-required=\"options.templateOptions.required\" class=\"form-control block\" ng-options=\"o for o in  FormlyBootstrapDate.years\" ng-model=\"FormlyBootstrapDate.year\" ng-class=\"FormlyBootstrap.getInputClass(options);\">\n" +
     "        </select>\n" +
-    "    </div></script><div class=form-group ng-class=FormlyBootstrapDate.getGroupClass(options);><label for={{options.key}}_multiple>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><div class=row><div ng-class=FormlyBootstrapDate.getCssClassForDateControl(part) ng-repeat=\"part in FormlyBootstrapDate.order track by $index\" ng-include=FormlyBootstrapDate.getPartByDelimiterShortcut(part)></div><div ng-class=\"FormlyBootstrapDate.getCssClassForDateControl('time')\" ng-if=\"options.templateOptions.time === true\"><div class=form-group><input type=time step=1 ng-disabled=options.templateOptions.disabled ng-required=options.templateOptions.required class=\"form-control block\" ng-model=model[options.key] ng-class=\"FormlyBootstrap.getInputClass(options);\"></div></div></div><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.hasServerError\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div></div></div>"
+    "    </div></script><div class=form-group ng-class=FormlyBootstrapDate.getGroupClass(options);><label for={{options.key}}_multiple>{{to.label}} <span class=required ng-if=options.templateOptions.required>*</span></label><div class=row><div ng-class=FormlyBootstrapDate.getCssClassForDateControl(part) ng-repeat=\"part in FormlyBootstrapDate.order track by $index\" ng-include=FormlyBootstrapDate.getPartByDelimiterShortcut(part)></div><div ng-class=\"FormlyBootstrapDate.getCssClassForDateControl('time')\" ng-if=\"options.templateOptions.time === true\"><div class=form-group><div class=time><select ng-disabled=options.templateOptions.disabled ng-required=options.templateOptions.required class=form-control ng-options=\"o for o in  FormlyBootstrapDate.hoursList\" ng-model=FormlyBootstrapDate.hours ng-class=FormlyBootstrap.getInputClass(options);></select><select ng-disabled=options.templateOptions.disabled ng-required=options.templateOptions.required class=form-control ng-options=\"o for o in  FormlyBootstrapDate.minutesList\" ng-model=FormlyBootstrapDate.minutes ng-class=FormlyBootstrap.getInputClass(options);></select><select ng-disabled=options.templateOptions.disabled ng-required=options.templateOptions.required class=form-control ng-options=\"o for o in  FormlyBootstrapDate.minutesList\" ng-model=FormlyBootstrapDate.seconds ng-class=FormlyBootstrap.getInputClass(options);></select></div></div></div></div><small class=text-muted ng-if=\"to.help !== undefined && showError !== true\">{{to.help}}</small><div ng-messages=fc.$error ng-if=\"form.$submitted || options.hasServerError\" class=error-messages><div class=text-danger ng-repeat=\"obj in options.validation.messages\"><small>{{obj.message}}</small></div></div></div>"
   );
 
 

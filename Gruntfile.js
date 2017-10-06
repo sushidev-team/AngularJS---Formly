@@ -23,6 +23,15 @@ module.exports = function(grunt) {
                 },
                 src: ["src/less/tinymce/bootstrap/Content.less"],
                 dest : 'build/skins/bootstrap/content.min.css'
+            },
+            form: {
+                options: {
+                    cleancss: true,
+                    strictImports: true,
+                    compress: true
+                },
+                src: ["src/less/form.less"],
+                dest : 'build/form.min.css'
             }
         },
         jshint: {
