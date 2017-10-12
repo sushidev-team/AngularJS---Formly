@@ -1,7 +1,7 @@
 # FORMLY FIELDS - For Formly for AngularJS
 
 ### Version
-0.0.11.2
+0.0.11.3
 
 The package is still suppored by AMBERSIVE.com
 
@@ -51,6 +51,7 @@ angular.module('app', ['ambersive.formly'])
 - 0.0.11.0 Change date calculations to moment js (add requirements)
 - 0.0.11.1 Change the time to select controls to avoid issues with the input[type="time"] date requirements. Also added a style sheet to the package (.less file available)
 - 0.0.11.2 Fix the issue with the date layout
+- 0.0.11.3 Bugfixes (time not mandatory set)
 
 License
 ----

@@ -1490,6 +1490,10 @@
                     lang = $scope.options.templateOptions.language;
                 }
 
+                if(angular.isUndefined($scope.options.templateOptions.time) === true){
+                    $scope.options.templateOptions.time = false;
+                }
+
                 moment.locale(lang);
 
                 if(angular.isUndefined($scope.model[$scope.options.key]) === true || moment($scope.model[$scope.options.key]).isValid() === false){
